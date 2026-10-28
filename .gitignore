@@ -15,15 +15,7 @@
 !**/.obsidian/graph*
 !**/.obsidian/snippets/
 .opencode/
-# 本地诊断脚本：只放行代码与文档，产物/临时文件仍忽略。
-# 勿写成「忽略整个目录」——那样 git add 会静默跳过脚本本体（2026-09-21 实测：
-# 曾有一次提交标题写「新增 todo_audit.py」，实际只进了 README.md）
-_agent_scripts/*
-!_agent_scripts/*.py
-!_agent_scripts/*.ts
-!_agent_scripts/*.md
-# 临时/调试文件始终忽略（上面的 *.py 白名单会放行 _tmp*.py，故需后置反排除）
-_agent_scripts/_tmp*
+# _agent_scripts/（本地运维脚本区）已于 2026-10-28 整体移除：博客仓不需要，正本在主库。
 
 # 个人笔记(从 BaiduSyncdisk/obsidian 迁入)。
 # 发布面由 .vitepress/config.ts 顶部 PUBLISHED_DIRS 白名单决定(目录级): 不在白名单的

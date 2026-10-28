@@ -13,10 +13,13 @@ function markdownFiles(dir) {
   })
 }
 
-test('every moved blog page is built at its previous public URL', () => {
-  for (const source of markdownFiles('vault/blog')) {
-    const output = blogSourceToRoute(source).replace(/\.md$/, '.html')
-    assert.ok(existsSync(join(dist, output)), `Missing output: ${output}`)
+test('every renamed blog page is built at its previous public URL', () => {
+  // 栏目目录已英文化（Home/Workshop/Recent），逐页校验 rewrites 后的旧公开 URL 仍有产物。
+  for (const dir of ['vault/Home', 'vault/Workshop', 'vault/Recent']) {
+    for (const source of markdownFiles(dir)) {
+      const output = blogSourceToRoute(source).replace(/\.md$/, '.html')
+      assert.ok(existsSync(join(dist, output)), `Missing output: ${output}`)
+    }
   }
 })
 
