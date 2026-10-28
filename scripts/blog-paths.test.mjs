@@ -5,8 +5,8 @@ import { blogRouteToSource, blogSourceToRoute, isWithinPublished } from './blog-
 test('moving blog sources preserves every existing section URL', () => {
   // 仍在 vault/blog/ 下的栏目（最近）与已改名的栏目（Home/Workshop）都得保留旧 URL。
   for (const [source, route] of [
-    ['vault/blog/最近/index.md', 'vault/最近/index.md'],
-    ['vault/blog/最近/网站部署/03-GitHub Pages 自动部署.md', 'vault/最近/网站部署/03-GitHub Pages 自动部署.md'],
+    ['vault/Recent/index.md', 'vault/最近/index.md'],
+    ['vault/Recent/网站部署/03-GitHub Pages 自动部署.md', 'vault/最近/网站部署/03-GitHub Pages 自动部署.md'],
     ['vault/Home/index.md', 'vault/主页/index.md'],
     ['vault/Home/网站部署/03-GitHub Pages 自动部署.md', 'vault/主页/网站部署/03-GitHub Pages 自动部署.md'],
     ['vault/Workshop/index.md', 'vault/作坊/index.md'],
@@ -17,8 +17,9 @@ test('moving blog sources preserves every existing section URL', () => {
   }
   assert.equal(blogSourceToRoute('vault/Knowledge/AI/Transformer.md'), 'vault/Knowledge/AI/Transformer.md')
   assert.equal(blogSourceToRoute('/vault/Workshop/'), '/vault/作坊/')
-  assert.equal(blogSourceToRoute('vault\\blog\\最近\\toc.html'), 'vault/最近/toc.html')
+  assert.equal(blogSourceToRoute('vault\\Recent\\toc.html'), 'vault/最近/toc.html')
   assert.equal(blogSourceToRoute('vault/blog/私人/index.md'), 'vault/blog/私人/index.md')
+  assert.equal(blogSourceToRoute('vault/最近/toc.md'), 'vault/最近/toc.md')
 })
 
 test('nested publication boundaries reject siblings and prefix lookalikes', () => {

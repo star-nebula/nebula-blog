@@ -1,5 +1,5 @@
 import { createRecentUpdatesLoader } from '@nolebase/vitepress-plugin-index/vitepress'
-import { blogSourceToRoute, SITE_BASE } from '../../../scripts/blog-paths.mjs'
+import { blogSourceToRoute, SITE_BASE } from '../../scripts/blog-paths.mjs'
 import { execFileSync } from 'node:child_process'
 
 // Windows 上 createRecentUpdatesLoader 生成的 URL 使用反斜杠，

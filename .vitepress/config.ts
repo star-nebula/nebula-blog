@@ -31,7 +31,7 @@ const PUBLISHED_DIRS = [
   // 站点必需页已用英文目录名；rewrites 保留原 /vault/主页/、/vault/最近/toc 网址。
   // SITE_PAGE_FILES 将 Home/最近 进一步限制为站点必需文件。
   'vault/Home',
-  'vault/blog/最近',
+  'vault/Recent',
 ]
 // 注：`vault/🔌 知识库插件列表.md` 曾以「站点必需文件」形式列在此处（vault 根散文件）。
 // 2026-09-24 已迁入 `vault/Knowledge/Methods/知识库插件列表.md` 并按原子笔记规范补 frontmatter

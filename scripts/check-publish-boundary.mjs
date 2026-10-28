@@ -33,7 +33,7 @@ if (!PUBLISHED_DIRS.length)
 // 站点功能页只允许这些文件，包含未跟踪文件及更深层文件，防止本地构建误发布。
 const SITE_PAGE_FILES = {
   'vault/Home': new Set(['index.md']),
-  'vault/blog/最近': new Set(['toc.md', 'toc.data.ts']),
+  'vault/Recent': new Set(['toc.md', 'toc.data.ts']),
 }
 // Obsidian 工具配置：.gitignore 白名单有意放行（供 Obsidian 使用随仓库备份），
 // 非站点内容。校验时豁免，如需改为不跟踪，改 .gitignore 的白名单并 git rm --cached。
@@ -93,7 +93,7 @@ else {
 }
 
 // ── 检查 1b：站点页目录内容 ⊆ 文件级白名单 ────────────────────
-// Home 与 blog/最近 精确到文件检查，覆盖未跟踪文件和子目录。
+// Home 与 Recent 精确到文件检查，覆盖未跟踪文件和子目录。
 console.log('\n[1b] 站点页目录（主页/ 最近/）内容 ⊆ 文件级白名单')
 const sitePageExtra = []
 for (const [dir, allow] of Object.entries(SITE_PAGE_FILES)) {

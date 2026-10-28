@@ -31,7 +31,7 @@ export const SITE_BASE = normalizeBase(process.env.SITE_BASE || DEFAULT_BASE)
 // 源目录 → 公开 URL 的改名映射。旧公开 URL 一律保留（rewrites），外链不受影响。
 // 命中规则：精确等于 from，或以 from + '/' 开头（其余原样返回）。
 const SOURCE_TO_ROUTE = [
-  ['vault/blog/最近', 'vault/最近'],
+  ['vault/Recent', 'vault/最近'],
   ['vault/Home', 'vault/主页'],
   ['vault/Workshop', 'vault/作坊'],
 ]
