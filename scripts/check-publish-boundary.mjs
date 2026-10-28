@@ -51,19 +51,9 @@ const TRACKED_ONLY_DIRS = [
   'vault/rules',
 ]
 
-// 结构占位（2026-09-21）：下列私有目录在公开仓库里只保留「空文件夹」形态 —— 内容一律不入库，
-// 仅提交 1 个占位文件 `<目录>/.gitkeep`（git 不记录空目录，必须有占位文件才能在 GitHub 上显出目录名）。
-// ⚠ **精确到「文件」而非「目录」**：故意不走 TRACKED_ONLY_DIRS 那样的目录级放行，
-// 这样将来误 add 了这些目录里的真实笔记 / 图片，检查 1 仍会拦下（保留误 add 安全网）。
-// 配套：.gitignore 中每个目录的三行式反排除（先放行目录 → 忽略其内容 → 放行占位文件）。
-const STRUCTURE_ONLY_FILES = new Set([
-  'vault/Archive/.gitkeep',
-  'vault/Canvas/.gitkeep',
-  'vault/DailyNotes/.gitkeep',
-  'vault/Inbox/.gitkeep',
-  'vault/Resources/.gitkeep',
-  'vault/Templates/.gitkeep',
-])
+// 结构占位（.gitkeep）已于 2026-10-28 取消：博客独立建库后私有目录整体删除，
+// 不再需要在 GitHub 上显形。保留空 Set 以兼容检查逻辑；误 add 仍被检查 1 拦截。
+const STRUCTURE_ONLY_FILES = new Set([])
 
 // 注：2026-09-25 起 `/knowledge/vault/` 上不再有页面（首页迁到 `/knowledge/vault/主页/`），
 // 原先为它设的 ALLOW_ROOT_LINK 特判已删除——再出现指向 /vault/ 的链接就该被判成死链。

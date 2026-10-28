@@ -29,7 +29,7 @@ _agent_scripts/_tmp*
 # 发布面由 .vitepress/config.ts 顶部 PUBLISHED_DIRS 白名单决定(目录级): 不在白名单的
 # vault 顶层条目一律不渲染、不进 GitHub Pages(旧描述「给笔记加 status: published」已废)。
 # ⚠ 区分两个面：「不入库」= 不进公开仓库源码(可被 clone/搜索)；「不发布」= 不渲染成站点页面。
-# 下列各项的**内容**两者皆是；例外有二：① vault/rules/（已入库但不发布，见下方注释）② 下方 6 个目录的**结构占位**（只入库 1 个 .gitkeep，内容仍不入库）。
+# 下列各项的**内容**两者皆是；例外有一：vault/rules/（已入库但不发布，见下方注释）。
 vault/DailyNotes/
 vault/Inbox/
 vault/Interview/
@@ -38,34 +38,8 @@ vault/Canvas/
 vault/Templates/
 vault/Archive/
 
-# ── 结构占位（2026-09-21）────────────────────────────────────────────────
-# 下列私有目录在公开仓库里只保留「空文件夹」形态：**内容一律不入库**，仅提交 1 个占位文件
-# `<目录>/.gitkeep`。原因：git 本身不记录空目录，必须有占位文件才能在 GitHub 上显出目录名。
-# 三行式**必须按此顺序**，不能只写一行 `!<目录>/.gitkeep`：
-#     ① !<目录>/          先放行目录（盖过上面那行目录级忽略）
-#     ② <目录>/*          再忽略目录下的一切内容（注意 gitignore 的 `*` 连点开头的文件也匹配）
-#     ③ !<目录>/.gitkeep  最后只放行占位文件
-# 依据 git 规则：「父目录被排除时，无法重新包含其下的文件」，故必须先 ① 把目录放行回来。
-# 校验侧白名单在 scripts/check-publish-boundary.mjs 的 STRUCTURE_ONLY_FILES（**精确到文件**，
-# 不整目录放行）——将来误 add 了这些目录里的真实笔记 / 图片，仍会被 `pnpm check:boundary` 拦下。
-!vault/Archive/
-vault/Archive/*
-!vault/Archive/.gitkeep
-!vault/Canvas/
-vault/Canvas/*
-!vault/Canvas/.gitkeep
-!vault/DailyNotes/
-vault/DailyNotes/*
-!vault/DailyNotes/.gitkeep
-!vault/Inbox/
-vault/Inbox/*
-!vault/Inbox/.gitkeep
-!vault/Resources/
-vault/Resources/*
-!vault/Resources/.gitkeep
-!vault/Templates/
-vault/Templates/*
-!vault/Templates/.gitkeep
+# 结构占位（.gitkeep）已于 2026-10-28 取消：博客独立建库后私有目录无需在 GitHub 显形，
+# 目录本体一并删除；上方目录级忽略行仍保留，防本地误建后被 add 。
 
 # vault/rules/ 自 2026-09-21 起改为「入库但不发布」：知识库操作规范随仓库做版本管理，
 # 但仍在 PUBLISHED_DIRS 之外 → 只进 GitHub 源码、不渲染成站点页面。
@@ -92,9 +66,16 @@ vault/Memory/
 # 自媒体内容发布台账(2026-09-24 从飞书 wiki「自媒体内容发布管理系统」导入)
 # 内容: 发布台账 17 条 + 文稿 19 篇 + 画板 7 张 + 附件(含 ~183MB 视频/帧图/音频)。
 # 属私人工作内容, 且含大体积二进制媒体 → 既不发布(不在 PUBLISHED_DIRS)也不入库。
-# 需要版本管理时改用「结构占位」三行式(参见上方 Archive/ 的写法)并同步
-# scripts/check-publish-boundary.mjs 的白名单。
-vault/自媒体内容/
+# 结构占位机制已取消（2026-10-28），不要为任何私有目录放行入库。
+vault/SelfMedia/
+
+# 个人真实信息正本（2026-10-14 新建）：身份 / 履历 / 项目真实定性 / 对外口径底稿；含联系方式等 PII。
+# 远端为公开库（2026-09-14 做过全历史 PII 整改）——本目录绝不可入库。
+# 既不发布（不在 PUBLISHED_DIRS）也不入库，且不提交结构占位（连目录名都不在公开仓显形）；
+# 需要结构占位时再改三行式并同步 scripts/check-publish-boundary.mjs。
+# 第二道保险：pre-commit `about-me-guard`（.git/hooks/pre-commit 顶部）拦 `git add -f`；
+# 守卫不在版本库里，换机器后需随 mem-parent-guard 一并手工恢复。
+vault/AboutMe/
 
 # 附件：默认全部不入库(仅本地 + 百度云备份, 防止 740+ 张私人图泄到 GitHub)
 # 由 scripts/sync-published-assets.mjs 把「被 git 跟踪的笔记(=站点内容)引用到的图片」

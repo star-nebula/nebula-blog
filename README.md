@@ -13,7 +13,7 @@
 
 原博客“档案”已移入本地 `vault/Archive/博客档案/`，不再参与站点构建或公开仓库的新提交。
 
-其余目录（`Memory/`、`Resources/`、`DailyNotes/`、`Interview/` 等）为私人笔记，**内容**被 `.gitignore` 排除，不入库也不参与构建；其中 `Archive/` `Canvas/` `DailyNotes/` `Inbox/` `Resources/` `Templates/` 六个目录只在仓库里各保留一个空文件夹占位文件（`.gitkeep`），用于在 GitHub 上显出目录结构。`vault/Archive/博客档案/` 为本地归档，内容不入库。
+私人目录（`Memory/`、`Resources/`、`DailyNotes/`等）不属于本博客仓：2026-10-28 起目录本体及其 `.gitkeep` 占位已全部删除，`.gitignore` 仍保留忽略行防误建。正式的 Obsidian 库在本机另行维护，不在本仓库。
 `vault/rules/` 是例外：知识库操作规范，**入库**（随仓库做版本管理）但**不发布**（不渲染到站点），见下节。
 
 站点首页与内容栏目（2026-10-28 起改用英文目录名）：`vault/Home/`（原 blog/主页）、`vault/Workshop/`（原 blog/作坊）、`vault/blog/最近/`。`Knowledge/` 仍是共享知识源；VitePress `rewrites` 保留原 `/vault/主页/`、`/vault/作坊/`、`/vault/最近/` 网址，改名不改变外部链接。
