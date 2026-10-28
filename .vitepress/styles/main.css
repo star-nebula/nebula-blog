@@ -260,7 +260,7 @@ body:has(.VPHome) .VPNavBar:not(.top) .content-body {
   content: '';
   position: absolute; /* 限定在 Hero 区域内，随页面滚动移走，不再全屏固定 */
   inset: 0;
-  background: url(/wallpaper.png) center center / cover no-repeat;
+  background: url(/wallpaper.webp) center center / cover no-repeat;
   background-color: var(--home-bg);
   z-index: -1;
 }

@@ -10,6 +10,8 @@ const BASE_ROOT = SITE_BASE.replace(/\/$/, '')
 const ROOT_REDIRECT = `if (typeof window !== 'undefined' && (window.location.pathname === '${SITE_BASE}' || window.location.pathname === '${BASE_ROOT}') && !window.location.pathname.startsWith('${SITE_BASE}zh-CN')) { window.location.href = '${SITE_BASE}zh-CN/' + window.location.hash; }`
 
 export default [
+  // 首页 Hero 背景为 CSS 引用的大图，预加载以缩短 LCP。
+  ['link', { rel: 'preload', as: 'image', href: `${SITE_BASE}wallpaper.webp` }],
   // Redirect root path to zh-CN locale
   ['script', {}, ROOT_REDIRECT],
   // 51LA v6 访问统计（后台 https://v6.51.la ）：注册站点后把 ck 值填到下面 LA_CK。
