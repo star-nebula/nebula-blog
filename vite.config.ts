@@ -37,6 +37,10 @@ function missingAssetStub() {
 
 export default defineConfig(async () => {
   const nolebase = presetVite({
+    // 关闭 thumbnail-hash：vault/Knowledge 是指向主库 E:\knowledge\Knowledge 的 NTFS 联接，
+    // 文件真实路径不在本仓 .git 内，插件逐文件跑 git log 会崩溃。
+    // 代价：页面不再有 git 历史的「最后编辑于」区块。
+    gitChangelog: false,
     // 关闭 thumbnail-hash：该插件会 glob 仓库根下全部 jpg/jpeg/png（含 834 张未发布的
     // vault/Attachments 图与 node_modules），并用 Skia 逐一解码生成模糊占位图。
     // 本仓库只发布部分图片，全量扫描既慢（2.7GB+ 内存）又会在损坏图上卡死/崩溃
@@ -64,6 +68,21 @@ export default defineConfig(async () => {
       ],
     },
     plugins: [
+      // gitChangelog 已禁用,但其 client 仍被预设动态 import 并依赖该虚拟模块,
+      // 提供空实现占位(组件未注册,运行时不会执行到)。
+      {
+        name: 'stub-nolebase-git-changelog',
+        resolveId(id: string) {
+          if (id === 'virtual:nolebase-git-changelog')
+            return '\\0virtual:nolebase-git-changelog'
+          return null
+        },
+        load(id: string) {
+          if (id === '\\0virtual:nolebase-git-changelog')
+            return 'export default { commits: [] }'
+          return null
+        },
+      },
       Inspect(),
       missingAssetStub(),
       Components({
