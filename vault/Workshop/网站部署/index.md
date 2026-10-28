@@ -26,7 +26,7 @@ tags:
 | **运行环境** | Node.js 22.x |
 | **自动化构建** | GitHub Actions |
 | **托管平台** | GitHub Pages（`gh-pages` 分支） |
-| **部署路径** | `https://star-nebula.github.io/knowledge/` |
+| **部署路径** | `https://star-nebula.github.io/nebula-blog/` |
 | **渲染引擎** | Vue 3 + Vite |
 
 ## 部署流程概览
@@ -50,7 +50,7 @@ tags:
   GitHub Pages 自动生效
         │
         ▼
-  https://star-nebula.github.io/knowledge/
+  https://star-nebula.github.io/nebula-blog/
 ```
 
 ## 关于 base 路径（重要！）
@@ -67,7 +67,7 @@ https://用户名.github.io/仓库名/
 
 ```typescript
 export default defineConfig({
-  base: '/knowledge/',   // ← 关键！GitHub Pages 部署必需
+  base: '/nebula-blog/',   // ← 关键！GitHub Pages 部署必需
   // ...
 })
 ```

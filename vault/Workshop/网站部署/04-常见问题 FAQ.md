@@ -11,7 +11,7 @@ tags: [deploy, faq, website, 部署, 部署/FAQ, 故障排查]
 
 ### 现象
 
-访问 `https://star-nebula.github.io/knowledge/` 后，页面内容可以看到，但没有任何样式（颜色、字体、布局全部缺失）。
+访问 `https://star-nebula.github.io/nebula-blog/` 后，页面内容可以看到，但没有任何样式（颜色、字体、布局全部缺失）。
 
 ### 原因
 
@@ -26,7 +26,7 @@ GET https://star-nebula.github.io/assets/style.css 404 (Not Found)
 正确的路径应该是：
 
 ```text
-GET https://star-nebula.github.io/knowledge/assets/style.css 200 (OK)
+GET https://star-nebula.github.io/nebula-blog/assets/style.css 200 (OK)
 ```
 
 ### 解决方案
@@ -35,7 +35,7 @@ GET https://star-nebula.github.io/knowledge/assets/style.css 200 (OK)
 
 ```typescript
 export default defineConfig({
-  base: '/knowledge/',   // ← 必须是 '/你的仓库名/'
+  base: '/nebula-blog/',   // ← 必须是 '/你的仓库名/'
   // ...
 })
 ```
@@ -56,7 +56,7 @@ git push origin main
 
 ### 现象
 
-第一次配置好 GitHub Pages 后，访问 `https://star-nebula.github.io/knowledge/` 看到 GitHub 404 页面。
+第一次配置好 GitHub Pages 后，访问 `https://star-nebula.github.io/nebula-blog/` 看到 GitHub 404 页面。
 
 ### 原因
 
@@ -159,7 +159,7 @@ Error: The operation was canceled.
 |------|------|---------|
 | 图片显示为红叉 | 图片路径大小写不匹配（GitHub Pages 区分大小写，本地 Windows/macOS 不区分） | 检查图片文件名和引用路径的大小写是否完全一致 |
 | 链接点击后 404 | Markdown 中使用了绝对路径 `/xxx`，而不是相对路径 | 所有内部链接应使用相对路径，或使用 `$withBase` 辅助函数处理路径 |
-| 页面布局错乱 | 本地与线上 base 路径不一致导致 | 确认 `.vitepress/config.ts` 中的 `base` 配置为 `'/knowledge/'` |
+| 页面布局错乱 | 本地与线上 base 路径不一致导致 | 确认 `.vitepress/config.ts` 中的 `base` 配置为 `'/nebula-blog/'` |
 
 ---
 
@@ -262,7 +262,7 @@ GitHub Pages 默认不配置 `robots.txt`，搜索引擎可能不会主动收录
 ### 方法 A：配置 Google Search Console
 
 1. 访问 <https://search.google.com/search-console>
-2. 添加资源：`https://star-nebula.github.io/knowledge/`
+2. 添加资源：`https://star-nebula.github.io/nebula-blog/`
 3. 选择 **DNS 验证**或**HTML 文件验证**，按提示完成验证
 
 ### 方法 B：提交 sitemap

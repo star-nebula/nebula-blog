@@ -9,7 +9,7 @@
 //   1b. 站点页目录（主页/ 最近/）内容 ⊆ SITE_PAGE_FILES：这两目录以目录级进发布面，
 //      本查把范围重新收紧到具体文件，防私人笔记被塞进公开页（2026-09-25 新增）
 //   2. 构建产物链接 ⊆ 发布面：.vitepress/dist 里所有 /vault/... 页面链接必须属于发布面
-//      （2026-09-25：/knowledge/vault/ 裸路径已无页面，指向它的链接会在此判为死链）
+//      （2026-09-25：/nebula-blog/vault/ 裸路径已无页面，指向它的链接会在此判为死链）
 //   3. srcExclude 与 nolebase excludesPatterns 一致性：config.ts 里两份排除规则由
 //      buildExcludes() 同源生成，此处做构建期断言兜底（读不到 AST 就跳过，不误报）
 //
@@ -50,7 +50,7 @@ const TRACKED_ONLY_DIRS = []
 // 不再需要在 GitHub 上显形。保留空 Set 以兼容检查逻辑；误 add 仍被检查 1 拦截。
 const STRUCTURE_ONLY_FILES = new Set([])
 
-// 注：2026-09-25 起 `/knowledge/vault/` 上不再有页面（首页迁到 `/knowledge/vault/主页/`），
+// 注：2026-09-25 起 `/knowledge/vault/` 上不再有页面（首页迁到 `/nebula-blog/vault/主页/`），
 // 原先为它设的 ALLOW_ROOT_LINK 特判已删除——再出现指向 /vault/ 的链接就该被判成死链。
 
 let failures = 0
@@ -118,7 +118,7 @@ if (!existsSync(dist)) {
 }
 else {
   // 收集 dist 下所有 html 里的 /vault/... 链接
-  const hrefRe = /href="(\/knowledge\/vault\/[^"#?]*)"/g
+  const hrefRe = /href="(\/nebula-blog\/vault\/[^"#?]*)"/g
   const links = new Set()
   const walk = (d) => {
     for (const e of readdirSync(d, { withFileTypes: true })) {
@@ -127,7 +127,7 @@ else {
       if (!e.name.endsWith('.html')) continue
       const t = readFileSync(p, 'utf8')
       for (const m of t.matchAll(hrefRe))
-        links.add(m[1].replace(/^\/knowledge/, ''))
+        links.add(m[1].replace(/^\/nebula-blog/, ''))
     }
   }
   walk(dist)

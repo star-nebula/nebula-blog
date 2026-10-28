@@ -18,7 +18,7 @@ hero:
       link: /vault/Knowledge/_mocs/知识库总览-MOC
     - theme: alt
       text: GitHub 上浏览
-      link: https://github.com/star-nebula/knowledge
+      link: https://github.com/star-nebula/nebula-blog
     - theme: alt
       text: CSDN
       link: https://blog.csdn.net/qq_69608018?type=blog

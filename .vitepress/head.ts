@@ -3,7 +3,7 @@ import { creatorNames, creatorUsernames, siteDescription, siteName, targetDomain
 import { SITE_BASE } from '../scripts/blog-paths.mjs'
 
 // 根路径 → 默认语言路径的兜底跳转。
-// base 跟随 SITE_BASE（GitHub Pages 为 '/knowledge/'，根域名部署为 '/'），避免换平台后硬编码失效。
+// base 跟随 SITE_BASE（GitHub Pages 为 '/nebula-blog/'，根域名部署为 '/'），避免换平台后硬编码失效。
 // 注意：真正的根 index.html 由 config.ts 的 buildEnd 重写成 meta refresh → /vault/主页/，
 // 本脚本只在未被覆盖的页面（如 404）里生效，属兜底性质。
 const BASE_ROOT = SITE_BASE.replace(/\/$/, '')

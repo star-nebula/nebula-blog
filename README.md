@@ -4,7 +4,7 @@
 内容用 Obsidian 语法书写（`[[双链]]`、`![[图片]]`），由 [nolebase](https://nolebase.ayaka.io) 集成渲染。
 日常写作与维护由 AI agent（Codex）完成，工程入口为私有 `AGENTS.md`（不入库）。
 
-在线阅读：<https://star-nebula.github.io/knowledge/>
+在线阅读：<https://star-nebula.github.io/nebula-blog/>
 
 ## 站点内容（`vault/`）
 
@@ -41,7 +41,7 @@ node --test scripts/blog-build.test.mjs  # 构建后回归：旧网址产物与�
 
 ## 部署
 
-推送 `main` 即由 GitHub Actions 自动构建部署到 `/knowledge/` 子路径；
+推送 `main` 即由 GitHub Actions 自动构建部署到 `/nebula-blog/` 子路径；
 如需部署到根域名，用 `SITE_BASE=/ pnpm docs:build`。
 
 ## 历史

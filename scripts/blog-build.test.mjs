@@ -33,12 +33,12 @@ test('workshop project links resolve after migration instead of becoming hash pl
   const html = decodeURI(readFileSync(join(dist, 'vault/作坊/index.html'), 'utf8'))
   for (const name of ['feedlens-project', 'glowlink-demo', 'ai-tryon-video-demo', '网页笔记四步工作流']) {
     // Require the body link; a valid sidebar entry alone does not prove wikilinks work.
-    assert.match(html, new RegExp(`class="VPNolebaseInlinePreviewLink"[^>]*href="/knowledge/vault/作坊/${name}\\.html"`), `Broken body link: ${name}`)
+    assert.match(html, new RegExp(`class="VPNolebaseInlinePreviewLink"[^>]*href="/nebula-blog/vault/作坊/${name}\\.html"`), `Broken body link: ${name}`)
   }
 })
 
 test('recent-update links include the GitHub Pages base path', () => {
   const html = decodeURI(readFileSync(join(dist, 'vault/最近/toc.html'), 'utf8'))
-  assert.doesNotMatch(html, /href="\/vault\//, 'Recent-update links must retain /knowledge/')
-  assert.ok(html.includes('href="/knowledge/vault/作坊/feedlens-project.html"'))
+  assert.doesNotMatch(html, /href="\/vault\//, 'Recent-update links must retain /nebula-blog/')
+  assert.ok(html.includes('href="/nebula-blog/vault/作坊/feedlens-project.html"'))
 })

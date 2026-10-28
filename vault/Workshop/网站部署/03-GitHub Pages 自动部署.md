@@ -40,7 +40,7 @@ tags:
                            │
                            ▼  GitHub Pages 自动读取
    ┌──────────────────────────────────────────────────┐
-   │  浏览器访问 https://star-nebula.github.io/knowledge/ │
+   │  浏览器访问 https://star-nebula.github.io/nebula-blog/ │
    └──────────────────────────────────────────────────┘
 ```
 
@@ -49,17 +49,17 @@ tags:
 GitHub Pages 将你的网站部署在子路径下：
 
 ```
-https://star-nebula.github.io/knowledge/
+https://star-nebula.github.io/nebula-blog/
                        ↑            ↑
                    用户名         仓库名
-                    base = '/knowledge/'
+                    base = '/nebula-blog/'
 ```
 
 因此，在 `.vitepress/config.ts` 中必须配置：
 
 ```typescript
 export default defineConfig({
-  base: '/knowledge/',   // ← 与你的仓库名保持一致
+  base: '/nebula-blog/',   // ← 与你的仓库名保持一致
   // ...
 })
 ```
@@ -153,7 +153,7 @@ jobs:
 
 ### 步骤 2：在 GitHub 仓库设置中启用 Pages
 
-1. 打开仓库页面：<https://github.com/star-nebula/knowledge>
+1. 打开仓库页面：<https://github.com/star-nebula/nebula-blog>
 2. 点击顶部的 **Settings**
 3. 在左侧菜单中找到 **Pages**
 4. 在 **Source** 下拉菜单中选择 **Deploy from a branch**
@@ -165,7 +165,7 @@ jobs:
 配置完成后，页面会显示：
 
 ```
-  Your site is live at https://star-nebula.github.io/knowledge/
+  Your site is live at https://star-nebula.github.io/nebula-blog/
 ```
 
 ### 步骤 3：触发第一次部署
@@ -221,12 +221,12 @@ git push origin main
 
 | 配置项 | 当前值 | 说明 |
 |--------|--------|------|
-| base 路径 | `/knowledge/` | 必须与 GitHub Pages 子路径一致 |
+| base 路径 | `/nebula-blog/` | 必须与 GitHub Pages 子路径一致 |
 | 触发分支 | `main` | push 到该分支触发自动部署 |
 | Node.js 版本 | 22.x | 工作流使用的 Node.js 版本 |
 | 包管理器 | pnpm | 通过 corepack 启用 |
 | 目标分支 | `gh-pages` | 存放构建产物的分支 |
 | 工作流文件 | `.github/workflows/production-deployment-to-github-pages.yaml` | 自动构建部署配置 |
-| 站点 URL | `https://star-nebula.github.io/knowledge/` | 最终部署地址 |
+| 站点 URL | `https://star-nebula.github.io/nebula-blog/` | 最终部署地址 |
 
 配置正确无误后，你就可以专注于写作，GitHub Pages 会帮你自动完成所有的构建和部署工作！
