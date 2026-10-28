@@ -14,7 +14,7 @@ description: OpenClaw 记忆系统 vs 传统 Agent 框架——5 项核心改进
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/OpenClaw 记忆模块与传统Agent系统对比分析]]"
+source: "[[Resources/人工智能/OpenClaw/OpenClaw 记忆模块与传统Agent系统对比分析]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Memory-System]]"

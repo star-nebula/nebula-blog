@@ -11,7 +11,7 @@ related:
   - "[[Linux-MOC]]"
   - "[[Linux 基础]]"
   - "[[Ubuntu 远程桌面]]"
-  - "[[IDE与环境-MOC]]"
+  - "[[5.IDE与环境-MOC]]"
 reference:
 category: ["🛠️ 工程工具", "Linux"]
 ---

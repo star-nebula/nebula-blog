@@ -12,7 +12,7 @@ description: Model Catalog——40+ 模型提供商的元数据中心，清单�
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/08-model-catalog]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/08-model-catalog]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-LLM-Client]]"

@@ -11,7 +11,7 @@ description: Config System——配置加载/验证/原子变更/默认值管理
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/04-config-system]]、[[Resources/OpenClaw/核心组件/06-ConfigIO]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/04-config-system]]、[[Resources/人工智能/OpenClaw/核心组件/06-ConfigIO]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Security]]"

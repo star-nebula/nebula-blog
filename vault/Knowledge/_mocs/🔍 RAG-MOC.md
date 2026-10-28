@@ -16,6 +16,8 @@ category:
 ## 笔记清单
 
 - [[EduRAG 双层检索]]
+- [[LangChain-Milvus-RAG链路]]
+- [[LangChain-文本切分与Embedding]]
 - [[Milvus 向量数据库]]
 - [[RAG Query 改写]]
 - [[RAG 核心知识点全集]]

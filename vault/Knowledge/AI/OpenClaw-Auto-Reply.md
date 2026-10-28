@@ -12,7 +12,7 @@ description: Auto-Reply/Dispatch——入站消息调度、指令提取、栅栏
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/03-auto-reply]]、[[Resources/OpenClaw/核心组件/02-Dispatch]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/03-auto-reply]]、[[Resources/人工智能/OpenClaw/核心组件/02-Dispatch]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Agent-Engine]]"

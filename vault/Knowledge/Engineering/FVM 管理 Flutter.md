@@ -8,7 +8,7 @@ tags:
   - 版本管理
 type: 步骤操作
 related:
-  - "[[IDE与环境-MOC]]"
+  - "[[5.IDE与环境-MOC]]"
   - "[[Anaconda 环境管理]]"
   - "[[🛠️ 工程工具-MOC]]"
 reference:

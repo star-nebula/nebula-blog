@@ -12,7 +12,7 @@ description: OpenClaw 安装、部署与配置完整指南——安装方式、C
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/部署与配置]]"
+source: "[[Resources/人工智能/OpenClaw/部署与配置]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Config-System]]"

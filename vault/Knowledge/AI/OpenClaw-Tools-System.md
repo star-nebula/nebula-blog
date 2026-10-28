@@ -12,7 +12,7 @@ description: Tools System——工具描述符、可用性评估（布尔表达�
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/09-tools-system]]、[[Resources/OpenClaw/核心组件/05-ToolExecution]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/09-tools-system]]、[[Resources/人工智能/OpenClaw/核心组件/05-ToolExecution]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Agent-Engine]]"

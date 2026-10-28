@@ -9,7 +9,7 @@ tags:
   - conda
 type: 步骤操作
 related:
-  - "[[IDE与环境-MOC]]"
+  - "[[5.IDE与环境-MOC]]"
   - "[[PyCharm 配置与使用]]"
   - "[[Jupyter 保存路径]]"
 reference:

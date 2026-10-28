@@ -11,7 +11,7 @@ description: OpenClaw 分层插件化架构总览——6 层架构、启动流�
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/OpenClaw 架构详解]]、[[Resources/OpenClaw/OpenClaw 核心结构详解]]、[[Resources/OpenClaw/OpenClaw 框架详解]]、[[Resources/OpenClaw/技术架构]]"
+source: "[[Resources/人工智能/OpenClaw/OpenClaw 架构详解]]、[[Resources/人工智能/OpenClaw/OpenClaw 核心结构详解]]、[[Resources/人工智能/OpenClaw/OpenClaw 框架详解]]、[[Resources/人工智能/OpenClaw/技术架构]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Gateway-Server]]"

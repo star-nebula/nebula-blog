@@ -22,14 +22,14 @@
       }
     },
     {
-      "query": "path:\"Knowledge/Life\"",
+      "query": "path:\"Knowledge/Methods\"",
       "color": {
         "a": 1,
         "rgb": 8116331
       }
     },
     {
-      "query": "path:\"Knowledge/Methods\"",
+      "query": "path:\"Knowledge/Life\"",
       "color": {
         "a": 1,
         "rgb": 14183384
@@ -40,20 +40,6 @@
       "color": {
         "a": 1,
         "rgb": 14723154
-      }
-    },
-    {
-      "query": "path:\"作坊\"",
-      "color": {
-        "a": 1,
-        "rgb": 5429456
-      }
-    },
-    {
-      "query": "path:\"档案\"",
-      "color": {
-        "a": 1,
-        "rgb": 11579568
       }
     }
   ],
@@ -67,6 +53,6 @@
   "repelStrength": 10,
   "linkStrength": 1,
   "linkDistance": 250,
-  "scale": 0.7514342322277462,
+  "scale": 8,
   "close": true
 }

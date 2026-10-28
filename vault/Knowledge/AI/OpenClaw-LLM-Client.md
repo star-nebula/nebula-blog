@@ -12,7 +12,7 @@ description: LLM Client——8+ 模型提供商统一流式接口，AssistantMes
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/07-llm-client]]、[[Resources/OpenClaw/核心组件/04-LLM-Stream]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/07-llm-client]]、[[Resources/人工智能/OpenClaw/核心组件/04-LLM-Stream]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Agent-Engine]]"

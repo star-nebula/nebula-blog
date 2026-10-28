@@ -13,7 +13,7 @@ description: Cron & Daemon——定时任务调度与跨平台守护进程管理
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/18-cron-daemon]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/18-cron-daemon]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Config-System]]"

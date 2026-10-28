@@ -11,7 +11,7 @@ description: Secrets Manager——密钥引用解析、迁移计划执行、认�
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/17-secrets]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/17-secrets]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-LLM-Client]]"

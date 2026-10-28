@@ -15,7 +15,7 @@ reference:
   - "https://www.bilibili.com/video/BV1fMp76gE2e/"
   - "https://www.youtube.com/watch?v=5WQk9WiWcYQ"
 source_type: 视频字幕
-source_path: "Resources/B站-openclawai/10个Hermes智能体技能-降本增能一步到位-BV1fMp76gE2e.md"
+source_path: "Resources/人工智能/10个Hermes智能体技能-降本增能一步到位-BV1fMp76gE2e.md"
 category:
   - 🧩 AI框架与Agent
   - 框架与中间件
@@ -63,4 +63,4 @@ category:
 
 - [B站视频（汉化配音版）](https://www.bilibili.com/video/BV1fMp76gE2e/)：UP 主 openclawai，2026-10-12；删减了 OpenMontage 段
 - [原片（YouTube）](https://www.youtube.com/watch?v=5WQk9WiWcYQ)：Sharbel A.，2026-08-16
-- 转写全文：`Resources/B站-openclawai/10个Hermes智能体技能-降本增能一步到位-BV1fMp76gE2e.md`
+- 转写全文：`Resources/人工智能/10个Hermes智能体技能-降本增能一步到位-BV1fMp76gE2e.md`

@@ -8,7 +8,7 @@ tags:
   - 问题排查
 type: 故障排查
 related:
-  - "[[IDE与环境-MOC]]"
+  - "[[5.IDE与环境-MOC]]"
   - "[[Jupyter 保存路径]]"
   - "[[Anaconda 环境管理]]"
 reference:

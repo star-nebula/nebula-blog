@@ -11,7 +11,7 @@ description: Session Manager——会话 ID 管理、标签解析、生命周期
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/14-session-manager]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/14-session-manager]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Gateway-Server]]"

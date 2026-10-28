@@ -11,7 +11,7 @@ description: OpenClaw 学习与掌握核心指南——按重要性分四梯队�
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/OpenClaw 学习与掌握核心指南]]"
+source: "[[Resources/人工智能/OpenClaw/OpenClaw 学习与掌握核心指南]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Agent-Engine]]"

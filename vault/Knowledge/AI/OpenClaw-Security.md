@@ -13,7 +13,7 @@ description: Security 模块——多维度安全审计、危险配置检测、�
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/16-security]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/16-security]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Config-System]]"

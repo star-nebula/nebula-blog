@@ -8,7 +8,7 @@ tags:
   - 配置
 type: 步骤操作
 related:
-  - "[[IDE与环境-MOC]]"
+  - "[[5.IDE与环境-MOC]]"
   - "[[Jupyter 使用问题]]"
   - "[[Anaconda 环境管理]]"
 reference:

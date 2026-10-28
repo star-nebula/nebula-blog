@@ -11,7 +11,7 @@ description: OpenClaw 多通道 AI 网关项目知识地图——架构总览、
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw]]"
+source: "[[Resources/人工智能/OpenClaw]]"
 related:
   - "[[AI 应用核心范式-MOC]]"
   - "[[LLM 产品形态]]"

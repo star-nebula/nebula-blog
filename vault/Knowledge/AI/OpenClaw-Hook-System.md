@@ -11,7 +11,7 @@ description: Hook System——多来源钩子注册与加载，inbound/outbound 
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/15-hook-system]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/15-hook-system]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Auto-Reply]]"

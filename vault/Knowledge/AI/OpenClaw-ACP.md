@@ -12,7 +12,7 @@ description: ACP（Agent Control Plane）——OpenClaw 多 Agent 协调器，�
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心组件/07-ACP]]"
+source: "[[Resources/人工智能/OpenClaw/核心组件/07-ACP]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Agent-Engine]]"

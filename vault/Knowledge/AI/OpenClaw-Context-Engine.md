@@ -12,7 +12,7 @@ description: Context Engine——可插拔上下文管理，消息组装、压�
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/13-context-engine]]、[[Resources/OpenClaw/核心组件/08-ContextCompaction]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/13-context-engine]]、[[Resources/人工智能/OpenClaw/核心组件/08-ContextCompaction]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Agent-Engine]]"

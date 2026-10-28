@@ -21,6 +21,7 @@ tags:
 - [[feedlens-project|FeedLens：多 Agent 智能信息简报系统]] — LangGraph + DeepSeek + ChromaDB，RSS 采集 → 向量去重 → 多因子排序 → 简报生成 → MCP 推送，全链路 LLM 自主编排
 - [网站部署：本知识库部署到 GitHub Pages](./网站部署/index.md) — 从本地环境搭建、本地预览到 GitHub Actions 自动部署的完整指南
 - [[网页笔记四步工作流|网页笔记四步工作流：可信优先的网页笔记 Agent 工作流]] — 把整理、提炼、独立核查、人工确认拆成四个各管一段的 Agent
+- [[CodexHost-Windows接入ClaudeCode部署教程|CodexHost：在 Windows 上把 Claude Code 接成 Codex Desktop 的一等 Agent]] — 从原理到验收的完整教程：每步给出可观测通过信号，人照着做能成，Agent 照着跑能自判成败
 
 ---
 

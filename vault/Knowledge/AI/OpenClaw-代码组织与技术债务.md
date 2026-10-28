@@ -12,7 +12,7 @@ description: OpenClaw 代码组织结构、命名规范、编码原则、测试�
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/开发指南/01-code-organization]], [[Resources/OpenClaw/开发指南/03-tech-debt]]"
+source: "[[Resources/人工智能/OpenClaw/开发指南/01-code-organization]], [[Resources/人工智能/OpenClaw/开发指南/03-tech-debt]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-部署与配置]]"

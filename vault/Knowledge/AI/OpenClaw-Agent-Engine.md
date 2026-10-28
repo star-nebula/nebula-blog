@@ -11,7 +11,7 @@ description: Agent 执行引擎——命令编排、工具管理、模型选择�
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/02-agent-engine]]、[[Resources/OpenClaw/核心组件/01-AgentCommand]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/02-agent-engine]]、[[Resources/人工智能/OpenClaw/核心组件/01-AgentCommand]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-架构总览]]"

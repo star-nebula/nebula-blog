@@ -12,7 +12,7 @@ description: Channels——30+ 消息渠道统一抽象，适配器接口，渠�
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/06-channels]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/06-channels]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Plugin-System]]"

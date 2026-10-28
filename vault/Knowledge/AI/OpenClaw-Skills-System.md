@@ -11,7 +11,7 @@ description: Skills System——技能发现/加载/安装生命周期管理，�
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/10-skills-system]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/10-skills-system]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Plugin-System]]"

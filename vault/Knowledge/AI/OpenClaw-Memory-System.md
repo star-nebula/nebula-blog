@@ -13,7 +13,7 @@ description: OpenClaw 记忆系统——Memory Flush 门控、混合搜索（BM2
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/OpenClaw 记忆模块详解]]"
+source: "[[Resources/人工智能/OpenClaw/OpenClaw 记忆模块详解]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Agent-Engine]]"

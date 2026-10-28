@@ -11,7 +11,7 @@ description: Plugin System——插件发现/加载/生命周期管理，70+ API
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/05-plugin-system]]、[[Resources/OpenClaw/核心组件/03-PluginLoader]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/05-plugin-system]]、[[Resources/人工智能/OpenClaw/核心组件/03-PluginLoader]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-Channels]]"

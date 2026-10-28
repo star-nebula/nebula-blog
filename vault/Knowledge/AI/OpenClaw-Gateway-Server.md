@@ -11,7 +11,7 @@ description: Gateway Server——统一外部入口，WebSocket 实时通信、H
 created: 2026-09-07
 updated: 2026-09-07
 status: integrated
-source: "[[Resources/OpenClaw/核心模块/01-gateway-server]]"
+source: "[[Resources/人工智能/OpenClaw/核心模块/01-gateway-server]]"
 related:
   - "[[🦀 OpenClaw-MOC]]"
   - "[[OpenClaw-架构总览]]"

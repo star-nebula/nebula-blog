@@ -40,6 +40,11 @@ category:
 - [[LangChain Memory 组件]]
 - [[LangChain Models 组件]]
 - [[LangChain Prompts 组件]]
+- [[LangChain-LangSmith追踪]]
+- [[LangChain-PromptTemplate变量填充]]
+- [[LangChain-RAG与Agent全链路实战]]
+- [[LangChain-工具型Agent]]
+- [[LangChain-结构化输出与修复解析]]
 - [[n8n AI Agent 工作流]]
 - [[n8n 本地部署]]
 
