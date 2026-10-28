@@ -23,14 +23,14 @@ import { relative, resolve } from 'node:path'
 // 发布面 = 内容目录 + 站点运行必需文件（首页/目录页/数据源），
 // 文件级条目用 `vault/<文件>` 形式；目录级用 `vault/<目录>`（含子目录）。
 const PUBLISHED_DIRS = [
-  'vault/blog/作坊',
+  'vault/Workshop',
   'vault/Knowledge',
   // 附件：被 git 跟踪的图片即已发布图片（pnpm sync:assets 只 add 已发布笔记引用的图）。
   // 整目录放行，便于 ![[image]] 嵌入解析；私人图仍在 .gitignore 里不会进仓库。
   'vault/Attachments',
-  // 博客专用页面集中存放；rewrites 保留原 /vault/主页/、/vault/最近/toc 网址。
-  // SITE_PAGE_FILES 将这两目录进一步限制为站点必需文件。
-  'vault/blog/主页',
+  // 站点必需页已用英文目录名；rewrites 保留原 /vault/主页/、/vault/最近/toc 网址。
+  // SITE_PAGE_FILES 将 Home/最近 进一步限制为站点必需文件。
+  'vault/Home',
   'vault/blog/最近',
 ]
 // 注：`vault/🔌 知识库插件列表.md` 曾以「站点必需文件」形式列在此处（vault 根散文件）。
@@ -78,6 +78,8 @@ const nolebase = presetMarkdownIt({
         // 诊断快照/备份不可参与同名匹配，否则会抢占真实博客笔记的双链。
         '_agent_scripts/**',
         'backup/**',
+        // ReMe 插件工作区（仓库根，未跟踪私有目录）：其笔记含裸 HTML，进入双链扫描会让 Vue SFC 解析崩溃。
+        'reme/**',
         // Archive 备份目录含与 Attachments 同名的图片/附件副本，同名冲突会误报；
         // 同时排除 Attachments 内的 .md（Excalidraw 画图文件用 [[Pasted Image]] 引用粘贴图，会产生噪声），
         // 但保留 .png 等图片扫描以确保 ![[image]] 嵌入可解析。
@@ -134,8 +136,8 @@ function fixSidebarIndexLinks(sidebar: any): any {
  */
 function buildSiteSidebar() {
   const raw = calculateSidebar([
-    { folderName: 'vault/blog/作坊', separate: true },
-  ], 'vault/blog')
+    { folderName: 'vault/Workshop', separate: true },
+  ], 'vault')
 
   // nolebase 在「只有一个 target 且命中」时会做单目录优化，直接返回**数组**而不是 { key: items }
   // （见 @nolebase/vitepress-plugin-sidebar 的 mergeSidebar 末尾）。
@@ -180,6 +182,7 @@ function buildExcludes() {
 const srcExclude = [
   // 仓库根级别的私有项（非 vault 顶层目录，buildExcludes 不覆盖）
   'backup/**',
+  'reme/**',
   // 运维脚本区（2026-09-25 补）：_agent_scripts/ 下 164 个 md 曾被当站点内容渲染，
   // 其中 _out/verify/** 是脚本验证时留下的**自媒体文稿副本**（该目录 .gitignore 已排除，
   // GitHub Pages CI 干净检出时不存在，但本地 dist 上传「我的网页」镜像站时会一起发出去）。
@@ -329,7 +332,7 @@ export default defineConfig({
   // 会让 @nolebase/thumbnail-hash 在构建期崩溃（Failed to make image from encoded data）。
   // srcExclude 相对 srcDir（即仓库根 E:\knowledge）匹配，故用 **/ 前缀兜底。
   srcExclude,
-  // 仅构建「站点内容」文件夹（vault/blog/作坊、vault/blog/档案；Knowledge 由 buildKnowledgeSidebar 接入），
+  // 仅构建「站点内容」文件夹（vault/Workshop；Knowledge 由 buildKnowledgeSidebar 接入），
   // 排除 Obsidian 私人库。好处：① 构建更快、产物更干净；② 私人笔记不会被发布。
   // 发布面清单见顶部 PUBLISHED_DIRS。
   lastUpdated: true,

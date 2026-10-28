@@ -28,16 +28,35 @@ function normalizeBase(raw) {
  */
 export const SITE_BASE = normalizeBase(process.env.SITE_BASE || DEFAULT_BASE)
 
-const sections = '(主页|最近|作坊|档案)'
-const sourcePrefix = new RegExp(`^(\/?)vault/blog/${sections}(?=/|$)`)
-const routePrefix = new RegExp(`^(\/?)vault/${sections}(?=/|$)`)
+// 源目录 → 公开 URL 的改名映射。旧公开 URL 一律保留（rewrites），外链不受影响。
+// 命中规则：精确等于 from，或以 from + '/' 开头（其余原样返回）。
+const SOURCE_TO_ROUTE = [
+  ['vault/blog/最近', 'vault/最近'],
+  ['vault/Home', 'vault/主页'],
+  ['vault/Workshop', 'vault/作坊'],
+]
+const ROUTE_TO_SOURCE = SOURCE_TO_ROUTE.map(([source, route]) => [route, source])
+
+function mapPrefix(path, pairs) {
+  const p = path.split(String.fromCharCode(92)).join('/')
+  // 侧边栏 key 等场景带前导 '/'，统一剥掉再匹配、还原时补回。
+  const lead = p.startsWith('/') ? '/' : ''
+  const bare = lead ? p.slice(1) : p
+  for (const [from, to] of pairs) {
+    if (bare === from)
+      return `${lead}${to}`
+    if (bare.startsWith(`${from}/`))
+      return `${lead}${to}${bare.slice(from.length)}`
+  }
+  return p
+}
 
 export function blogSourceToRoute(path) {
-  return path.replaceAll('\\', '/').replace(sourcePrefix, '$1vault/$2')
+  return mapPrefix(path, SOURCE_TO_ROUTE)
 }
 
 export function blogRouteToSource(path) {
-  return path.replaceAll('\\', '/').replace(routePrefix, '$1vault/blog/$2')
+  return mapPrefix(path, ROUTE_TO_SOURCE)
 }
 
 export function isWithinPublished(path, publishedDirs) {
