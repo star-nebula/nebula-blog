@@ -42,14 +42,9 @@ const OBSIDIAN_CONFIG = new Set([
   'vault/.obsidian/workspaces.json',
   'vault/.obsidian/snippets/Color.css',
 ])
-// 入库但不发布：进 GitHub 仓库源码（可 clone / 浏览 / 搜索），但不渲染成站点页面。
-// 与 PUBLISHED_DIRS 的区别 —— 后者是「网站访客看得到」，这里是「只在仓库源码里可见」。
-// 需求来源：vault/rules/（知识库操作规范）需随仓库做版本管理，但内容是本机工作方法、
-// 不适合出现在站点上。加入此名单后，检查 1 不再把它判为「误 add」。
-// 注意：不要为了让它通过校验而塞进 PUBLISHED_DIRS —— 那样 rules 会被渲染成网页。
-const TRACKED_ONLY_DIRS = [
-  'vault/rules',
-]
+// 入库但不发布：vault/rules/ 已于 2026-10-28 移回本地 Obsidian 库，本仓不再收录。
+// 保留空数组以兼容检查逻辑；将来如有新的「入库不发布」目录再加入。
+const TRACKED_ONLY_DIRS = []
 
 // 结构占位（.gitkeep）已于 2026-10-28 取消：博客独立建库后私有目录整体删除，
 // 不再需要在 GitHub 上显形。保留空 Set 以兼容检查逻辑；误 add 仍被检查 1 拦截。

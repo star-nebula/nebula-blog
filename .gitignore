@@ -29,7 +29,7 @@ _agent_scripts/_tmp*
 # 发布面由 .vitepress/config.ts 顶部 PUBLISHED_DIRS 白名单决定(目录级): 不在白名单的
 # vault 顶层条目一律不渲染、不进 GitHub Pages(旧描述「给笔记加 status: published」已废)。
 # ⚠ 区分两个面：「不入库」= 不进公开仓库源码(可被 clone/搜索)；「不发布」= 不渲染成站点页面。
-# 下列各项的**内容**两者皆是；例外有一：vault/rules/（已入库但不发布，见下方注释）。
+# 下列各项的**内容**不入库也不发布（本仓已无例外）。
 vault/DailyNotes/
 vault/Inbox/
 vault/Interview/
@@ -37,13 +37,11 @@ vault/Resources/
 vault/Canvas/
 vault/Templates/
 vault/Archive/
+vault/rules/
 
 # 结构占位（.gitkeep）已于 2026-10-28 取消：博客独立建库后私有目录无需在 GitHub 显形，
 # 目录本体一并删除；上方目录级忽略行仍保留，防本地误建后被 add 。
 
-# vault/rules/ 自 2026-09-21 起改为「入库但不发布」：知识库操作规范随仓库做版本管理，
-# 但仍在 PUBLISHED_DIRS 之外 → 只进 GitHub 源码、不渲染成站点页面。
-# 白名单在 scripts/check-publish-boundary.mjs 的 TRACKED_ONLY_DIRS（两处需同步）。
 vault/Home.md
 # AI 入口与索引（本地智能体专用，绝不进公开仓库）
 # AGENTS.md = 现行入口（各工具约定的自动加载名）；AGENT.md = 旧名，保留忽略以防误建
