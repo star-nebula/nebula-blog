@@ -35,7 +35,8 @@ test('workshop gallery links point at real built pages', () => {
   // 断言因此改为：卡片链接必须逐个指向磁盘上真实存在的产物，比原来更强——
   // 原断言只证明「HTML 里有这个 href」，现在同时证明「目标页面真的构建出来了」。
   const html = decodeURI(readFileSync(join(dist, 'vault/作坊/index.html'), 'utf8'))
-  const expected = ['feedlens-project', 'glowlink-demo', 'ai-tryon-video-demo', '网页笔记四步工作流']
+  // 2026-11-10：网页笔记四步工作流 下架（项目已更新，旧稿与现状不符），卡片数 4 → 3。
+  const expected = ['feedlens-project', 'glowlink-demo', 'ai-tryon-video-demo']
   const hrefs = [...html.matchAll(/<a href="([^"]+)" class="pg-card[^"]*"/g)].map(m => m[1])
   assert.equal(hrefs.length, expected.length, `Expected ${expected.length} gallery cards, got ${hrefs.length}`)
   for (const [i, href] of hrefs.entries()) {

@@ -80,17 +80,9 @@ const projects: Project[] = [
     link: '/vault/作坊/ai-tryon-video-demo',
     accent: '#e8688a',
   },
-  {
-    id: 'webnote',
-    title: '网页笔记四步工作流',
-    tagline: '把「整理、提炼、核查、确认」拆成四个 Agent',
-    kind: '项目',
-    stack: ['多 Agent', '上下文隔离', '人工确认闸'],
-    metrics: ['开源', '克制型自动化'],
-    cover: '',
-    link: '/vault/作坊/网页笔记四步工作流',
-    accent: '#5fbf8f',
-  },
+  // 网页笔记工作流项目（id: webnote）已于 2026-11-10 下架：项目实现已更新，
+  // 原四 Agent 版文章与现状不符。新版整理完成后在此恢复卡片，并补上真实截图。
+  // 旧稿留存：E:\knowledge\Archive\output\migrations\2026-11-10\blog-unpublish-webnote\
 ]
 
 const activeKind = ref<'全部' | '项目' | 'Demo'>('全部')
@@ -245,10 +237,12 @@ function stopPreview(e: MouseEvent) {
 
 .pg-grid {
   display: grid;
-  /* 卡片宁可大一些，也不要为了塞满一行把卡片压小：
-     4 个项目在 3 列布局下会有一张孤零零落在第二行，视觉上像缺了一块。
-     minmax(340px) 让宽屏最多 2 列、窄屏自然回落到 1 列。 */
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  /* 卡片宽度按「当前项目数能排满一行」反推：
+     3 张卡片在 928px 正文宽下，minmax(280px) 正好排成一行（3×280 + 2×20 gap = 880）。
+     之前用 340px 是因为有 4 张卡片、3 列会落单；现在 webnote 下架后是 3 张，
+     680px 两列会让第三张孤零零占左半边。
+     卡片数量再变时，先看能不能整除，再调这个值。 */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.25rem;
 }
 
