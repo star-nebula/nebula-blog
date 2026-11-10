@@ -184,6 +184,9 @@ const srcExclude = [
   'AGENTS.md',
   'AGENT.md',
   'README.md',
+  // 仓库根 docs/（内部运维决策记录，非站点内容）。2026-11-10 发现它未被排除，
+  // 曾被构建成 .vitepress/dist/docs/decisions.html 发布到线上——根目录任何文档目录都必须显式排除。
+  'docs/**',
   // vault 顶层「不在发布面」的目录/文件：由 buildExcludes() 动态生成
   ...buildExcludes(),
   // 追加硬排除：发布目录内若有个别不应渲染的，放这里（当前无）
