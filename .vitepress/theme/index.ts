@@ -9,7 +9,6 @@ import DocFooter from './components/DocFooter.vue'
 import HomePage from './components/HomePage.vue'
 import KnowledgeExplorer from './components/KnowledgeExplorer.vue'
 import PageMeta from './components/PageMeta.vue'
-import PortfolioProfile from './components/PortfolioProfile.vue'
 import ProjectGallery from './components/ProjectGallery.vue'
 import Share from './components/Share.vue'
 
@@ -72,7 +71,6 @@ const ExtendedTheme: Theme = {
     app.component('DocFooter', DocFooter)
     app.component('KnowledgeExplorer', KnowledgeExplorer)
     app.component('PageMeta', PageMeta)
-    app.component('PortfolioProfile', PortfolioProfile)
     app.component('ProjectGallery', ProjectGallery)
     app.component('Share', Share)
     app.component('AppContainer', AppContainer)

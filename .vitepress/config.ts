@@ -130,7 +130,7 @@ function fixSidebarIndexLinks(sidebar: any): any {
 }
 
 /**
- * 组装整站侧边栏：nolebase calculateSidebar 负责「站点内容」目录（作坊/档案），
+ * 组装整站侧边栏：nolebase calculateSidebar 负责「站点内容」目录（作坊），
  * Knowledge 由 buildKnowledgeSidebar()
  * 按各笔记的 category frontmatter 实时生成，以 `/vault/Knowledge/` 为 key 注入。
  */
@@ -430,7 +430,7 @@ export default defineConfig({
       // /knowledge/vault/主页/ —— 此处 link（主题 logo 点击目标 / 默认语言回退）必须跟着改，
       // 否则点 logo 会落到已不存在的 /knowledge/vault/ 上 404。
       // dir 仍留 '/vault'：它决定 root locale 的页面归属前缀，收窄到 /vault/主页 会把
-      // 作坊/档案/Knowledge 甩到 locale 之外。
+      // 作坊/Knowledge 甩到 locale 之外。
       link: '/vault/主页/',
       themeConfig: {
         nav: [

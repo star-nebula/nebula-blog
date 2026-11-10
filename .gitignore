@@ -116,3 +116,6 @@ components.d.ts
 # Skill 工作台与备份（本地运维态，不入库）
 # （工作台本体已于 2026-09-14 迁至 E:\Projects\workbenches\skill-workbench，脱离本仓库）
 backup/
+
+# 本地决策记录（从 SemanticMemory 迁入，不进站点也不入库）
+/docs/
