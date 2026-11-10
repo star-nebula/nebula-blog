@@ -1,8 +1,16 @@
 ---
-tags: [deploy, faq, website, 部署, 部署/FAQ, 故障排查]
-
+title: 部署常见问题 FAQ
+abstract: 部署过程中常见问题与排查方法。
+created: 2026-08-15
+type: 步骤操作
+tags:
+  - deploy
+  - faq
+  - website
+  - 部署
+  - 故障排查
+category: ["📚 个人知识管理", "博客部署"]
 ---
-
 # 04 常见问题 FAQ
 
 > 本章节汇总部署到 GitHub Pages 过程中最常遇到的问题及解决方案。按照从常见到少见的顺序排列，遇到问题时可以从第一条开始排查。

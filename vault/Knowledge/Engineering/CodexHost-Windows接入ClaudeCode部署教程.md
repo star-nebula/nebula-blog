@@ -12,6 +12,7 @@ tags:
   - Agent
   - CDP
   - SOP
+category: ["🛠️ 工程工具", "IDE与环境"]
 ---
 
 # CodexHost：在 Windows 上把 Claude Code 接成 Codex Desktop 的一等 Agent

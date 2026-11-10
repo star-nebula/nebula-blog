@@ -29,12 +29,25 @@ test('archived blog pages are not published', () => {
   assert.doesNotMatch(home, /href="[^"]*\/档案\//)
 })
 
-test('workshop project links resolve after migration instead of becoming hash placeholders', () => {
+test('workshop gallery links point at real built pages', () => {
+  // 作坊首页 2026-11-10 改为 ProjectGallery 卡片网格（视觉化作品集），
+  // 链接由组件渲染成普通 <a class="pg-card" href>，不再是 nolebase 的行内预览链接。
+  // 断言因此改为：卡片链接必须逐个指向磁盘上真实存在的产物，比原来更强——
+  // 原断言只证明「HTML 里有这个 href」，现在同时证明「目标页面真的构建出来了」。
   const html = decodeURI(readFileSync(join(dist, 'vault/作坊/index.html'), 'utf8'))
-  for (const name of ['feedlens-project', 'glowlink-demo', 'ai-tryon-video-demo', '网页笔记四步工作流']) {
-    // Require the body link; a valid sidebar entry alone does not prove wikilinks work.
-    assert.match(html, new RegExp(`class="VPNolebaseInlinePreviewLink"[^>]*href="/nebula-blog/vault/作坊/${name}\\.html"`), `Broken body link: ${name}`)
+  const expected = ['feedlens-project', 'glowlink-demo', 'ai-tryon-video-demo', '网页笔记四步工作流']
+  const hrefs = [...html.matchAll(/<a href="([^"]+)" class="pg-card[^"]*"/g)].map(m => m[1])
+  assert.equal(hrefs.length, expected.length, `Expected ${expected.length} gallery cards, got ${hrefs.length}`)
+  for (const [i, href] of hrefs.entries()) {
+    const route = decodeURI(href.replace(/^\/nebula-blog\//, ''))
+    // 卡片链接是 clean URL（无 .html），GitHub Pages 会映射到同名 .html，故按两种形态查产物。
+    const built = existsSync(join(dist, `${route}.html`)) || existsSync(join(dist, route, 'index.html'))
+    assert.ok(built, `Gallery card ${i} points at missing page: ${href}`)
+    assert.ok(route.startsWith('vault/作坊/'), `Gallery card ${i} must stay under the workshop route, got: ${href}`)
   }
+  const targets = hrefs.map(h => h.split('/').pop())
+  for (const name of expected)
+    assert.ok(targets.includes(name), `Gallery is missing project: ${name}`)
 })
 
 test('recent-update links include the GitHub Pages base path', () => {

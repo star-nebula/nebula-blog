@@ -1,4 +1,8 @@
 ---
+title: GitHub Pages 自动部署
+abstract: 配置 GitHub Actions 工作流，推 main 自动构建并部署。
+created: 2026-08-15
+type: 步骤操作
 tags:
   - ci
   - deploy
@@ -6,9 +10,8 @@ tags:
   - website
   - 部署
   - CI/CD
-
+category: ["📚 个人知识管理", "博客部署"]
 ---
-
 # 03 GitHub Pages 自动部署
 
 > 本章节介绍如何配置 GitHub Pages 自动部署。GitHub Pages 是 GitHub 提供的免费静态网站托管服务，通过 GitHub Actions 可以实现"push 到 main 分支后自动构建并部署"的全流程自动化。
