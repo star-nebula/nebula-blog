@@ -489,3 +489,34 @@ mjx-assistive-mml {
   user-select: none;
   color: rgba(0, 0, 0, 0);
 }
+
+/* 作坊首页（page-workshop-gallery）：作品集需要横向空间。
+   默认层限制来自两处：VitePress 的 .VPDoc.has-aside .content-container { max-width: 688px }
+   与 nolebase LayoutSwitch 的 .container > .content { max-width: 752px }。
+   两者都是为「长文阅读」设计的行宽上限，对卡片网格反而把 4 张卡挤进 688px。
+   这里只对本页解除，其他页面读数体验不受影响。 */
+.page-workshop-gallery .VPDoc .container {
+  max-width: none;
+}
+
+.page-workshop-gallery .VPDoc .container > .content {
+  max-width: none;
+  margin: 0;
+}
+
+.page-workshop-gallery .VPDoc .content-container {
+  max-width: none;
+}
+
+/* 解除上限后正文会贴到导航栏边缘，补回安全边距（与站点默认 32px 对齐）。 */
+.page-workshop-gallery .VPDoc .container > .content {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+@media (max-width: 768px) {
+  .page-workshop-gallery .VPDoc .container > .content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

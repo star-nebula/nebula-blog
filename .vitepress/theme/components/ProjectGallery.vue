@@ -103,6 +103,31 @@ const counts = computed(() => ({
   项目: projects.filter(p => p.kind === '项目').length,
   Demo: projects.filter(p => p.kind === 'Demo').length,
 }))
+
+/**
+ * 悬停播放 / 离开暂停。
+ * 用事件委托而不是每个卡片绑 handler：卡片是 <a>，内部有 img + video 两层，
+ * currentTarget 才是 .pg-cover，从它里面找 video 即可。
+ */
+function playPreview(e: MouseEvent) {
+  const video = (e.currentTarget as HTMLElement).querySelector('video')
+  if (!video) return
+  if (!video.getAttribute('src')) {
+    // preload="none" 时首次播放才真正拉流，减少首屏流量
+    const card = e.currentTarget as HTMLElement
+    const item = card.closest('.pg-card') as HTMLElement | null
+    const src = item?.dataset.video
+    if (src) video.src = src
+  }
+  video.play().catch(() => {})
+}
+
+function stopPreview(e: MouseEvent) {
+  const video = (e.currentTarget as HTMLElement).querySelector('video')
+  if (!video) return
+  video.pause()
+  video.currentTime = 0
+}
 </script>
 
 <template>
@@ -128,29 +153,31 @@ const counts = computed(() => ({
         :key="p.id"
         :href="withBase(p.link)"
         class="pg-card"
+        :data-video="p.video ? withBase(p.video) : undefined"
         :style="{ '--pg-accent': p.accent }"
       >
-        <!-- 封面：优先视频预览，其次静态图，最后程序化占位（绝不伪造素材） -->
-        <div class="pg-cover">
-          <video
-            v-if="p.video"
-            class="pg-video"
-            :src="withBase(p.video)"
-            :poster="p.cover ? withBase(p.cover) : undefined"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata"
-            :aria-label="p.coverAlt || p.title"
-          />
+        <!-- 封面：优先视频预览，其次静态图，最后程序化占位（绝不伪造素材）。
+             视频不自动播放：循环播放会随机停在一帧（低头、闭眼等），当封面很难看。
+             改为静态封面 + 悬停/聚焦时播放，离开即暂停回第一帧。 -->
+        <div class="pg-cover" @mouseenter="playPreview($event)" @mouseleave="stopPreview($event)">
           <img
-            v-else-if="p.cover"
+            v-if="p.cover"
+            class="pg-cover-img"
             :src="withBase(p.cover)"
             :alt="p.coverAlt || p.title"
             loading="lazy"
           >
-          <div v-else class="pg-cover-placeholder" aria-hidden="true">
+          <video
+            v-if="p.video"
+            class="pg-video"
+            :src="withBase(p.video)"
+            muted
+            loop
+            playsinline
+            preload="none"
+            :aria-label="p.coverAlt || p.title"
+          />​
+          <div v-if="!p.cover && !p.video" class="pg-cover-placeholder" aria-hidden="true">
             <span class="pg-cover-initial">{{ p.title.slice(0, 1) }}</span>
             <span class="pg-cover-hint">待补截图</span>
           </div>
@@ -218,7 +245,10 @@ const counts = computed(() => ({
 
 .pg-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  /* 卡片宁可大一些，也不要为了塞满一行把卡片压小：
+     4 个项目在 3 列布局下会有一张孤零零落在第二行，视觉上像缺了一块。
+     minmax(340px) 让宽屏最多 2 列、窄屏自然回落到 1 列。 */
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 1.25rem;
 }
 
@@ -255,13 +285,29 @@ const counts = computed(() => ({
   transition: transform 0.4s ease;
 }
 
-/* 视频与图片同一套裁切规则，保证卡片高度一致 */
+/* 视频叠在静态封面上，悬停时淡入播放；未悬停时视频不可见也不加载。 */
 .pg-video {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
   background: var(--vp-c-bg-alt);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.pg-cover:hover .pg-video {
+  opacity: 1;
+}
+
+/* 无静态封面时，视频自己就是封面 */
+.pg-cover:not(:has(img)) .pg-video {
+  opacity: 1;
+  position: relative;
+  inset: auto;
 }
 
 .pg-card:hover .pg-cover img {

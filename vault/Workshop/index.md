@@ -1,6 +1,11 @@
 ---
 title: 作坊
 sidebar: false
+aside: false
+outline: false
+prev: false
+next: false
+pageClass: page-workshop-gallery
 tags:
   - 作坊
 ---
