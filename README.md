@@ -10,11 +10,29 @@
 
 | 目录 | 内容 |
 |---|---|
-| `vault/Home/` | 站点首页（VitePress `layout: home`） |
-| `vault/Workshop/` | 项目 Demo 与实验记录 |
+| `vault/Home/` | 站点首页（VitePress `layout: home`，站点骨架，手写） |
 | `vault/Recent/` | 「最近更新」页（`toc.data.ts` 构建期自动汇总，无需手改） |
-| `vault/Knowledge/` | 主题笔记（AI / 工程 / 方法论），按 frontmatter `category` 自动生成侧边栏 |
-| `vault/Attachments/` | 被发布笔记引用的图片，由 `pnpm sync:assets` 按引用入库维护 |
+| `vault/Workshop/` | 项目 Demo 与实验记录（**同步产物**） |
+| `vault/Knowledge/` | 主题笔记（AI / 工程 / 方法论），按 frontmatter `category` 自动生成侧边栏（**同步产物**） |
+| `vault/Attachments/` | 被发布笔记引用的图片（**同步产物**），由 `pnpm sync:assets` 按引用入库维护 |
+
+### 内容真源在仓库之外
+
+`vault/Workshop`、`vault/Knowledge`、`vault/Attachments` 是从
+`E:\knowledge\Output\blog`（私有 Obsidian 库的对外发布区）同步进来的**副本**：
+
+```
+E:\knowledge\Knowledge/   私有原始笔记（不直接发布）
+        │  人工整理成可发布稿
+        ▼
+E:\knowledge\Output\blog/  ← 唯一内容真源
+        │  pnpm sync:content:write
+        ▼
+vault/{Workshop,Knowledge,Attachments}/  → 构建 → GitHub Pages
+```
+
+改内容请改编 `Output/blog` 下的稿子，再跑 `pnpm sync:content:write`；
+直接改 `vault/` 里的文件会在下次同步时被覆盖。`Home`、`Recent` 属站点骨架，仍在本仓手写。
 
 历史 URL 兼容：栏目目录已由中文改为英文（`blog/主页→Home`、`blog/作坊→Workshop`、`blog/最近→Recent`），
 `rewrites` 保留 `/vault/主页/`、`/vault/作坊/`、`/vault/最近/toc` 等旧网址，外链不受影响。
@@ -27,6 +45,8 @@ pnpm docs:dev        # 本地开发
 pnpm docs:build      # 构建静态页面（需 Node 22+；NODE_OPTIONS 已在脚本内处理大内存）
 pnpm check:boundary  # 发布边界校验：git 跟踪面、站点页白名单、产物链接 ⊆ 发布面
 pnpm sync:assets     # 把被发布笔记引用的图片强制入库
+pnpm sync:content    # 预览 Output/blog → vault 的差异（dry-run）
+pnpm sync:content:write  # 执行同步（清空重建也靠它：源里删掉的会跟着删）
 pnpm docs:serve      # 本地预览构建产物
 node --test scripts/blog-paths.test.mjs  # URL 映射与发布判定单元测试
 node --test scripts/blog-build.test.mjs  # 构建后回归：旧网址产物与正文双链（需先 build）

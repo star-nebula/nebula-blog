@@ -37,12 +37,14 @@ const PUBLISHED_DIRS = [
 // 2026-09-24 已迁入 `vault/Knowledge/Methods/知识库插件列表.md` 并按原子笔记规范补 frontmatter
 // （category/category 决定其侧边栏归类），随 `vault/Knowledge` 目录级放行发布，故文件级条目移除。
 
-// vault/Knowledge/ 已入库并随站点发布（见 README「内容板块」），目录存在性检测只作兜底：
-// 某些 checkout / 分支可能没有该目录（历史上它曾被 .gitignore 排除为私人库），此时跳过渲染，
-// 避免「构建失败」与「死链 nav」。
-// 通过检测目录是否存在决定接入，使同一份 config 在本地与 CI 下都能构建通过。
+// vault/Knowledge/ 是同步产物：内容真源在 E:\knowledge\Output\blog，由
+// scripts/sync-blog-content.mjs 落成本仓副本（见该脚本头部说明）。
+// 2026-11-10 起内容可被清空重建，因此不能只判断「目录存在」——空目录仍 existsSync 为 true，
+// 会让 nav 指向已不存在的 MOC 造成死链。改为「存在且含至少一篇 .md」才算接入。
 const KNOWLEDGE_DIR = resolve(process.cwd(), 'vault/Knowledge')
 const HAS_KNOWLEDGE = existsSync(KNOWLEDGE_DIR)
+  && readdirSync(KNOWLEDGE_DIR, { recursive: true, withFileTypes: true })
+    .some(entry => entry.isFile() && entry.name.endsWith('.md'))
 
 import { githubRepoLink, siteDescription, siteName } from '../metadata'
 import head from './head'

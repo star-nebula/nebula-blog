@@ -26,6 +26,8 @@
     "docs:serve": "vitepress serve",
     "check:boundary": "node scripts/check-publish-boundary.mjs",
     "sync:assets": "node scripts/sync-published-assets.mjs",
+    "sync:content": "node scripts/sync-blog-content.mjs",
+    "sync:content:write": "node scripts/sync-blog-content.mjs --write",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
