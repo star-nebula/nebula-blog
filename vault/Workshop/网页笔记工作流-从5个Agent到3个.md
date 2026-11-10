@@ -1,9 +1,9 @@
 ---
 title: 网页笔记工作流
+abstract: 分享网页笔记工作流从 5 个独立 Agent 精简到「调度器 + 3 个 subagent」的思考过程，说明哪些步骤不需要独立 AI 上下文、真正的安全闸门为何只有一个。
+type: 复盘
 tags:
   - published
-date_published: 2026-08-04
-status: published
 ---
 # 五个 Agent 太浪费了：我为什么把 AI 工作流从 5 个 Agent 减到 3 个
 

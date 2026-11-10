@@ -2,7 +2,8 @@
 title: 部署常见问题 FAQ
 abstract: 部署过程中常见问题与排查方法。
 created: 2026-08-15
-type: 步骤操作
+updated: 2026-08-15
+type: 教程
 tags:
   - deploy
   - faq

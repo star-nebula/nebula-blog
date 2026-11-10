@@ -2,7 +2,8 @@
 title: AI 电商换装视频生成
 abstract: 产品平铺图 + 模特图 → AI 换装 → 分镜视频复刻，全云端方案，无需本地 GPU。
 created: 2026-07-07
-type: 步骤操作
+updated: 2026-07-07
+type: 教程
 tags:
   - 作坊
   - AI生图

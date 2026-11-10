@@ -1,6 +1,6 @@
 ---
 title: Codex 的记忆分两层，但第一层根本不是记忆
-abstract: Codex 的 AGENTS.md 是指令链而非记忆，Memories 才是自动沉淀层。它真正的设计意图不是"记住更多"，而是用空闲门控、额度门控和 30 天剪枝，尽量少记。
+abstract: 'Codex 的 AGENTS.md 是指令链而非记忆，Memories 才是自动沉淀层。它真正的设计意图不是"记住更多"，而是用空闲门控、额度门控和 30 天剪枝，尽量少记。'
 created: 2026-11-09
 updated: 2026-11-10
 type: 调研

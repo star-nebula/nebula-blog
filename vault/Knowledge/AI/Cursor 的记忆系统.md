@@ -1,6 +1,6 @@
 ---
 title: Cursor 删掉了自动记忆，这可能是三家 Agent 里最诚实的选择
-abstract: Cursor 自 2.1.x 起移除 chat Memories，理由是"和规则差别不大"。于是记忆被拆成两件事：稳定约定归 rules，历史信息归本地检索。代价是失去"越用越懂你"，收益是不会被过期记忆带偏。
+abstract: 'Cursor 自 2.1.x 起移除 chat Memories，理由是"和规则差别不大"。于是记忆被拆成两件事：稳定约定归 rules，历史信息归本地检索。代价是失去"越用越懂你"，收益是不会被过期记忆带偏。'
 created: 2026-11-09
 updated: 2026-11-10
 type: 调研

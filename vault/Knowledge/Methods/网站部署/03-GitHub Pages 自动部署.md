@@ -2,7 +2,8 @@
 title: GitHub Pages 自动部署
 abstract: 配置 GitHub Actions 工作流，推 main 自动构建并部署。
 created: 2026-08-15
-type: 步骤操作
+updated: 2026-08-15
+type: 教程
 tags:
   - ci
   - deploy

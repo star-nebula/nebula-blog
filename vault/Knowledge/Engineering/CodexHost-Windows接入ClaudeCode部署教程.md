@@ -2,7 +2,7 @@
 title: CodexHost：在 Windows 上把 Claude Code 接成 Codex Desktop 的一等 Agent
 created: 2026-10-21
 updated: 2026-10-24
-type: 步骤操作
+type: 教程
 tags:
   - CodexHost
   - Codex
