@@ -30,6 +30,12 @@ interface Project {
   cover?: string
   /** 封面图替代文本 */
   coverAlt?: string
+  /**
+   * 演示视频（public/ 下，以 / 开头）。
+   * 有视频时封面区改为静音循环自动播放的预览片——作品集要能"看到它跑起来"，
+   * 静态截图对视频类项目说服力不够。视频必须 H.264 + faststart，否则部分浏览器不播。
+   */
+  video?: string
   /** 详情页链接，站内路径 */
   link: string
   /** 占位图用的强调色，同时用于卡片悬停边框 */
@@ -68,7 +74,9 @@ const projects: Project[] = [
     kind: 'Demo',
     stack: ['OutfitAnyone', '万相 animate-mix', 'FFmpeg'],
     metrics: ['全云端，无需本地 GPU', '运镜动作 1:1 复刻'],
-    cover: '',
+    cover: '/workshop/tryon/cover.jpg',
+    coverAlt: '原视频与复刻结果对比',
+    video: '/workshop/tryon/result.mp4',
     link: '/vault/作坊/ai-tryon-video-demo',
     accent: '#e8688a',
   },
@@ -122,10 +130,22 @@ const counts = computed(() => ({
         class="pg-card"
         :style="{ '--pg-accent': p.accent }"
       >
-        <!-- 封面：有图用图；无图用程序化占位（网格 + 首字母），不伪造截图 -->
+        <!-- 封面：优先视频预览，其次静态图，最后程序化占位（绝不伪造素材） -->
         <div class="pg-cover">
+          <video
+            v-if="p.video"
+            class="pg-video"
+            :src="withBase(p.video)"
+            :poster="p.cover ? withBase(p.cover) : undefined"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            :aria-label="p.coverAlt || p.title"
+          />
           <img
-            v-if="p.cover"
+            v-else-if="p.cover"
             :src="withBase(p.cover)"
             :alt="p.coverAlt || p.title"
             loading="lazy"
@@ -233,6 +253,15 @@ const counts = computed(() => ({
   object-fit: cover;
   display: block;
   transition: transform 0.4s ease;
+}
+
+/* 视频与图片同一套裁切规则，保证卡片高度一致 */
+.pg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: var(--vp-c-bg-alt);
 }
 
 .pg-card:hover .pg-cover img {

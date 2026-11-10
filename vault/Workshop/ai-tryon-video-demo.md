@@ -1,4 +1,8 @@
 ---
+title: AI 电商换装视频生成
+abstract: 产品平铺图 + 模特图 → AI 换装 → 分镜视频复刻，全云端方案，无需本地 GPU。
+created: 2026-07-07
+type: 步骤操作
 tags:
   - 作坊
   - AI生图
@@ -9,7 +13,7 @@ tags:
   - 电商
 ---
 
-# AI电商换装视频生成系统
+# AI 电商换装视频生成
 
 > 面向电商内容创作场景的 AI 自动化 Demo：「产品平铺图 + 模特图 → AI换装 → 分镜视频复刻」，全云端方案，无需本地 GPU。
 
@@ -18,6 +22,64 @@ tags:
 这是一个 Demo 项目。项目模拟真实电商场景：一件 BOTU 黑色 T 恤的平铺图，通过 AI 换装穿到模特身上，再用参考视频的运镜/动作驱动生成动态展示视频。
 
 **一句话**：产品图进去，商品展示视频出来，全程 AI 自动化。
+
+## 效果对比
+
+左为原模板视频，右为复刻结果：人物换成了穿 BOTU 黑色 T 恤的模特，运镜、背景、光影保持一致。
+
+<div class="tryon-compare">
+  <figure>
+    <video data-src="/workshop/tryon/template.mp4" autoplay muted loop playsinline controls preload="metadata"></video>
+    <figcaption>原模板视频</figcaption>
+  </figure>
+  <figure>
+    <video data-src="/workshop/tryon/result.mp4" autoplay muted loop playsinline controls preload="metadata"></video>
+    <figcaption>复刻结果</figcaption>
+  </figure>
+</div>
+
+<script setup>
+// VitePress 会把静态 <video src> 当模块资源解析，绝对路径会被清空成 src=""。
+// 因此写 data-src（站点根相对路径），挂载后用 withBase 拼上部署 base 再赋值——
+// 这样同一份内容在 GitHub Pages 子路径与根域名部署下都能正确取到视频。
+import { onMounted } from 'vue'
+import { withBase } from 'vitepress'
+onMounted(() => {
+  for (const el of document.querySelectorAll('.tryon-compare video[data-src]')) {
+    el.src = withBase(el.dataset.src)
+    el.play().catch(() => {})
+  }
+})
+</script>
+
+<style scoped>
+.tryon-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0;
+}
+.tryon-compare figure {
+  margin: 0;
+}
+.tryon-compare video {
+  width: 100%;
+  border-radius: 10px;
+  display: block;
+  background: #000;
+}
+.tryon-compare figcaption {
+  margin-top: 6px;
+  font-size: 0.82rem;
+  text-align: center;
+  color: var(--vp-c-text-2);
+}
+@media (max-width: 640px) {
+  .tryon-compare {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 
 ---
 
