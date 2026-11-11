@@ -10,22 +10,35 @@ const BASE_ROOT = SITE_BASE.replace(/\/$/, '')
 const ROOT_REDIRECT = `if (typeof window !== 'undefined' && (window.location.pathname === '${SITE_BASE}' || window.location.pathname === '${BASE_ROOT}') && !window.location.pathname.startsWith('${SITE_BASE}zh-CN')) { window.location.href = '${SITE_BASE}zh-CN/' + window.location.hash; }`
 
 export default [
-  // 首页 Hero 背景为 CSS 引用的大图，预加载以缩短 LCP。
-  ['link', { rel: 'preload', as: 'image', href: `${SITE_BASE}wallpaper.webp` }],
+  // 自托管 Albert Sans（拉丁子集，约 52KB）。字重可变，中文仍走系统字体。
+  // 只预加载这一个字体；构建后会把默认主题自动注入的 Inter preload 移除，避免重复下载。
+  ['link', {
+    rel: 'preload',
+    as: 'font',
+    type: 'font/woff2',
+    href: `${SITE_BASE}fonts/AlbertSans-Variable.woff2`,
+    crossorigin: '',
+  }],
   // Redirect root path to zh-CN locale
   ['script', {}, ROOT_REDIRECT],
   // 51LA v6 访问统计（后台 https://v6.51.la ）：注册站点后把 ck 值填到下面 LA_CK。
   // ck 为空字符串时脚本不注入，零副作用。注意 ${"LA_CK"} 是刻意转义，运行时由浏览器侧模板拼接。
   ['script', {}, `(function(){var LA_CK="";if(!LA_CK)return;var s=document.createElement("script");s.src="https://js.51.la/v6/"+LA_CK+".js";s.async=true;document.head.appendChild(s)})()`],
   ['meta', {
+    media: '(prefers-color-scheme: light)',
     name: 'theme-color',
-    content: '#ffffff',
+    content: '#fafafa',
+  }],
+  ['meta', {
+    media: '(prefers-color-scheme: dark)',
+    name: 'theme-color',
+    content: '#161618',
   }],
   [
     'link',
     {
       rel: 'apple-touch-icon',
-      href: '/apple-touch-icon.png',
+      href: `${SITE_BASE}apple-touch-icon.png`,
       sizes: '180x180',
     },
   ],
@@ -33,7 +46,7 @@ export default [
     'link',
     {
       rel: 'icon',
-      href: '/logo.svg',
+      href: `${SITE_BASE}logo.svg`,
       type: 'image/svg+xml',
     },
   ],
@@ -41,7 +54,7 @@ export default [
     'link',
     {
       rel: 'alternate icon',
-      href: '/favicon.ico',
+      href: `${SITE_BASE}favicon.ico`,
       type: 'image/png',
       sizes: '16x16',
     },
@@ -99,13 +112,13 @@ export default [
     'link',
     {
       rel: 'mask-icon',
-      href: '/safari-pinned-tab.svg',
+      href: `${SITE_BASE}safari-pinned-tab.svg`,
       color: '#927baf',
     },
   ],
   ['link', {
     rel: 'manifest',
-    href: '/site.webmanifest',
+    href: `${SITE_BASE}site.webmanifest`,
   }],
   ['meta', {
     name: 'msapplication-TileColor',

@@ -201,7 +201,7 @@ function stopPreview(e: MouseEvent) {
 .pg-filter {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   flex-wrap: wrap;
 }
 
@@ -209,59 +209,65 @@ function stopPreview(e: MouseEvent) {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.3rem 0.85rem;
-  border-radius: 999px;
+  height: 32px;
+  padding: 0 0.85rem;
   border: 1px solid var(--vp-c-divider);
-  background: var(--vp-c-bg-soft);
+  border-radius: 999px;
+  background: transparent;
   color: var(--vp-c-text-2);
-  font-size: 0.85rem;
+  font-family: var(--vp-font-family-base);
+  font-size: 12.5px;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition:
+    color 180ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    background-color 180ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color 180ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .pg-chip:hover {
-  border-color: var(--pg-accent, var(--vp-c-brand-1));
+  border-color: var(--pg-accent, var(--vp-c-brand-2));
+  background: var(--vp-c-bg-soft);
   color: var(--vp-c-text-1);
 }
 
 .pg-chip.active {
-  background: var(--vp-c-brand-1);
-  border-color: var(--vp-c-brand-1);
-  color: #fff;
+  border-color: var(--vp-c-text-1);
+  background: var(--vp-c-text-1);
+  color: var(--vp-c-bg);
 }
 
 .pg-chip-count {
-  font-size: 0.75rem;
-  opacity: 0.7;
+  font-size: 11px;
+  opacity: 0.6;
 }
 
 .pg-grid {
   display: grid;
-  /* 卡片宽度按「当前项目数能排满一行」反推：
-     3 张卡片在 928px 正文宽下，minmax(280px) 正好排成一行（3×280 + 2×20 gap = 880）。
-     之前用 340px 是因为有 4 张卡片、3 列会落单；现在 webnote 下架后是 3 张，
-     680px 两列会让第三张孤零零占左半边。
-     卡片数量再变时，先看能不能整除，再调这个值。 */
+  /* 3 张卡片在 928px 正文宽下正好一行（3×280 + 2×16 gap = 872） */
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .pg-card {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 14px;
   overflow: hidden;
-  background: var(--vp-c-bg-soft);
-  text-decoration: none !important;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 16px;
+  background: var(--vp-c-bg-elv);
   color: inherit;
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  text-decoration: none !important;
+  transition:
+    transform 220ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color 220ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 220ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .pg-card:hover {
   transform: translateY(-3px);
   border-color: var(--pg-accent);
-  box-shadow: 0 10px 28px -12px var(--pg-accent);
+  box-shadow: 0 18px 36px -24px var(--pg-accent);
 }
 
 .pg-cover {
@@ -272,129 +278,131 @@ function stopPreview(e: MouseEvent) {
 }
 
 .pg-cover img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  transition: transform 0.4s ease;
+  transition: transform 360ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 /* 视频叠在静态封面上，悬停时淡入播放；未悬停时视频不可见也不加载。 */
 .pg-video {
   position: absolute;
   inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
   background: var(--vp-c-bg-alt);
   opacity: 0;
-  transition: opacity 0.3s ease;
   pointer-events: none;
+  transition: opacity 280ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .pg-cover:hover .pg-video {
   opacity: 1;
 }
 
-/* 无静态封面时，视频自己就是封面 */
 .pg-cover:not(:has(img)) .pg-video {
-  opacity: 1;
   position: relative;
   inset: auto;
+  opacity: 1;
 }
 
 .pg-card:hover .pg-cover img {
-  transform: scale(1.04);
+  transform: scale(1.03);
 }
 
 .pg-cover-placeholder {
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.35rem;
+  width: 100%;
+  height: 100%;
   background:
-    linear-gradient(135deg, color-mix(in srgb, var(--pg-accent) 12%, transparent), transparent 70%),
-    repeating-linear-gradient(45deg, transparent, transparent 12px, color-mix(in srgb, var(--pg-accent) 6%, transparent) 12px, color-mix(in srgb, var(--pg-accent) 6%, transparent) 13px);
+    linear-gradient(135deg, color-mix(in srgb, var(--pg-accent) 10%, transparent), transparent 70%),
+    repeating-linear-gradient(45deg, transparent, transparent 12px, color-mix(in srgb, var(--pg-accent) 5%, transparent) 12px, color-mix(in srgb, var(--pg-accent) 5%, transparent) 13px);
 }
 
 .pg-cover-initial {
-  font-size: 2.4rem;
-  font-weight: 700;
-  line-height: 1;
   color: var(--pg-accent);
-  opacity: 0.75;
+  font-size: 2.2rem;
+  font-weight: 600;
+  line-height: 1;
+  opacity: 0.7;
 }
 
 .pg-cover-hint {
-  font-size: 0.72rem;
-  letter-spacing: 0.05em;
   color: var(--vp-c-text-3);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
 }
 
 .pg-kind {
   position: absolute;
-  top: 0.6rem;
-  right: 0.6rem;
-  padding: 0.15rem 0.55rem;
+  top: 0.7rem;
+  right: 0.7rem;
+  padding: 3px 8px;
   border-radius: 999px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: #fff;
   background: var(--pg-accent);
-  opacity: 0.92;
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  opacity: 0.94;
 }
 
 .pg-body {
-  padding: 0.9rem 1rem 1.1rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
   flex: 1;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.05rem 1.1rem 1.2rem;
 }
 
 .pg-title {
   margin: 0;
-  font-size: 1.05rem;
-  font-weight: 650;
-  line-height: 1.3;
-  border: none;
   padding: 0;
+  border: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
 }
 
 .pg-tagline {
   margin: 0;
-  font-size: 0.85rem;
-  line-height: 1.55;
   color: var(--vp-c-text-2);
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .pg-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
   margin: 0;
   padding: 0;
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
 }
 
 .pg-metrics li {
-  font-size: 0.78rem;
-  color: var(--vp-c-text-2);
-  padding-left: 0.9rem;
   position: relative;
+  padding-left: 0.85rem;
+  color: var(--vp-c-text-2);
+  font-size: 12px;
+  line-height: 1.55;
 }
 
 .pg-metrics li::before {
   content: '';
   position: absolute;
+  top: 0.55em;
   left: 0;
-  top: 0.5em;
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
   background: var(--pg-accent);
 }
@@ -404,16 +412,17 @@ function stopPreview(e: MouseEvent) {
   flex-wrap: wrap;
   gap: 0.35rem;
   margin-top: auto;
-  padding-top: 0.35rem;
+  padding-top: 0.4rem;
 }
 
 .pg-tag {
-  font-size: 0.7rem;
-  padding: 0.12rem 0.5rem;
+  padding: 2px 7px;
+  border: 1px solid var(--vp-c-divider);
   border-radius: 5px;
   background: var(--vp-c-bg-alt);
   color: var(--vp-c-text-2);
-  border: 1px solid var(--vp-c-divider);
+  font-size: 10.5px;
+  line-height: 1.5;
 }
 
 @media (max-width: 640px) {

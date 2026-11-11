@@ -4,6 +4,7 @@ import { calculateSidebar } from '@nolebase/vitepress-plugin-sidebar'
 // import { buildEndGenerateOpenGraphImages } from '@nolebase/vitepress-plugin-og-image/vitepress'
 import MarkdownItFootnote from 'markdown-it-footnote'
 import MarkdownItMathjax3 from 'markdown-it-mathjax3'
+import type { HeadConfig } from 'vitepress'
 import { defineConfig } from 'vitepress'
 import { obsidianImageEmbed } from './markdown/obsidian-image-embed'
 import { sanitizeWikiPercent } from './markdown/sanitize-wikilink-percent'
@@ -501,13 +502,27 @@ export default defineConfig({
     },
   },
   async transformHead(context) {
-    let head = [...context.head]
+    // VitePress 会把 transformHead 的返回值与原始 head 合并，而 mergeHead 只对
+    // <meta> 按第一个属性去重；若把完整 head 返回，所有 <link>（modulepreload、
+    // 字体、图标、壁纸）都会在页面里重复输出一遍。这里只回传 meta 与按需追加的 link。
+    const working = context.head.map(([tag, attrs]) => [tag, { ...attrs }] as unknown as HeadConfig)
+    const returned = await transformHeadMeta()(working, context)
+    const result = returned ?? working
 
-    const returnedHead = await transformHeadMeta()(head, context)
-    if (typeof returnedHead !== 'undefined')
-      head = returnedHead
+    const extra: HeadConfig[] = []
+    // 壁纸只在首页需要：不再让所有文章页 preload 177KB 的图。
+    if (context.pageData.frontmatter?.layout === 'home') {
+      extra.push(['link', {
+        rel: 'preload',
+        as: 'image',
+        href: `${SITE_BASE}wallpaper.webp`,
+      }])
+    }
 
-    return head
+    return [
+      ...result.filter(([tag]) => tag === 'meta'),
+      ...extra,
+    ]
   },
   async buildEnd(siteConfig) {
     const fs = await import('node:fs')
@@ -540,6 +555,10 @@ export default defineConfig({
 
     // 3) VitePress 把 locale 的 dir 选项 (/vault) 误用为 <html dir> 属性（应为 ltr/rtl）。
     //    浏览器对非法 dir 值按 ltr 处理，无功能影响，此处顺手修正所有页面（含嵌套 excalidraw 页）。
+    //
+    // 4) 默认主题会自动给 Inter 加 <link rel=preload as=font>。本站正文拉丁字形已改为
+    //    Albert Sans，Inter 只作为字体栈兜底；保留预加载只会多下载一份 30KB 字体。
+    //    这里在构建产物里删掉这条 preload（CSS 的 @font-face 保留，不影响回退）。
     const walkDir = (dir: string) => {
       for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
         const fp = path.join(dir, entry.name)
@@ -550,11 +569,14 @@ export default defineConfig({
         if (!entry.name.endsWith('.html'))
           continue
         let s = fs.readFileSync(fp, 'utf-8')
-        if (s.includes(wrong) || s.includes('dir="/vault"')) {
+        const hasInterPreload = /<link rel="preload" href="[^"]*inter-roman-latin\.[^"]*\.woff2"[^>]*>/i.test(s)
+        if (s.includes(wrong) || s.includes('dir="/vault"') || hasInterPreload) {
           if (s.includes(wrong))
             s = s.split(wrong).join(right)
           if (s.includes('dir="/vault"'))
             s = s.replace(/dir="\/vault"/g, 'dir="ltr"')
+          if (hasInterPreload)
+            s = s.replace(/<link rel="preload" href="[^"]*inter-roman-latin\.[^"]*\.woff2"[^>]*>/gi, '')
           fs.writeFileSync(fp, s)
         }
       }

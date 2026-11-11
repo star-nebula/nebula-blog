@@ -1,127 +1,105 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { useClipboard } from '@vueuse/core'
-import { ref, watch } from 'vue'
-import { useRoute } from 'vitepress'
-import { plainTargetDomain } from '../../../metadata'
+import { ref } from 'vue'
 
-interface HyphenResp<T> {
-  data: T
-}
-interface HyphenNewShortURLResp {
-  url: string
-  shortUrl: string
-}
+/**
+ * 分享按钮
+ *
+ * 2026-11-11：移除每页路由变化都请求 api.ayaka.io 换短链的逻辑。
+ * 现在优先调用系统分享面板（移动端），否则直接复制当前 URL：
+ *  - 不再有第三方网络请求，不阻塞首屏
+ *  - 不再依赖外部服务可用性
+ *  - 复制的是完整原始链接，不会因为短链服务失效而打不开
+ */
+const { copy, copied } = useClipboard({ source: () => window.location.href })
+const busy = ref(false)
 
-const APIHost = 'https://api.ayaka.io/hyphen'
-const newUrlEndpoint = `${APIHost}/api/v1/url`
-const queryUrlEndpoint = `${APIHost}/api/v1/url/full`
-
-const route = useRoute()
-
-async function findExistingLink(url: string): Promise<string> {
-  const res = await fetch(`${queryUrlEndpoint}?url=${url}`)
-  if (res.status !== 200) {
-    if (res.status === 404)
-      return ''
-    console.error(await res.json())
-    return ''
-  }
-
-  const resJson = await res.json()
-  return resJson.data.shortUrl as string
-}
-
-async function createShareLink(url: string) {
-  const res = await fetch(newUrlEndpoint, {
-    method: 'POST',
-    body: JSON.stringify({ url }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-
-  if (res.status !== 200) {
-    console.error(await res.json())
-    return null
-  }
-
-  const resJson = (await res.json()) as HyphenResp<HyphenNewShortURLResp>
-  return resJson.data
-}
-
-async function getShareLink(): Promise<string> {
-  // 本身就是短地址或不是生产环境的话不处理，节省资源
-  if (
-    window.location.hostname !== plainTargetDomain
-    || window.location.pathname.length <= 20
-  ) return window.location.href
-
-  const url = window.location.href
-
-  let linkHash = ''
-  const existingLink = await findExistingLink(url)
-  if (existingLink !== '') {
-    linkHash = existingLink
-  }
-  else {
-    const newLink = await createShareLink(url)
-    if (newLink === null)
-      return window.location.href
-    linkHash = newLink.shortUrl
-  }
-
-  return `${window.location.origin}/to/${linkHash}`
-}
-
-const shareLink = ref('')
-watch(() => route.path, async (val, oldVal, onCleanup) => {
-  if (typeof window === 'undefined')
+async function share() {
+  if (busy.value)
     return
-  shareLink.value = ''
-  let cleanup = false
-  onCleanup(() => cleanup = true)
+  busy.value = true
 
-  const link = await getShareLink()
-  if (cleanup)
-    return
-  shareLink.value = link
-}, { immediate: true })
+  try {
+    if (navigator.share) {
+      await navigator.share({
+        title: document.title,
+        url: window.location.href,
+      })
+      return
+    }
+  }
+  catch {
+    // 用户取消系统分享面板时继续走复制，不报错
+  }
+  finally {
+    busy.value = false
+  }
 
-const { copy, copied: shareSuccess } = useClipboard()
-function copyShareLink() {
-  copy(shareLink.value)
+  await copy()
 }
 </script>
 
 <template>
   <button
-    h-full ws-nowrap px3 text-sm font-medium
-    text="$vp-c-text-1"
-    :class="[
-      shareSuccess ? '!text-green-400' : '',
-      shareLink ? 'hover:sm:text-$vp-c-brand' : '!cursor-wait',
-    ]"
-    :disabled="!shareLink || shareSuccess"
-    @click="copyShareLink()"
+    class="copy"
+    type="button"
+    :disabled="busy"
+    :aria-label="copied ? '链接已复制' : '分享此页'"
+    @click="share"
   >
-    <Transition
-      mode="out-in"
-      enter-active-class="transition-all duration-250 ease-out"
-      leave-active-class="transition-all duration-250 ease-out"
-      enter-from-class="transform translate-y-30px opacity-0"
-      leave-to-class="transform translate-y--30px opacity-0"
-      enter-to-class="opacity-100"
-      leave-from-class="opacity-100"
-    >
-      <span v-if="shareSuccess" flex items-center space-x-1>
-        <span class="i-octicon:checkbox-16" />
-        <span>复制成功</span>
-      </span>
-      <span v-else flex items-center space-x-1>
-        <span class="i-octicon:share-16" />
-        <span>分享此页</span>
-      </span>
-    </Transition>
+    <span v-if="copied" class="share-label">
+      <span class="i-octicon:checkbox-16" aria-hidden="true" />
+      <span>已复制</span>
+    </span>
+    <span v-else class="share-label">
+      <span class="i-octicon:share-16" aria-hidden="true" />
+      <span>分享此页</span>
+    </span>
   </button>
-  <div class="bg-$vp-c-divider-light" mx2 block h-24px w-1px md:hidden />
 </template>
+
+<style scoped>
+.copy {
+  height: 32px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--vp-c-text-3);
+  font-family: var(--vp-font-family-base);
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 180ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    background-color 180ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.copy:hover:not(:disabled) {
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-bg-soft);
+}
+
+.copy:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.share-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 手机顶栏空间有限：只留图标，去掉文字标签 */
+@media (max-width: 767px) {
+  .copy {
+    padding: 0 8px;
+  }
+
+  .share-label > span:last-child {
+    display: none;
+  }
+}
+</style>

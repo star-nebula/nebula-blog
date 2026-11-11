@@ -1,5 +1,13 @@
 @import 'kbd.css';
 
+/**
+ * 站点功能性覆盖
+ *
+ * 视觉层（颜色、排版、导航、首页、组件）在 design.css；
+ * 这里只保留「第三方组件修补 / 特殊内容兜底 / 字体」这类不改就会坏掉的规则。
+ * 2026-11-11 重设计时清掉了旧首页与默认主题的重复样式。
+ * -------------------------------------------------------------------------- */
+
 /* 双向链接（@nolebase/markdown-it-bi-directional-links）：未匹配到的链接 */
 .nolebase-route-link-invalid {
   color: var(--vp-c-danger-1, #cb0000);
@@ -12,8 +20,7 @@ html, body {
   -webkit-tap-highlight-color: transparent; /* 避免触屏下的点击高亮颜色 */
 }
 
-/* 参考 Vitest */
-/* fix height ~ 2 lines of text: 3 or more cards per row */
+/* 参考 Vitest：团队卡片描述区域的最小高度，避免不同行高导致卡片参差 */
 .VPTeamMembersItem.small .profile .data .affiliation {
   min-height: 3rem;
 }
@@ -22,107 +29,63 @@ html, body {
   min-height: 3rem;
 }
 
-/* fix height ~ 3 lines of text: 4 cards per row */
 @media (min-width: 1064px) and (max-width: 1143px) {
-  .VPTeamMembersItem.small .profile .data .affiliation {
-    min-height: 4rem;
-  }
-
+  .VPTeamMembersItem.small .profile .data .affiliation,
   .VPTeamMembersItem.small .profile .data .desc {
     min-height: 4rem;
   }
 }
 
-/* fix height ~ 3 lines of text: 3 cards per row */
 @media (min-width: 815px) and (max-width: 875px) {
-  .VPTeamMembersItem.small .profile .data .affiliation {
-    min-height: 4rem;
-  }
-
+  .VPTeamMembersItem.small .profile .data .affiliation,
   .VPTeamMembersItem.small .profile .data .desc {
     min-height: 4rem;
   }
 }
 
-/* fix height ~ 3 lines of text: 2 cards per row */
 @media (max-width: 612px) {
-  .VPTeamMembersItem.small .profile .data .affiliation {
-    min-height: 4rem;
-  }
-
+  .VPTeamMembersItem.small .profile .data .affiliation,
   .VPTeamMembersItem.small .profile .data .desc {
     min-height: 4rem;
   }
 }
 
-/* fix height: one card per row */
 @media (max-width: 568px) {
-  .VPTeamMembersItem.small .profile .data .affiliation {
-    min-height: unset;
-  }
-
+  .VPTeamMembersItem.small .profile .data .affiliation,
   .VPTeamMembersItem.small .profile .data .desc {
     min-height: unset;
   }
 }
 
-/* 覆盖 VPTeamMembers 组件内部处理的子元素包含特定 max-width 样式致使元素宽度与正文不一致的问题 */
+/* 覆盖 VPTeamMembers 组件内部 max-width 与正文宽度不一致的问题 */
 .vp-doc .VPTeamMembers.small.count-2 .container,
 .vp-doc .VPTeamMembers.small.count-3 .container {
   max-width: 1152px !important;
 }
 
-.VPTeamMembers.medium.count-2 .container {
-  max-width: unset;
-}
-
+.VPTeamMembers.medium.count-2 .container,
 .VPTeamMembers.small.count-2 .container {
   max-width: unset;
 }
 
-/* 标题所需要的字体 */
+/* 首页装饰字体（仅 dark hero 与小号 eyebrow 使用，已改为 swap 避免阻塞 LCP） */
 @font-face {
   font-family: tengwarannatar;
-  src: url(/tengwar-annatar-glaemscrafu.woff2) format('woff2');
+  src: url('/tengwar-annatar-glaemscrafu.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
-  font-display: block;
+  font-display: swap;
 }
 
-/* 标题所需要的字体 */
 @font-face {
   font-family: tengwarannatar-bold;
-  src: url(/tengwar-annatar-glaemscrafu-bold.woff2) format('woff2');
+  src: url('/tengwar-annatar-glaemscrafu-bold.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
-  font-display: block;
+  font-display: swap;
 }
 
-/* 首页标题样式 */
-.VPHomeHero > .container > .main > h1 {
-  font-size: 5rem;
-  font-family: 'tengwarannatar-bold';
-}
-
-.VPHero.has-image span.name:nth-child(1) {
-  line-height: 7rem;
-}
-
-/* 首页子标题样式
-   注意：.text 实际在 <h1 class="heading"> 内部，不是 .main 的直接子元素 */
-.VPHomeHero .heading .text {
-  padding-top: 45px;
-  font-size: 4rem;
-  position: relative; /* 让文字染色 canvas（absolute）定位在此元素内 */
-}
-
-/* 首页介绍样式 */
-.VPHomeHero > .container > .main > .tagline {
-  padding-top: 24px;
-  position: relative; /* 同上 */
-}
-
-/* 文字染色 canvas：覆盖在 .text / .tagline 上，由 JS 动态创建 */
+/* 墨水聚光灯的文字染色 canvas（由 SpotlightBackground.vue 动态创建） */
 .ink-text-canvas {
   position: absolute;
   top: 0;
@@ -132,209 +95,16 @@ html, body {
   pointer-events: none;
 }
 
-/* 自适应样式 */
-@media (max-width: 1024px) {
-  /* 首页标题样式 */
-  .VPHomeHero > .container > .main > h1 {
-    font-size: 3.5rem;
-  }
-
-  /* 首页子标题样式 */
-  .VPHomeHero .heading .text {
-    padding-top: 30px;
-    font-size: 3rem;
-  }
-
-  /* 首页介绍样式 */
-  .VPHomeHero > .container > .main > .tagline {
-    padding-top: 20px;
-  }
-}
-
-/* 自适应样式 */
-@media (max-width: 640px) {
-  /* 首页标题样式 */
-  .VPHomeHero > .container > .main > h1 {
-    font-size: 2.5rem;
-  }
-
-  /* 首页子标题样式 */
-  .VPHomeHero .heading .text {
-    padding-top: 20px;
-    font-size: 2rem;
-  }
-
-  /* 首页介绍样式 */
-  .VPHomeHero > .container > .main > .tagline {
-    padding-top: 20px;
-  }
-}
-
-/* 主页下方的页脚透明度（保持 1，让 #161618 不在 body 上偏色） */
-.VPFooter {
-  opacity: 1;
-}
-
-/* 确保主页内容在聚光灯 canvas 之上，消除默认底部大间距 */
-.VPHome {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 0;
-  /* 给最外层容器自身设背景，让 features/footer 之外的非卡片区
-     （vp-doc 正文行、features 与 footer 之间那段）左右两侧也呈 --home-bg，
-     不再透出 body 默认 --vp-c-bg 形成"三个长方块"的割裂带。 */
-  background: var(--home-bg);
-}
-
-/* 主页去掉默认 .VPContent 的顶部 padding(var(--vp-nav-height)=64px)，
-   让 .VPHome 直接从 doc y=0 开始。配合 .VPHomeHero margin-top:0，
-   使壁纸 ::before 真正铺到页面最顶部、覆盖到导航栏背后。
-   （默认主题原本靠 .VPHome -> .VPHero 的负 margin 拉回 y=0，
-   但本项目把 .VPHome 改成 flex 列容器后负 margin 不可靠。） */
-.VPContent.is-home {
-  padding-top: 0 !important;
-  /* 把整个内容区都设为 --home-bg。.VPHome 自身有背景已盖住其内部空白，
-     但 footer 上方那段（.VPHome margin-bottom 占位区）属于 .VPContent
-     本身且透明，会透出 body 默认 --vp-c-bg。这里一并设背景，
-     与 features/footer 连成一片，消除"三个长方块"的左右纯色带。 */
-  background: var(--home-bg) !important;
-}
-
-/* Hero 区域：壁纸背景 + 聚光灯 canvas 容器 */
-.VPHomeHero {
-  position: relative;
-  min-height: 100vh;
-  overflow: hidden;
-  order: 1;
-  /* 抵消默认主题 .VPHero 的 margin-top: -var(--vp-nav-height)，
-     让 hero 直接从 doc y=0 开始，壁纸 ::before 才能铺到页面最顶部。 */
-  margin-top: 0 !important;
-}
-
-/* 主页贴顶时（scrollY === 0，默认主题会给 .VPNavBar 加 .top）：
-   导航栏及其 .content-body/.divider-line 彻底透明，让 Hero 壁纸透到导航栏背后。
-   往下滚动后 .top 被移除，导航栏自动恢复默认的半透明深色背景。 */
-
-/* 强制首页 body 背景为暗色：VitePress 的 body { background-color: var(--vp-c-bg) }
-   在日间模式下是白色 #ffffff。首页导航栏在贴顶时是透明的，会露出 body 背景。
-   夜间模式 body=#1b1b1f 自然融合；日间模式 body=#ffffff 导致导航栏区域变白。
-   这里强制首页 body 为 --home-bg，消除日间模式漏白。 */
-body:has(.VPHome) {
-  --home-bg: #161618;            /* 夜间模式（默认） */
-  background-color: var(--home-bg) !important;
-}
-
-/* 日间模式：遮罩与背景改为白色 */
-html:not(.dark) body:has(.VPHome) {
-  --home-bg: #ffffff;
-}
-
-body:has(.VPHome) .VPNavBar.top,
-body:has(.VPHome) .VPNavBar.top .content-body,
-body:has(.VPHome) .VPNavBar.top .divider-line {
-  background-color: transparent !important;
-  backdrop-filter: none !important;
-  box-shadow: none !important;
-}
-
-/* 首页向下滚动后（.top 被移除），VitePress 默认会给导航栏设 var(--vp-nav-bg-color)
-   = var(--vp-c-bg)，日间模式下为白色。这里强制为 --home-bg 保持一致。 */
-body:has(.VPHome) .VPNavBar:not(.top),
-body:has(.VPHome) .VPNavBar:not(.top) .content-body {
-  background-color: var(--home-bg) !important;
-}
-
-/* 贴顶时壁纸背景上导航文字加阴影，兼顾可读性 */
-/* 夜间模式：亮字 + 暗影 */
-.dark body:has(.VPHome) .VPNavBar.top .title,
-.dark body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink,
-.dark body:has(.VPHome) .VPNavBar.top .VPNavBarExtra,
-.dark body:has(.VPHome) .VPNavBar.top .copy {
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-}
-
-/* 壁纸用 ::before 放在最底层，canvas 可以盖住它 */
-.VPHomeHero::before {
-  content: '';
-  position: absolute; /* 限定在 Hero 区域内，随页面滚动移走，不再全屏固定 */
-  inset: 0;
-  background: url(/wallpaper.webp) center center / cover no-repeat;
-  background-color: var(--home-bg);
-  z-index: -1;
-}
-
-/* Hero 内容在 canvas 之上 */
-.VPHomeHero > .container {
-  position: relative;
-  z-index: 2;
-}
-
-/* Markdown 内容区（HomePage 组件 / index.md 正文槽） */
-/* 注意：VitePress 会把 index.md 正文（含 HomePage 组件）包在
-   .vp-doc.container 里作为 .VPHome 的直接子元素渲染。它的默认 flex
-   order 为 0，若不显式排到 hero 之后，会把 hero 推到约 40px 高的
-   占位之下，导致导航栏上半段揭不出壁纸。这里同时给 .content 和
-   .vp-doc.container 赋 order:-1 之外的 2，让它们都排在 hero(order:1) 后。 */
-.VPHome > .content,
-.VPHome > .vp-doc.container {
-  order: 2;
-  background: var(--home-bg);
-}
-
-/* 当 HomePage 内容为空时，折叠间距 */
-.VPHome > .content:empty,
-.VPHome > .content > .content-container:empty {
-  padding: 0;
-  margin: 0;
-}
-
-/* 特性卡片区：移到 HomePage 之后 */
-.VPHomeFeatures {
-  position: relative;
-  z-index: 1;
-  background: var(--home-bg);
-  order: 3;
-  padding-top: 48px;
-  padding-bottom: 24px;
-}
-
-/* 主页 footer 与 features 区的间隙、footer 区都应是 #161618（main.css 别处已设定）。
-   特性卡片本体保持默认主题的 --vp-c-bg-soft(#202127)，不在此覆盖，保留卡片可识别性。 */
-
-/* 页脚 */
-.VPFooter {
-  position: relative;
-  z-index: 1;
-  background: var(--home-bg) !important;
-  border-top: none !important; /* 去掉默认主题 1px 黑色(--vp-c-gutter) 分界线，与 features 区连成一色 */
-  order: 4;
-  padding-top: 16px;
-  padding-bottom: 24px;
-}
-
-/* 正文结尾的 CC 协议链接基本样式 */
+/* 正文结尾的 CC 协议链接 */
 .footer-cc-link {
   color: var(--vp-c-text-2);
-  transition: all 0.3s ease;
   text-decoration: underline;
-  text-decoration-color: rgb(114, 114, 114);
+  text-decoration-color: rgb(114 114 114);
+  transition: color var(--sn-dur, 180ms) var(--sn-ease, ease);
 }
 
-/* 正文结尾的 CC 协议链接鼠标 hover 样式 */
 .footer-cc-link:hover {
   color: var(--vp-c-text-1);
-}
-
-/* 正文结尾的 CC 协议链接暗色模式下鼠标 hover 样式 */
-.dark .footer-cc-link:hover {
-  color: var(--vp-c-text-1);
-}
-
-/* 调整文档页面页脚到正文结尾的间隔距离 */
-.VPDoc .VPDocFooter {
-  margin-top: 32px;
 }
 
 /* 脚注 */
@@ -350,103 +120,7 @@ body:has(.VPHome) .VPNavBar:not(.top) .content-body {
   line-height: 18px;
 }
 
-/* 覆盖正文的 h1 标题样式 */
-.vp-doc > div > h1 {
-  margin-bottom: 16px;
-}
-
-.vp-doc a {
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.vp-doc a:hover {
-  text-decoration: underline;
-}
-
-/**
-  Discord 链接按钮样式
-*/
-
-.VPHero.VPHomeHero .actions a[href="https://discord.gg/XuNFDcDZGj"] {
-  color: #6972d4;
-  border: 2px #6972d4 solid;
-  background-color: transparent;
-}
-
-.VPHero.VPHomeHero .actions a[href="https://discord.gg/XuNFDcDZGj"]:hover {
-  color: white;
-  background-color: #6975f2;
-}
-
-.VPHero.VPHomeHero .actions a[href="https://discord.gg/XuNFDcDZGj"]:active {
-  color: white;
-  background-color: #404eed;
-}
-
-/**
-  暗色模式下 Discord 链接按钮样式
-*/
-
-.dark .VPHero.VPHomeHero .actions a[href="https://discord.gg/XuNFDcDZGj"] {
-  color: #898fcf;
-  border: 2px #898fcf solid;
-  background-color: transparent;
-}
-
-.dark .VPHero.VPHomeHero .actions a[href="https://discord.gg/XuNFDcDZGj"]:hover {
-  color: white;
-  background-color: #404eed;
-}
-
-.dark .VPHero.VPHomeHero .actions a[href="https://discord.gg/XuNFDcDZGj"]:active {
-  color: white;
-  background-color: #444c9e;
-}
-
-/**
-  GitHub 链接按钮样式
-*/
-
-.VPHero.VPHomeHero .actions a[href="https://github.com/nolebase/nolebase"] {
-  color: #616161;
-  border: 2px #616161 solid;
-  background-color: transparent;
-}
-
-.VPHero.VPHomeHero .actions a[href="https://github.com/nolebase/nolebase"]:hover {
-  color: white;
-  background-color: #4b4b4b;
-}
-
-.VPHero.VPHomeHero .actions a[href="https://github.com/nolebase/nolebase"]:active {
-  color: white;
-  background-color: #000;
-}
-
-/**
-  暗色模式下 GitHub 链接按钮样式
-*/
-
-.dark .VPHero.VPHomeHero .actions a[href="https://github.com/nolebase/nolebase"] {
-  color: #a4a4a4;
-  border: 2px #a4a4a4 solid;
-  background-color: transparent
-}
-
-.dark .VPHero.VPHomeHero .actions a[href="https://github.com/nolebase/nolebase"]:hover {
-  color: white;
-  background-color: #252525;
-}
-
-.dark .VPHero.VPHomeHero .actions a[href="https://github.com/nolebase/nolebase"]:active {
-  color: white;
-  background-color: #4b4b4b;
-}
-
-/**
-  缺失图片警告块(obsidian-image-embed 插件渲染)
-*/
+/* 缺失图片警告块（obsidian-image-embed 插件渲染） */
 .obsidian-image-missing {
   margin: 1rem 0;
   padding: 0.75rem 1rem;
@@ -458,15 +132,15 @@ body:has(.VPHome) .VPNavBar:not(.top) .content-body {
 }
 
 .obsidian-image-missing code {
-  font-family: var(--vp-font-family-mono, monospace);
-  background-color: rgba(0, 0, 0, 0.12);
   padding: 0 0.3em;
   border-radius: 3px;
+  background-color: rgb(0 0 0 / 12%);
+  font-family: var(--vp-font-family-mono, monospace);
 }
 
 .dark .obsidian-image-missing {
-  background-color: color-mix(in srgb, #f0883e 14%, transparent);
   border-color: #f0883e;
+  background-color: color-mix(in srgb, #f0883e 14%, transparent);
   color: #f0883e;
 }
 
@@ -474,49 +148,18 @@ body:has(.VPHome) .VPNavBar:not(.top) .content-body {
    markdown-it-mathjax3 v5 给每个公式输出 <span id="mjx-*"><style>隐藏CSS</style>
    <mjx-container>SVG</mjx-container><mjx-assistive-mml>MathML副本</mjx-assistive-mml></span>，
    但该 <style> 会被 VitePress 的 Vue 模板编译剥掉，导致 MathML 副本与 SVG 同时可见
-   （公式"渲染两次"）。这里按 MathJax 原本的意图在主题层兜底隐藏，副本保留供屏幕阅读器。 */
+   （公式“渲染两次”）。这里按 MathJax 原本的意图在主题层兜底隐藏，副本保留供屏幕阅读器。 */
 mjx-assistive-mml {
   position: absolute !important;
   top: 0;
   left: 0;
-  clip: rect(1px, 1px, 1px, 1px);
-  padding: 1px 0 0 0 !important;
-  border: 0 !important;
   display: block !important;
   width: auto !important;
+  padding: 1px 0 0 0 !important;
+  border: 0 !important;
   overflow: hidden !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  color: rgb(0 0 0 / 0%);
   -webkit-user-select: none;
   user-select: none;
-  color: rgba(0, 0, 0, 0);
-}
-
-/* 作坊首页（page-workshop-gallery）：作品集需要横向空间。
-   默认层限制来自两处：VitePress 的 .VPDoc.has-aside .content-container { max-width: 688px }
-   与 nolebase LayoutSwitch 的 .container > .content { max-width: 752px }。
-   两者都是为「长文阅读」设计的行宽上限，对卡片网格反而把 4 张卡挤进 688px。
-   这里只对本页解除，其他页面读数体验不受影响。 */
-.page-workshop-gallery .VPDoc .container {
-  max-width: none;
-}
-
-.page-workshop-gallery .VPDoc .container > .content {
-  max-width: none;
-  margin: 0;
-}
-
-.page-workshop-gallery .VPDoc .content-container {
-  max-width: none;
-}
-
-/* 解除上限后正文会贴到导航栏边缘，补回安全边距（与站点默认 32px 对齐）。 */
-.page-workshop-gallery .VPDoc .container > .content {
-  padding-left: 32px;
-  padding-right: 32px;
-}
-
-@media (max-width: 768px) {
-  .page-workshop-gallery .VPDoc .container > .content {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
 }

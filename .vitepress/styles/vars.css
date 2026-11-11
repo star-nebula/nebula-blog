@@ -1,120 +1,315 @@
 /**
- * Colors: Palette
+ * Star Nebula — design tokens
  *
- * The primitive colors used for accent colors. These colors are referenced
- * by functional colors such as "Text", "Background", or "Brand".
+ * 参考 open-design.ai 的编辑感：纸白底、墨黑字、1px 细线、胶囊按钮、
+ * 克制的阴影与 150–260ms 动效。浅色是纸感，暗色保留星空壁纸气质。
  *
- * Each colors have exact same color scale system with 3 levels of solid
- * colors with different brightness, and 1 soft color.
- *
- * - `XXX-1`: The most solid color used mainly for colored text. It must
- *   satisfy the contrast ratio against when used on top of `XXX-soft`.
- *
- * - `XXX-2`: The color used mainly for hover state of the button.
- *
- * - `XXX-3`: The color for solid background, such as bg color of the button.
- *    It must satisfy the contrast ratio with pure white (#ffffff) text on
- *    top of it.
- *
- * - `XXX-soft`: The color used for subtle background such as custom container
- *    or badges. It must satisfy the contrast ratio when putting `XXX-1` colors
- *    on top of it.
- *
- *    The soft color must be semi transparent alpha channel. This is crucial
- *    because it allows adding multiple "soft" colors on top of each other
- *    to create a accent, such as when having inline code block inside
- *    custom containers.
+ * 这里只放「值」，布局与组件规则在 design.css。
  * -------------------------------------------------------------------------- */
 
+@font-face {
+  font-family: 'Albert Sans';
+  src: url('/fonts/AlbertSans-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --vp-c-sky-1: #3c96ca;
-  --vp-c-sky-2: #49a1d4;
-  --vp-c-sky-3: #49a1d4;
-  --vp-c-sky-soft: rgba(73, 161, 212, 0.84);
+  color-scheme: light;
+
+  /* ---- 基础色板 ---- */
+  --sn-paper: #fafafa;
+  --sn-paper-2: #f3f3f1;
+  --sn-paper-3: #ffffff;
+  --sn-ink: #262626;
+  --sn-ink-2: #595959;
+  --sn-ink-3: #8c8c8c;
+  --sn-line: #e2e2df;
+  --sn-line-strong: #d4d4d0;
+  --sn-accent: #3c96ca;
+  --sn-accent-ink: #2b7fae;
+  --sn-accent-soft: rgb(60 150 202 / 10%);
+
+  /* ---- 形状与动效 ---- */
+  --sn-radius-sm: 8px;
+  --sn-radius: 12px;
+  --sn-radius-lg: 16px;
+  --sn-radius-pill: 999px;
+  --sn-shadow: 0 18px 40px -24px rgb(38 38 38 / 18%);
+  --sn-shadow-lift: 0 20px 48px -26px rgb(38 38 38 / 26%);
+  --sn-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --sn-dur: 180ms;
+  --sn-dur-slow: 260ms;
+
+  /* ---- 布局 ---- */
+  --sn-container: 1360px;
+  --sn-gutter: clamp(20px, 4vw, 64px);
+  --sn-nav-height: 56px;
+  --sn-content-width: 720px;
+
+  /* ---- 字体 ---- */
+  --sn-font-sans:
+    'Albert Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  --sn-font-mono:
+    ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+
+  /* ---- VitePress: 背景 ---- */
+  --vp-c-bg: var(--sn-paper);
+  --vp-c-bg-alt: var(--sn-paper-2);
+  --vp-c-bg-elv: var(--sn-paper-3);
+  --vp-c-bg-soft: var(--sn-paper-2);
+
+  /* ---- VitePress: 文字 ---- */
+  --vp-c-text-1: var(--sn-ink);
+  --vp-c-text-2: var(--sn-ink-2);
+  --vp-c-text-3: var(--sn-ink-3);
+
+  /* ---- VitePress: 线与中性色 ---- */
+  --vp-c-border: var(--sn-line-strong);
+  --vp-c-divider: var(--sn-line);
+  --vp-c-gutter: #ececea;
+  --vp-c-gray-1: #d4d4d0;
+  --vp-c-gray-2: #e4e4e1;
+  --vp-c-gray-3: #efefec;
+  --vp-c-gray-soft: rgb(38 38 38 / 6%);
+  --vp-c-default-1: var(--vp-c-gray-1);
+  --vp-c-default-2: var(--vp-c-gray-2);
+  --vp-c-default-3: var(--vp-c-gray-3);
+  --vp-c-default-soft: var(--vp-c-gray-soft);
+
+  /* ---- VitePress: 品牌（保留天蓝） ---- */
+  --vp-c-brand-1: var(--sn-accent-ink);
+  --vp-c-brand-2: var(--sn-accent);
+  --vp-c-brand-3: #49a1d4;
+  --vp-c-brand-soft: var(--sn-accent-soft);
+  --vp-c-brand: var(--vp-c-brand-1);
+  --vp-c-tip-1: var(--vp-c-brand-1);
+  --vp-c-tip-2: var(--vp-c-brand-2);
+  --vp-c-tip-3: var(--vp-c-brand-3);
+  --vp-c-tip-soft: var(--vp-c-brand-soft);
+  --vp-c-note-1: var(--vp-c-brand-1);
+  --vp-c-note-2: var(--vp-c-brand-2);
+  --vp-c-note-3: var(--vp-c-brand-3);
+  --vp-c-note-soft: var(--vp-c-brand-soft);
+
+  /* ---- VitePress: 字体 ---- */
+  --vp-font-family-base: var(--sn-font-sans);
+  --vp-font-family-mono: var(--sn-font-mono);
+
+  /* ---- VitePress: 代码 ---- */
+  --vp-code-font-size: 0.875em;
+  --vp-code-line-height: 1.7;
+  --vp-code-color: var(--vp-c-brand-1);
+  --vp-code-bg: rgb(38 38 38 / 5%);
+  --vp-code-block-bg: #f7f7f5;
+  --vp-code-block-color: var(--sn-ink-2);
+  --vp-code-block-divider-color: var(--sn-line);
+  --vp-code-lang-color: var(--sn-ink-3);
+  --vp-code-line-highlight-color: rgb(60 150 202 / 8%);
+  --vp-code-line-number-color: var(--sn-ink-3);
+  --vp-code-copy-code-border-color: var(--sn-line);
+  --vp-code-copy-code-bg: var(--sn-paper-3);
+  --vp-code-copy-code-hover-border-color: var(--sn-line-strong);
+  --vp-code-copy-code-hover-bg: var(--sn-paper);
+  --vp-code-copy-code-active-text: var(--sn-ink-2);
+  --vp-code-tab-divider: var(--sn-line);
+  --vp-code-tab-text-color: var(--sn-ink-2);
+  --vp-code-tab-bg: var(--sn-paper-2);
+  --vp-code-tab-hover-text-color: var(--sn-ink);
+  --vp-code-tab-active-text-color: var(--sn-ink);
+  --vp-code-tab-active-bar-color: var(--sn-accent);
+
+  /* ---- VitePress: 按钮 ---- */
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-text: #ffffff;
+  --vp-button-brand-bg: var(--sn-ink);
+  --vp-button-brand-hover-border: transparent;
+  --vp-button-brand-hover-text: #ffffff;
+  --vp-button-brand-hover-bg: #3f3f3f;
+  --vp-button-brand-active-border: transparent;
+  --vp-button-brand-active-text: #ffffff;
+  --vp-button-brand-active-bg: #151515;
+  --vp-button-alt-border: var(--sn-line-strong);
+  --vp-button-alt-text: var(--sn-ink);
+  --vp-button-alt-bg: transparent;
+  --vp-button-alt-hover-border: var(--sn-ink-3);
+  --vp-button-alt-hover-text: var(--sn-ink);
+  --vp-button-alt-hover-bg: rgb(38 38 38 / 4%);
+  --vp-button-alt-active-border: var(--sn-ink-2);
+  --vp-button-alt-active-text: var(--sn-ink);
+  --vp-button-alt-active-bg: rgb(38 38 38 / 7%);
+
+  /* ---- VitePress: 自定义块 ---- */
+  --vp-custom-block-font-size: 13.5px;
+  --vp-custom-block-code-font-size: 12.5px;
+  --vp-custom-block-info-border: var(--sn-line);
+  --vp-custom-block-info-text: var(--sn-ink);
+  --vp-custom-block-info-bg: var(--sn-paper-2);
+  --vp-custom-block-info-code-bg: rgb(38 38 38 / 5%);
+  --vp-custom-block-note-border: var(--sn-line);
+  --vp-custom-block-note-text: var(--sn-ink);
+  --vp-custom-block-note-bg: var(--sn-paper-2);
+  --vp-custom-block-note-code-bg: rgb(38 38 38 / 5%);
+  --vp-custom-block-tip-border: #cfe7f3;
+  --vp-custom-block-tip-text: var(--sn-ink);
+  --vp-custom-block-tip-bg: #eff8fc;
+  --vp-custom-block-tip-code-bg: rgb(60 150 202 / 10%);
+  --vp-custom-block-important-border: #ddd3f2;
+  --vp-custom-block-important-text: var(--sn-ink);
+  --vp-custom-block-important-bg: #f6f2fc;
+  --vp-custom-block-important-code-bg: rgb(120 90 190 / 10%);
+  --vp-custom-block-warning-border: #f0e0bd;
+  --vp-custom-block-warning-text: var(--sn-ink);
+  --vp-custom-block-warning-bg: #fdf8ec;
+  --vp-custom-block-warning-code-bg: rgb(180 130 20 / 10%);
+  --vp-custom-block-danger-border: #f0cdd0;
+  --vp-custom-block-danger-text: var(--sn-ink);
+  --vp-custom-block-danger-bg: #fdf2f3;
+  --vp-custom-block-danger-code-bg: rgb(190 60 70 / 10%);
+  --vp-custom-block-caution-border: var(--vp-custom-block-danger-border);
+  --vp-custom-block-caution-text: var(--sn-ink);
+  --vp-custom-block-caution-bg: var(--vp-custom-block-danger-bg);
+  --vp-custom-block-caution-code-bg: var(--vp-custom-block-danger-code-bg);
+
+  /* ---- VitePress: 布局 ---- */
+  --vp-layout-max-width: 1440px;
+  --vp-nav-height: var(--sn-nav-height);
+  --vp-nav-bg-color: var(--sn-paper);
+  --vp-nav-screen-bg-color: var(--sn-paper);
+  --vp-sidebar-width: 272px;
+  --vp-sidebar-bg-color: var(--sn-paper);
+  --vp-input-border-color: var(--sn-line-strong);
+  --vp-input-bg-color: var(--sn-paper-3);
+
+  /* ---- 首页 ---- */
+  --sn-home-bg: var(--sn-paper);
+  --sn-hero-name-color: #2f6f95;
+}
+
+/* 中文页面不要被默认主题的 Inter4CJK 规则覆盖回去 */
+html[lang]:where(:lang(zh, ja)) {
+  --vp-font-family-base: var(--sn-font-sans);
 }
 
 .dark {
-  --vp-c-sky-1: #49a3d7;
-  --vp-c-sky-2: #58b1e5;
-  --vp-c-sky-3: #58b1e5;
-  --vp-c-sky-soft: #58b1e5;
-}
+  color-scheme: dark;
 
-/**
- * Colors: Function
- *
- * - `default`: The color used purely for subtle indication without any
- *   special meanings attched to it such as bg color for menu hover state.
- *
- * - `brand`: Used for primary brand colors, such as link text, button with
- *   brand theme, etc.
- *
- * - `tip`: Used to indicate useful information. The default theme uses the
- *   brand color for this by default.
- *
- * - `warning`: Used to indicate warning to the users. Used in custom
- *   container, badges, etc.
- *
- * - `danger`: Used to show error, or dangerous message to the users. Used
- *   in custom container, badges, etc.
- *
- * To understand the scaling system, refer to "Colors: Palette" section.
- * -------------------------------------------------------------------------- */
+  --sn-paper: #161618;
+  --sn-paper-2: #1b1b1f;
+  --sn-paper-3: #202127;
+  --sn-ink: #ededed;
+  --sn-ink-2: #a6a6ae;
+  --sn-ink-3: #74747e;
+  --sn-line: #2c2c31;
+  --sn-line-strong: #3a3a41;
+  --sn-accent: #58b1e5;
+  --sn-accent-ink: #7cc4ee;
+  --sn-accent-soft: rgb(88 177 229 / 14%);
+  --sn-shadow: 0 18px 40px -24px rgb(0 0 0 / 55%);
+  --sn-shadow-lift: 0 22px 52px -26px rgb(0 0 0 / 70%);
 
-:root {
-  /* 主色 */
-  --vp-c-brand-1: var(--vp-c-sky-1);
-  --vp-c-brand-2: var(--vp-c-sky-2);
-  --vp-c-brand-3: var(--vp-c-sky-3);
-  --vp-c-brand-soft: var(--vp-c-sky-soft);
-}
+  --vp-c-bg: var(--sn-paper);
+  --vp-c-bg-alt: var(--sn-paper-2);
+  --vp-c-bg-elv: var(--sn-paper-3);
+  --vp-c-bg-soft: var(--sn-paper-2);
 
-/**
- * Component: Home
- * -------------------------------------------------------------------------- */
+  --vp-c-text-1: var(--sn-ink);
+  --vp-c-text-2: var(--sn-ink-2);
+  --vp-c-text-3: var(--sn-ink-3);
 
-:root {
-  --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(
-    120deg,
-    #8d6fc7 40%,
-    #4fc4d8
-  );
-  --vp-home-hero-image-background-image: linear-gradient(
-    -45deg,
-    #8d73bf90 30%,
-    #d6c0e890
-  );
-  --vp-home-hero-image-filter: blur(30px);
-}
+  --vp-c-border: var(--sn-line-strong);
+  --vp-c-divider: var(--sn-line);
+  --vp-c-gutter: #101012;
+  --vp-c-gray-1: #3a3a41;
+  --vp-c-gray-2: #2c2c31;
+  --vp-c-gray-3: #242429;
+  --vp-c-gray-soft: rgb(255 255 255 / 6%);
+  --vp-c-default-1: var(--vp-c-gray-1);
+  --vp-c-default-2: var(--vp-c-gray-2);
+  --vp-c-default-3: var(--vp-c-gray-3);
+  --vp-c-default-soft: var(--vp-c-gray-soft);
 
-@media (min-width: 640px) {
-  :root {
-    --vp-home-hero-image-filter: blur(56px);
-  }
-}
+  --vp-c-brand-1: #7cc4ee;
+  --vp-c-brand-2: #58b1e5;
+  --vp-c-brand-3: #49a3d7;
+  --vp-c-brand-soft: var(--sn-accent-soft);
+  --vp-c-brand: var(--vp-c-brand-1);
+  --vp-c-tip-1: var(--vp-c-brand-1);
+  --vp-c-tip-2: var(--vp-c-brand-2);
+  --vp-c-tip-3: var(--vp-c-brand-3);
+  --vp-c-tip-soft: var(--vp-c-brand-soft);
+  --vp-c-note-1: var(--vp-c-brand-1);
+  --vp-c-note-2: var(--vp-c-brand-2);
+  --vp-c-note-3: var(--vp-c-brand-3);
+  --vp-c-note-soft: var(--vp-c-brand-soft);
 
-@media (min-width: 960px) {
-  :root {
-    --vp-home-hero-image-filter: blur(72px);
-  }
-}
+  --vp-code-color: var(--vp-c-brand-1);
+  --vp-code-bg: rgb(255 255 255 / 7%);
+  --vp-code-block-bg: #1b1b1f;
+  --vp-code-block-color: var(--sn-ink-2);
+  --vp-code-block-divider-color: var(--sn-line);
+  --vp-code-lang-color: var(--sn-ink-3);
+  --vp-code-line-highlight-color: rgb(88 177 229 / 10%);
+  --vp-code-line-number-color: var(--sn-ink-3);
+  --vp-code-copy-code-border-color: var(--sn-line);
+  --vp-code-copy-code-bg: var(--sn-paper-3);
+  --vp-code-copy-code-hover-border-color: var(--sn-line-strong);
+  --vp-code-copy-code-hover-bg: var(--sn-paper-2);
+  --vp-code-copy-code-active-text: var(--sn-ink-2);
+  --vp-code-tab-divider: var(--sn-line);
+  --vp-code-tab-text-color: var(--sn-ink-2);
+  --vp-code-tab-bg: var(--sn-paper-2);
+  --vp-code-tab-hover-text-color: var(--sn-ink);
+  --vp-code-tab-active-text-color: var(--sn-ink);
+  --vp-code-tab-active-bar-color: var(--sn-accent);
 
-/**
- * Component: Badge
- * -------------------------------------------------------------------------- */
-:root {
-  /* 配置一下 tips 的自定义块的颜色为非默认的产品色，避免与文字不兼容导致可读性下降 */
-  --vp-custom-block-tip-bg: #def4f4;
-  --vp-custom-block-tip-code-bg: #cbd9dd7d;
-}
+  --vp-button-brand-text: #161618;
+  --vp-button-brand-bg: #ededed;
+  --vp-button-brand-hover-text: #161618;
+  --vp-button-brand-hover-bg: #ffffff;
+  --vp-button-brand-active-text: #161618;
+  --vp-button-brand-active-bg: #d9d9d9;
+  --vp-button-alt-border: var(--sn-line-strong);
+  --vp-button-alt-text: var(--sn-ink);
+  --vp-button-alt-bg: transparent;
+  --vp-button-alt-hover-border: var(--sn-ink-3);
+  --vp-button-alt-hover-text: var(--sn-ink);
+  --vp-button-alt-hover-bg: rgb(255 255 255 / 5%);
+  --vp-button-alt-active-border: var(--sn-ink-2);
+  --vp-button-alt-active-text: var(--sn-ink);
+  --vp-button-alt-active-bg: rgb(255 255 255 / 8%);
 
-.dark:root {
-  /* 配置一下在暗色模式下 tips 的自定义块的颜色为非默认的产品色，避免与文字不兼容导致可读性下降 */
-  --vp-custom-block-tip-bg: #02474e;
-  --vp-custom-block-tip-code-bg: #0d1e1e9c;
-}
+  --vp-custom-block-info-border: var(--sn-line);
+  --vp-custom-block-info-bg: var(--sn-paper-2);
+  --vp-custom-block-info-code-bg: rgb(255 255 255 / 7%);
+  --vp-custom-block-note-border: var(--sn-line);
+  --vp-custom-block-note-bg: var(--sn-paper-2);
+  --vp-custom-block-note-code-bg: rgb(255 255 255 / 7%);
+  --vp-custom-block-tip-border: #234a5c;
+  --vp-custom-block-tip-bg: #142a33;
+  --vp-custom-block-tip-code-bg: rgb(88 177 229 / 12%);
+  --vp-custom-block-important-border: #3c3158;
+  --vp-custom-block-important-bg: #241d33;
+  --vp-custom-block-important-code-bg: rgb(150 120 220 / 12%);
+  --vp-custom-block-warning-border: #4a3d21;
+  --vp-custom-block-warning-bg: #2b2415;
+  --vp-custom-block-warning-code-bg: rgb(210 160 40 / 12%);
+  --vp-custom-block-danger-border: #4d2a2d;
+  --vp-custom-block-danger-bg: #2c1a1c;
+  --vp-custom-block-danger-code-bg: rgb(230 90 100 / 12%);
+  --vp-custom-block-caution-border: var(--vp-custom-block-danger-border);
+  --vp-custom-block-caution-bg: var(--vp-custom-block-danger-bg);
+  --vp-custom-block-caution-code-bg: var(--vp-custom-block-danger-code-bg);
 
-:root {
-  --vp-nolebase-highlight-targeted-heading-bg: rgba(253, 216, 95, 0.31);
+  --vp-nav-bg-color: var(--sn-paper);
+  --vp-nav-screen-bg-color: var(--sn-paper);
+  --vp-sidebar-bg-color: var(--sn-paper);
+  --vp-input-border-color: var(--sn-line-strong);
+  --vp-input-bg-color: var(--sn-paper-2);
+
+  --sn-home-bg: #161618;
+  --sn-hero-name-color: #8d6fc7;
 }

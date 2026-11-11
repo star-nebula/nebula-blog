@@ -14,4 +14,6 @@ nolebase:
 import { data } from './toc.data'
 </script>
 
-<NolebaseRecentUpdates :data="data" />
+<div class="recent-list">
+  <NolebaseRecentUpdates :data="data" />
+</div>

@@ -15,6 +15,7 @@ import Share from './components/Share.vue'
 import 'virtual:uno.css'
 import '../styles/main.css'
 import '../styles/vars.css'
+import '../styles/design.css'
 
 const nolebase = presetClient({
   gitChangelog: false,
@@ -39,8 +40,10 @@ const ExtendedTheme: Theme = {
 
     return h(DefaultTheme.Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
-      'doc-top': () => [
+      'doc-before': () => [
         h(PageMeta),
+      ],
+      'doc-top': () => [
         ...slots['doc-top'].map(slot => slot()),
       ],
       'doc-footer-before': () => [
