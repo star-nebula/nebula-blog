@@ -474,12 +474,83 @@ body:has(.VPHome) .VPNavBar.top .divider-line {
   }
 }
 
-/* 顶栏在首页壁纸上时加一层极轻的文字阴影，保证可读性 */
-html.dark body:has(.VPHome) .VPNavBar.top .title,
-html.dark body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink,
-html.dark body:has(.VPHome) .VPNavBar.top .VPNavBarExtra,
-html.dark body:has(.VPHome) .VPNavBar.top .copy {
+/* 顶栏压在首页壁纸上：阴影保证可读；浅色主题把墨字翻成亮字 */
+body:has(.VPHome) .VPNavBar.top .title,
+body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink,
+body:has(.VPHome) .VPNavBar.top .VPNavBarExtra,
+body:has(.VPHome) .VPNavBar.top .copy,
+body:has(.VPHome) .VPNavBar.top .VPNavBarHamburger {
   text-shadow: 0 1px 3px rgb(0 0 0 / 60%);
+}
+
+html:not(.dark) body:has(.VPHome) .VPNavBar.top .title,
+html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink,
+html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarExtra,
+html:not(.dark) body:has(.VPHome) .VPNavBar.top .copy,
+html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarHamburger,
+html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPSocialLink,
+html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPSwitchAppearance {
+  color: #fff;
+}
+
+html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink:hover {
+  background: rgb(255 255 255 / 14%);
+}
+
+html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink.active {
+  color: #fff;
+  background: rgb(255 255 255 / 18%);
+}
+
+html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton {
+  border-color: rgb(255 255 255 / 34%);
+  color: #fff;
+  background: rgb(255 255 255 / 8%);
+}
+
+html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .text,
+html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
+  color: rgb(255 255 255 / 80%);
+}
+
+/* ≤768 主题把顶栏放回文档流，壁纸不再从它背后穿过：
+   浅色首页顶栏恢复纸底墨字，否则白字压在纸白上等于消失 */
+@media (max-width: 768px) {
+  html:not(.dark) body:has(.VPHome) .VPNavBar.top {
+    background: var(--sn-paper);
+    border-bottom: 1px solid var(--vp-c-divider);
+  }
+
+  html:not(.dark) body:has(.VPHome) .VPNavBar.top .title,
+  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink,
+  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarExtra,
+  html:not(.dark) body:has(.VPHome) .VPNavBar.top .copy,
+  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarHamburger,
+  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPSocialLink,
+  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPSwitchAppearance {
+    color: var(--vp-c-text-1);
+    text-shadow: none;
+  }
+
+  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink:hover {
+    background: color-mix(in srgb, var(--vp-c-text-1) 6%, transparent);
+  }
+
+  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink.active {
+    color: var(--vp-c-text-1);
+    background: color-mix(in srgb, var(--vp-c-text-1) 8%, transparent);
+  }
+
+  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton {
+    border-color: var(--vp-c-divider);
+    color: var(--vp-c-text-2);
+    background: transparent;
+  }
+
+  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .text,
+  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
+    color: var(--vp-c-text-3);
+  }
 }
 
 /* ==========================================================================
@@ -1064,18 +1135,9 @@ body:has(.VPHome) {
   order: 1;
 }
 
-/* 浅色：纸感，无壁纸、无动画 */
-html:not(.dark) .VPHomeHero {
-  min-height: auto;
-  padding: clamp(88px, 12vw, 148px) 24px clamp(64px, 8vw, 96px);
-  background:
-    radial-gradient(780px 420px at 86% 8%, rgb(60 150 202 / 9%), transparent 70%),
-    var(--sn-paper);
-  border-bottom: 1px solid var(--vp-c-divider);
-}
-
-/* 暗色：保留星空壁纸 */
-html.dark .VPHomeHero::before {
+/* 壁纸是用户原本的主题图片：两种主题都在首页 Hero 铺满。
+   文字因此统一转亮色，下方内容区仍各自跟随纸感 / 星空。 */
+.VPHomeHero::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -1084,19 +1146,17 @@ html.dark .VPHomeHero::before {
   background-color: var(--sn-home-bg);
 }
 
-html.dark .VPHomeHero::after {
+.VPHomeHero::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   background:
+    /* 文字侧柔和暗角：radial 没有硬边，不会在壁纸上切出矩形 */
+    radial-gradient(58% 76% at 26% 52%, rgb(18 18 20 / 44%), rgb(18 18 20 / 14%) 64%, transparent 80%),
     linear-gradient(180deg, rgb(18 18 20 / 12%), rgb(18 18 20 / 38%)),
-    linear-gradient(90deg, rgb(18 18 20 / 55%), rgb(18 18 20 / 24%) 46%, transparent 72%);
-}
-
-html:not(.dark) .VPHomeHero::before {
-  display: none;
+    linear-gradient(90deg, rgb(18 18 20 / 40%), rgb(18 18 20 / 16%) 46%, transparent 72%);
 }
 
 .VPHomeHero > .container {
@@ -1112,37 +1172,27 @@ html:not(.dark) .VPHomeHero::before {
   max-width: 780px !important;
 }
 
-/* 暗色下在文字区叠一层很轻的左向 scrim：
-   聚光灯 canvas 是半透明遮罩，这一层保证标题在复杂壁纸上仍然清楚。 */
-html.dark .VPHomeHero > .container::before {
-  content: '';
-  position: absolute;
-  inset: -96px 0 -72px 0;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(90deg, rgb(18 18 20 / 38%), rgb(18 18 20 / 16%) 52%, transparent 76%);
-}
-
-/* 标题：浅色用可读的 Albert Sans；Tengwar 作为小装饰保留 */
+/* 标题：壁纸之上统一用 Albert Sans + 亮字 */
 .VPHomeHero .heading {
   font-family: var(--sn-font-sans);
   letter-spacing: -0.03em;
 }
 
-html:not(.dark) .VPHomeHero .name {
+/* Tengwar 作为大号装饰名，两种主题都显示；单行不折 */
+.VPHomeHero .name,
+.VPHomeHero .name .clip {
   display: block;
-  margin-bottom: 10px;
+  max-width: none;
   font-family: 'tengwarannatar-bold';
-  font-size: 20px;
-  line-height: 1;
-  letter-spacing: 0.06em;
-  opacity: 0.55;
-}
-
-html.dark .VPHomeHero .name {
-  font-family: 'tengwarannatar-bold';
-  font-size: clamp(64px, 8vw, 108px);
+  font-size: clamp(56px, 7vw, 96px);
   line-height: 0.95;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: #fff;
+  background: none;
+  -webkit-text-fill-color: #fff;
+  opacity: 0.72;
+  text-shadow: 0 2px 24px rgb(0 0 0 / 30%);
 }
 
 .VPHomeHero .text,
@@ -1153,18 +1203,14 @@ html.dark .VPHomeHero .name {
 .VPHomeHero .text {
   padding-top: 0;
   font-family: var(--sn-font-sans);
-  font-size: clamp(38px, 4.6vw, 60px);
+  font-size: clamp(34px, 4.4vw, 58px);
   font-weight: 600;
   line-height: 1.06;
   letter-spacing: -0.035em;
-  color: var(--vp-c-text-1);
+  color: #fff;
+  text-shadow: 0 2px 24px rgb(0 0 0 / 28%);
   background: none;
   -webkit-text-fill-color: currentColor;
-}
-
-html.dark .VPHomeHero .text {
-  font-size: clamp(34px, 4.4vw, 58px);
-  text-shadow: 0 2px 24px rgb(0 0 0 / 28%);
 }
 
 /* 默认主题给 .text 限了 576px；中文大标题需要按容器宽度自然断行 */
@@ -1177,11 +1223,7 @@ html.dark .VPHomeHero .text {
   padding-top: 22px;
   font-size: 16px;
   line-height: 1.75;
-  color: var(--vp-c-text-2);
-}
-
-html.dark .VPHomeHero .tagline {
-  color: #c9c9d1;
+  color: #d7d7de;
 }
 
 .VPHomeHero .actions {
@@ -1215,43 +1257,18 @@ html.dark .VPHomeHero .tagline {
 }
 
 .VPHomeHero .actions .VPButton.alt {
-  border: 1px solid var(--sn-line-strong);
+  border: 1px solid rgb(255 255 255 / 38%);
   background: transparent;
-  color: var(--vp-c-text-1);
+  color: #fff;
 }
 
 .VPHomeHero .actions .VPButton.alt:hover {
-  border-color: var(--vp-c-text-3);
-  background: rgb(127 127 127 / 6%);
-}
-
-html.dark .VPHomeHero .actions .VPButton.alt {
-  border-color: #3a3a41;
-  color: #ededed;
-}
-
-/* Logo / 书本 */
-.VPHomeHero .image {
-  flex: 0 0 auto;
-  margin-left: 48px;
-}
-
-.VPHomeHero .image-container {
-  width: clamp(220px, 26vw, 340px);
-  height: clamp(220px, 26vw, 340px);
-}
-
-.VPHomeHero .image-bg {
-  opacity: 0.6;
-}
-
-.VPHomeHero .image-src {
-  max-width: clamp(180px, 22vw, 300px);
-  max-height: clamp(180px, 22vw, 300px);
+  border-color: rgb(255 255 255 / 66%);
+  background: rgb(255 255 255 / 10%);
 }
 
 /* 滚动提示（纯 CSS，无额外 DOM/JS） */
-html.dark .VPHomeHero .container::after {
+.VPHomeHero .container::after {
   content: '';
   position: absolute;
   bottom: -28px;
@@ -1271,13 +1288,20 @@ html.dark .VPHomeHero .container::after {
     max-width: 100%;
   }
 
-  .VPHomeHero .image {
-    display: none;
+  .VPHomeHero .name {
+    font-size: clamp(40px, 9vw, 64px);
   }
 
-  html.dark .VPHomeHero {
+  .VPHomeHero {
     min-height: auto;
     padding: calc(var(--vp-nav-height) + 72px) 24px 64px;
+  }
+}
+
+/* ≤768 顶栏已回到文档流，Hero 不再需要为它让出 54px */
+@media (max-width: 768px) {
+  .VPHomeHero {
+    padding: 64px 24px 64px;
   }
 }
 

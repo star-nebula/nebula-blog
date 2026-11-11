@@ -9,9 +9,6 @@ hero:
   name: Star Nebula
   text: 记录回忆，知识和畅想的地方
   tagline: 记忆有界，知识无疆
-  image:
-    src: /logo.svg
-    alt: Star Nebula
   actions:
     - theme: brand
       text: 开始阅读
