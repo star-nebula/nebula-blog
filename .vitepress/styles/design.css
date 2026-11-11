@@ -62,34 +62,115 @@ body {
    ========================================================================== */
 
 .VPNavBar {
+  height: var(--vp-nav-height);
   border-bottom: 1px solid transparent;
   transition:
     background-color var(--sn-dur-slow) var(--sn-ease),
     border-color var(--sn-dur-slow) var(--sn-ease);
 }
 
-.VPNavBar .container {
-  max-width: 1440px;
+/* 三段式顶栏（对齐 open-design.ai）：链接靠左、站点名绝对居中、操作靠右。
+   顶栏横向铺满，只留 32px 边距；不再跟随侧栏宽度偏移。
+   内边距只由 .container 提供：主题给 .wrapper 也加了 32px，会叠成 64px。 */
+.VPNavBar > .wrapper {
+  padding: 0 !important;
 }
 
-.VPNavBar .title {
-  font-size: 15px;
-  font-weight: 600;
+.VPNavBar .container,
+.VPNavBar.has-sidebar .container {
+  max-width: none !important;
+  padding: 0 32px !important;
+  position: relative;
+}
+
+/* 站点名：只作用于最外层 .title 容器，绝对居中（内层 <a class="title"> 不受影响） */
+.VPNavBar > .wrapper > .container > .title {
+  position: absolute !important;
+  top: 0;
+  left: 50% !important;
+  /* content-body 自建层叠上下文并覆盖整条顶栏，站点名必须抬到它之上 */
+  z-index: 5;
+  width: max-content !important;
+  height: var(--vp-nav-height);
+  margin: 0;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-50%) !important;
+  white-space: nowrap;
+}
+
+.VPNavBar .VPNavBarTitle,
+.VPNavBar .VPNavBarTitle.has-sidebar {
+  height: 100%;
+  padding: 0 !important;
+}
+
+.VPNavBar .VPNavBarTitle .title {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-size: 17px;
+  font-weight: 700;
   letter-spacing: -0.01em;
+}
+
+.VPNavBar.has-sidebar .content,
+.VPNavBar .content {
+  padding-left: 0 !important;
+}
+
+.VPNavBar.has-sidebar .divider {
+  display: none !important;
+}
+
+/* nolebae 的布局开关在 ≥1280 用 6 类选择器 + !important 把顶栏内容锁在侧栏右侧，
+   与三段式顶栏冲突。这里用同权重更高的选择器解除（重复类名只为提高特异度）。 */
+html[lang] body .VPNavBar.has-sidebar > .wrapper > .container > .content.content.content {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+html[lang] body .VPNavBar.has-sidebar > .wrapper > .container > .title.title.title {
+  width: max-content !important;
+  padding-left: 0 !important;
+}
+
+html[lang] body .VPNavBar > .wrapper > .container.container {
+  max-width: none !important;
 }
 
 .VPNavBar .title .logo {
   height: 22px;
 }
 
-/* 顶部：内容页用实色，首页让壁纸/纸面透过来 */
+/* 顶栏内容本身：一行 flex，左链接 + 右侧操作，全部 34px 高。
+   主题给 content-body 加了 padding-right: 100vw（为了全宽搜索），这里收回，
+   否则内容盒宽度为 0，右侧操作无法靠右。 */
+.VPNavBar .content-body {
+  width: 100% !important;
+  height: var(--vp-nav-height);
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+}
+
+/* 顶部：内容页用实色，首页让壁纸/纸面透过来。
+   背景只放在顶栏本身，content-body 保持透明，否则会盖住居中的站点名。 */
 .VPNavBar.top,
-.VPNavBar.top .content-body {
+.VPNavBar .content-body {
+  background: transparent;
+}
+
+.VPNavBar.top {
   background: var(--vp-c-bg);
 }
 
 body:has(.VPHome) .VPNavBar.top,
-body:has(.VPHome) .VPNavBar.top .content-body,
 body:has(.VPHome) .VPNavBar.top .divider-line {
   background: transparent;
   box-shadow: none;
@@ -114,46 +195,54 @@ body:has(.VPHome) .VPNavBar.top .divider-line {
   }
 }
 
-.VPNavBarMenu {
-  gap: 4px;
+.VPNavBar .content-body .VPNavBarMenu {
+  order: 1;
+  gap: 2px;
+  margin-right: auto;
 }
 
-.VPNavBarMenuLink {
+.VPNavBar .content-body .VPNavBarMenuLink {
   position: relative;
-  padding: 0 6px;
+  padding: 7px 12px !important;
+  border-radius: 9px;
   font-size: 14px;
   font-weight: 500;
+  line-height: 1.3 !important;
   color: var(--vp-c-text-2);
-  transition: color var(--sn-dur) var(--sn-ease);
+  transition:
+    color var(--sn-dur) var(--sn-ease),
+    background-color var(--sn-dur) var(--sn-ease);
 }
 
-.VPNavBarMenuLink:hover,
-.VPNavBarMenuLink.active {
+.VPNavBar .content-body .VPNavBarMenuLink:hover {
   color: var(--vp-c-text-1);
+  background: color-mix(in srgb, var(--vp-c-text-1) 6%, transparent);
 }
 
-.VPNavBarMenuLink.active::after {
-  content: '';
-  position: absolute;
-  right: 6px;
-  bottom: -20px;
-  left: 6px;
-  height: 1px;
-  background: var(--vp-c-brand-2);
+.VPNavBar .content-body .VPNavBarMenuLink.active {
+  color: var(--vp-c-text-1);
+  background: color-mix(in srgb, var(--vp-c-text-1) 8%, transparent);
 }
 
-/* 搜索框保持紧凑的胶囊，不随 flex 撑满整个顶栏 */
-@media (min-width: 960px) {
-  .VPNavBarSearch {
-    flex-grow: 0;
-    width: 248px;
-    max-width: 248px;
-  }
+.VPNavBar .content-body .VPNavBarMenuLink.active::after {
+  content: none;
 }
 
-.VPNavBarSearchButton {
+/* 搜索：与右侧操作同高的胶囊，宽度跟随内容 */
+.VPNavBar .content-body .VPNavBarSearch {
+  order: 2;
+  flex-grow: 0 !important;
+  width: auto !important;
+  max-width: none !important;
+  padding-left: 0 !important;
+  margin-right: 4px;
+}
+
+.VPNavBar .content-body .VPNavBarSearchButton {
+  width: auto !important;
   height: 34px;
   padding: 0 12px;
+  gap: 6px;
   border: 1px solid var(--vp-c-divider);
   border-radius: var(--sn-radius-pill);
   background: transparent;
@@ -189,25 +278,100 @@ body:has(.VPHome) .VPNavBar.top .divider-line {
   line-height: 16px;
 }
 
-.VPSwitchAppearance {
+/* 右侧操作统一成 34px 圆形图标按钮 */
+.VPNavBar .content-body .VPNavBarAppearance {
+  order: 3;
+  width: auto;
+  padding: 0;
+  margin: 0 2px;
+}
+
+/* 去掉主题在搜索/主题开关/GitHub 之间画的 1px 竖线，open-design 顶栏没有分隔线 */
+.VPNavBar .content-body .VPNavBarAppearance::before,
+.VPNavBar .content-body .VPNavBarSocialLinks::before {
+  content: none;
+}
+
+.VPNavBar .content-body .VPSwitchAppearance {
   width: 34px;
-  height: 20px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  transition: background-color var(--sn-dur) var(--sn-ease);
 }
 
-.VPSocialLink {
+.VPNavBar .content-body .VPSwitchAppearance:hover {
+  border: 0;
+  background: color-mix(in srgb, var(--vp-c-text-1) 6%, transparent);
+}
+
+/* 把开关的滑块摊平成整块按钮，只保留日/月图标 */
+.VPNavBar .content-body .VPSwitchAppearance .check {
+  inset: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: none;
+  transform: none !important;
+}
+
+.VPNavBar .content-body .VPSwitchAppearance .icon {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.VPNavBar .content-body .VPSwitchAppearance .icon [class^='vpi-'] {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 17px;
+  height: 17px;
+  transform: translate(-50%, -50%);
+}
+
+.VPNavBar .content-body .VPNavBarSocialLinks {
+  order: 4;
+}
+
+.VPNavBar .content-body .VPSocialLinks {
+  gap: 2px;
+}
+
+.VPNavBar .content-body .VPSocialLink {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
   color: var(--vp-c-text-3);
-  transition: color var(--sn-dur) var(--sn-ease);
+  transition:
+    color var(--sn-dur) var(--sn-ease),
+    background-color var(--sn-dur) var(--sn-ease);
 }
 
-.VPSocialLink:hover {
+.VPNavBar .content-body .VPSocialLink:hover {
   color: var(--vp-c-text-1);
+  background: color-mix(in srgb, var(--vp-c-text-1) 6%, transparent);
 }
 
-/* 分享按钮（Share.vue）与导航风格对齐 */
-.VPNavBar .copy {
-  height: 32px;
-  padding: 0 10px;
-  border-radius: var(--sn-radius-pill);
+.VPNavBar .content-body .VPNavBarExtra {
+  order: 5;
+}
+
+/* 分享：图标按钮；复制成功后图标变对勾，不再占一段文字宽度 */
+.VPNavBar .content-body .copy {
+  order: 6;
+  width: 34px !important;
+  height: 34px !important;
+  padding: 0 !important;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
   font-family: var(--vp-font-family-base);
   font-size: 12.5px;
   font-weight: 500;
@@ -217,9 +381,97 @@ body:has(.VPHome) .VPNavBar.top .divider-line {
     background-color var(--sn-dur) var(--sn-ease);
 }
 
-.VPNavBar .copy:hover {
+.VPNavBar .content-body .copy:hover {
   color: var(--vp-c-text-1);
-  background: var(--vp-c-bg-soft);
+  background: color-mix(in srgb, var(--vp-c-text-1) 6%, transparent);
+}
+
+.VPNavBar .content-body .copy .share-label {
+  gap: 0;
+}
+
+.VPNavBar .content-body .copy .share-label > span:last-child {
+  display: none;
+}
+
+/* 阅读增强（布局 / 聚光灯）也收进同一套 34px 图标按钮 */
+.VPNavBar .content-body .VPNolebaseEnhancedReadabilitiesMenu {
+  order: 7;
+  width: 34px;
+}
+
+.VPNavBar .content-body .VPNolebaseEnhancedReadabilitiesMenu > .button {
+  width: 34px !important;
+  height: 34px !important;
+  padding: 0 !important;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  transition: background-color var(--sn-dur) var(--sn-ease);
+}
+
+.VPNavBar .content-body .VPNolebaseEnhancedReadabilitiesMenu > .button:hover {
+  background: color-mix(in srgb, var(--vp-c-text-1) 6%, transparent);
+}
+
+/* 收起下拉箭头，保持和其他图标按钮同宽 */
+.VPNavBar .content-body .VPNolebaseEnhancedReadabilitiesMenu > .button .vpi-chevron-down {
+  display: none;
+}
+
+.VPNavBar .content-body .VPNavBarHamburger {
+  order: 9;
+}
+
+/* 中等宽度：搜索收成图标，给居中的站点名让位 */
+@media (max-width: 1100px) {
+  .VPNavBar .content-body .VPNavBarSearchButton {
+    width: 34px !important;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .VPNavBar .content-body .VPNavBarSearchButton .text,
+  .VPNavBar .content-body .VPNavBarSearchButton .keys {
+    display: none;
+  }
+}
+
+/* 手机：站点名回到左侧、不再绝对居中，搜索与操作靠右 */
+@media (max-width: 767px) {
+  .VPNavBar > .wrapper > .container > .title {
+    position: static !important;
+    transform: none !important;
+    width: auto !important;
+    height: auto !important;
+    margin-right: auto;
+  }
+
+  .VPNavBar .VPNavBarTitle .title {
+    font-size: 15px;
+  }
+
+  .VPNavBar .content-body .VPNavBarSearch {
+    margin-left: auto;
+  }
+
+  .VPNavBar .content-body .VPNavBarHamburger {
+    margin-left: 2px;
+  }
+}
+
+/* 超窄手机（≤380）：站点名与右侧三个按钮几乎贴在一起，收一点字与汉堡命中区 */
+@media (max-width: 380px) {
+  .VPNavBar .VPNavBarTitle .title {
+    font-size: 14px;
+    letter-spacing: -0.02em;
+  }
+
+  .VPNavBar .content-body .VPNavBarHamburger {
+    width: 40px;
+    min-width: 40px;
+    padding: 0 8px;
+  }
 }
 
 /* 顶栏在首页壁纸上时加一层极轻的文字阴影，保证可读性 */
