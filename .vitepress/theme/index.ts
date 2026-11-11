@@ -70,6 +70,40 @@ const ExtendedTheme: Theme = {
 
     await nolebase?.enhanceApp?.(ctx)
 
+    /**
+     * 部署后旧页面可能仍持有过期的 page hash map：客户端路由会加载不到新页面，
+     * 静默退回 404 视图，表现为「点了顶栏链接但没跳过去」。
+     * 顶栏链接都指向确定存在的页面，所以落到 404 就整页跳转一次自愈。
+     * 同一次点击只兜底一次，避免真的 404 链接被反复刷新。
+     */
+    if (typeof window !== 'undefined') {
+      const RETRY_KEY = 'sn-nav-retry'
+
+      window.addEventListener('click', (event) => {
+        const target = event.target
+        if (!(target instanceof Element))
+          return
+        const link = target.closest<HTMLAnchorElement>('.VPNavBar a[href], .VPNavScreen a[href]')
+        if (!link || link.hasAttribute('target'))
+          return
+        const { href } = link
+
+        window.setTimeout(() => {
+          if (!document.querySelector('.NotFound'))
+            return
+          try {
+            if (sessionStorage.getItem(RETRY_KEY) === href)
+              return
+            sessionStorage.setItem(RETRY_KEY, href)
+          }
+          catch {
+            // 隐私模式下 sessionStorage 不可用：仍然兜底一次
+          }
+          window.location.assign(href)
+        }, 1200)
+      }, { capture: true })
+    }
+
     app.component('HomePage', HomePage)
     app.component('DocFooter', DocFooter)
     app.component('KnowledgeExplorer', KnowledgeExplorer)

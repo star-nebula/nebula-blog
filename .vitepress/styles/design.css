@@ -243,22 +243,23 @@ body:has(.VPHome) .VPNavBar.top .divider-line {
   height: 34px;
   padding: 0 12px;
   gap: 6px;
-  border: 1px solid var(--vp-c-divider);
+  border: 1px solid var(--sn-line-strong);
   border-radius: var(--sn-radius-pill);
   background: transparent;
+  color: var(--vp-c-text-2);
   transition:
     border-color var(--sn-dur) var(--sn-ease),
     background-color var(--sn-dur) var(--sn-ease);
 }
 
 .VPNavBarSearchButton:hover {
-  border-color: var(--sn-line-strong);
+  border-color: var(--vp-c-text-3);
   background: var(--vp-c-bg-soft);
 }
 
 .VPNavBarSearchButton .text {
   font-size: 13px;
-  color: var(--vp-c-text-3);
+  color: var(--vp-c-text-2);
 }
 
 .VPNavBarSearchButton .keys {
@@ -272,7 +273,7 @@ body:has(.VPHome) .VPNavBar.top .divider-line {
   border: 1px solid var(--vp-c-divider);
   border-radius: 4px;
   background: var(--vp-c-bg-soft);
-  color: var(--vp-c-text-3);
+  color: var(--vp-c-text-2);
   font-family: var(--vp-font-family-base);
   font-size: 10px;
   line-height: 16px;
@@ -347,7 +348,7 @@ body:has(.VPHome) .VPNavBar.top .divider-line {
   width: 34px;
   height: 34px;
   border-radius: 999px;
-  color: var(--vp-c-text-3);
+  color: var(--vp-c-text-1);
   transition:
     color var(--sn-dur) var(--sn-ease),
     background-color var(--sn-dur) var(--sn-ease);
@@ -375,7 +376,7 @@ body:has(.VPHome) .VPNavBar.top .divider-line {
   font-family: var(--vp-font-family-base);
   font-size: 12.5px;
   font-weight: 500;
-  color: var(--vp-c-text-3);
+  color: var(--vp-c-text-1);
   transition:
     color var(--sn-dur) var(--sn-ease),
     background-color var(--sn-dur) var(--sn-ease);
@@ -400,6 +401,12 @@ body:has(.VPHome) .VPNavBar.top .divider-line {
   width: 34px;
 }
 
+/* 插件在这枚按钮前面还画了一条 1px 竖线（左右各 8px 外边距），
+   在 34px 的容器里会把按钮挤成 19px，一并去掉 */
+.VPNavBar .content-body .VPNolebaseEnhancedReadabilitiesMenuFlyout::before {
+  content: none;
+}
+
 .VPNavBar .content-body .VPNolebaseEnhancedReadabilitiesMenu > .button {
   width: 34px !important;
   height: 34px !important;
@@ -417,6 +424,24 @@ body:has(.VPHome) .VPNavBar.top .divider-line {
 /* 收起下拉箭头，保持和其他图标按钮同宽 */
 .VPNavBar .content-body .VPNolebaseEnhancedReadabilitiesMenu > .button .vpi-chevron-down {
   display: none;
+}
+
+/* VPFlyout 的面板从 top: calc(nav/2 + 20px) 落下。按钮被压成 34px 后，
+   按钮底到面板顶之间空出 13px 不可 hover 的缝，鼠标一过就触发 mouseleave 把面板收起，
+   表现为「设置刚打开就消失，调不了」。把 flyout 根元素撑满整条顶栏，缝隙就落在 hover 区域内。 */
+.VPNavBar .content-body .VPFlyout {
+  height: var(--vp-nav-height);
+  display: flex;
+  align-items: center;
+}
+
+/* VitePress 默认面板靠 hover 打开；hover 已经打开时再点一下会把 aria-expanded 翻成 false，
+   而隐藏规则的优先级高于 :hover，面板会当场消失。让 hover 始终优先：鼠标在按钮/面板上就一直可调，
+   移开才收起。 */
+.VPNavBar .content-body .VPFlyout:hover .menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .VPNavBar .content-body .VPNavBarHamburger {
@@ -483,73 +508,74 @@ body:has(.VPHome) .VPNavBar.top .VPNavBarHamburger {
   text-shadow: 0 1px 3px rgb(0 0 0 / 60%);
 }
 
-html:not(.dark) body:has(.VPHome) .VPNavBar.top .title,
-html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink,
-html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarExtra,
-html:not(.dark) body:has(.VPHome) .VPNavBar.top .copy,
-html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarHamburger,
-html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPSocialLink,
-html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPSwitchAppearance {
+body:has(.VPHome) .VPNavBar.top .title,
+body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink,
+body:has(.VPHome) .VPNavBar.top .VPNavBarExtra,
+body:has(.VPHome) .VPNavBar.top .copy,
+body:has(.VPHome) .VPNavBar.top .VPNavBarHamburger,
+body:has(.VPHome) .VPNavBar.top .VPSocialLink,
+body:has(.VPHome) .VPNavBar.top .VPSwitchAppearance {
   color: #fff;
 }
 
-html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink:hover {
+body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink:hover {
   background: rgb(255 255 255 / 14%);
 }
 
-html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink.active {
+body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink.active {
   color: #fff;
   background: rgb(255 255 255 / 18%);
 }
 
-html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton {
+body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton {
   border-color: rgb(255 255 255 / 34%);
   color: #fff;
   background: rgb(255 255 255 / 8%);
 }
 
-html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .text,
-html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
+body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .text,
+body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
   color: rgb(255 255 255 / 80%);
 }
 
 /* ≤768 主题把顶栏放回文档流，壁纸不再从它背后穿过：
-   浅色首页顶栏恢复纸底墨字，否则白字压在纸白上等于消失 */
+   首页顶栏固定用亮色模式那一套（纸底墨字），不跟随暗色主题，
+   否则白字压在纸白上等于消失 */
 @media (max-width: 768px) {
-  html:not(.dark) body:has(.VPHome) .VPNavBar.top {
-    background: var(--sn-paper);
-    border-bottom: 1px solid var(--vp-c-divider);
+  body:has(.VPHome) .VPNavBar.top {
+    background: #fafafa;
+    border-bottom: 1px solid #e2e2df;
   }
 
-  html:not(.dark) body:has(.VPHome) .VPNavBar.top .title,
-  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink,
-  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarExtra,
-  html:not(.dark) body:has(.VPHome) .VPNavBar.top .copy,
-  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarHamburger,
-  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPSocialLink,
-  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPSwitchAppearance {
-    color: var(--vp-c-text-1);
+  body:has(.VPHome) .VPNavBar.top .title,
+  body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink,
+  body:has(.VPHome) .VPNavBar.top .VPNavBarExtra,
+  body:has(.VPHome) .VPNavBar.top .copy,
+  body:has(.VPHome) .VPNavBar.top .VPNavBarHamburger,
+  body:has(.VPHome) .VPNavBar.top .VPSocialLink,
+  body:has(.VPHome) .VPNavBar.top .VPSwitchAppearance {
+    color: #262626;
     text-shadow: none;
   }
 
-  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink:hover {
-    background: color-mix(in srgb, var(--vp-c-text-1) 6%, transparent);
+  body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink:hover {
+    background: rgb(38 38 38 / 6%);
   }
 
-  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink.active {
-    color: var(--vp-c-text-1);
-    background: color-mix(in srgb, var(--vp-c-text-1) 8%, transparent);
+  body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink.active {
+    color: #262626;
+    background: rgb(38 38 38 / 8%);
   }
 
-  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton {
-    border-color: var(--vp-c-divider);
-    color: var(--vp-c-text-2);
+  body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton {
+    border-color: #d4d4d0;
+    color: #595959;
     background: transparent;
   }
 
-  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .text,
-  html:not(.dark) body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
-    color: var(--vp-c-text-3);
+  body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .text,
+  body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
+    color: #595959;
   }
 }
 
@@ -1250,10 +1276,19 @@ body:has(.VPHome) {
   transform: translateY(-1px);
 }
 
+/* 首页 Hero 固定用亮色模式的一套外观（不跟随暗色主题翻转按钮） */
 .VPHomeHero .actions .VPButton.brand {
   border: 1px solid transparent;
-  background: var(--vp-button-brand-bg);
-  color: var(--vp-button-brand-text);
+  background: #262626;
+  color: #fff;
+}
+
+.VPHomeHero .actions .VPButton.brand:hover {
+  background: #3f3f3f;
+}
+
+.VPHomeHero .actions .VPButton.brand:active {
+  background: #151515;
 }
 
 .VPHomeHero .actions .VPButton.alt {
