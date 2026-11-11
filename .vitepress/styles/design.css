@@ -538,6 +538,13 @@ body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
   color: rgb(255 255 255 / 80%);
 }
 
+/* kbd 有自己的底色，不跟随上一条的 color：首页固定成亮色主题那只纸白键帽 */
+body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton kbd {
+  border-color: #e2e2df;
+  background: #f3f3f1;
+  color: #595959;
+}
+
 /* ≤768 主题把顶栏放回文档流，壁纸不再从它背后穿过：
    首页顶栏固定用亮色模式那一套（纸底墨字），不跟随暗色主题，
    否则白字压在纸白上等于消失 */
