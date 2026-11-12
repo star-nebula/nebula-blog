@@ -762,22 +762,43 @@ body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
   max-width: var(--sn-content-width) !important;
 }
 
-/* 布局固定「全部展开」：开关已经整个去掉（见 theme/index.ts），这里把宽度写死。
-   宽屏下正文带收到 1360 居中，正文仍拿满 720 的阅读宽度；窄于 1440 时铺满，
+/* 布局固定「全部展开」：开关已经整个去掉（见 theme/index.ts）。
+   宽屏下左右两栏都按 272 占位：左侧栏贴左，右侧大纲栏贴右，正文在中间剩余
+   空间里居中，因此两条分栏线到视口边缘的距离相同，正文左右留白也相同。
+   从 1280（大纲栏出现的宽度）开始生效，避免 1439→1440 时正文突然变宽。
    规则不依赖任何 body class——SSR 首屏即终态，组件挂载后不会二次排版（CLS 0）。 */
-@media (min-width: 1440px) {
+@media (min-width: 1280px) {
   .VPContent.has-sidebar {
-    padding-left: calc((100vw - min(1360px, 96vw)) / 2 + var(--vp-sidebar-width)) !important;
-    padding-right: calc((100vw - min(1360px, 96vw)) / 2) !important;
+    padding-left: var(--vp-sidebar-width) !important;
+    padding-right: 0 !important;
   }
 
-  /* 正文带收窄后，侧边栏不能再跟 VitePress 的 1440 居中带一起加宽（会盖住正文），
-     固定回 272 宽、32 内边距。VitePress 的这两条在 scoped 样式里带 [data-v]，
-     优先级比单类高，必须 !important 才盖得住。 */
+  /* 左栏固定 272 宽、32 内边距。VitePress 在 1440 会让侧栏跟着居中带一起加宽，
+     它的 scoped 规则带 [data-v]，优先级更高，必须 !important 才盖得住。 */
   .VPSidebar {
     width: var(--vp-sidebar-width) !important;
     padding-left: 32px !important;
     padding-right: 32px !important;
+  }
+
+  /* 右栏同样占 272：去掉主题的 32 左内边距，让分栏线正好落在离右边 272 的位置；
+     内部大纲容器再留 32 的右呼吸位。 */
+  .VPDoc > .container > .aside {
+    flex: 0 0 var(--vp-sidebar-width);
+    width: var(--vp-sidebar-width);
+    max-width: var(--vp-sidebar-width);
+    padding-left: 0;
+  }
+
+  .VPDoc .aside .aside-container,
+  .VPDoc .aside .aside-curtain {
+    width: calc(var(--vp-sidebar-width) - 32px);
+  }
+
+  /* 正文带不再跟 1360 的居中带走，交给 272 + 正文 + 272 的对称布局。 */
+  .VPDoc {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 
@@ -787,7 +808,7 @@ body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
 
 @media (min-width: 1440px) {
   .VPDoc .container {
-    max-width: 1320px;
+    max-width: none;
   }
 }
 

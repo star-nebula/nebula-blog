@@ -48,7 +48,7 @@
   --sn-container: 1360px;
   --sn-gutter: clamp(20px, 4vw, 64px);
   --sn-nav-height: 54px;
-  --sn-content-width: 720px;
+  --sn-content-width: 800px;
 
   /* ---- 字体 ---- */
   --sn-font-sans:
