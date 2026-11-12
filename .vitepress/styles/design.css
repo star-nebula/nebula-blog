@@ -518,6 +518,18 @@ body:has(.VPHome) .VPNavBar.top .VPSwitchAppearance {
   color: #fff;
 }
 
+/* 阅读增强那枚图标按钮是插件组件，颜色走 text-1，不在这条顶栏的白字名单里 */
+body:has(.VPHome) .VPNavBar.top .VPNolebaseEnhancedReadabilitiesMenu .button,
+body:has(.VPHome) .VPNavBar.top .VPNolebaseEnhancedReadabilitiesMenu .button .text {
+  color: #fff;
+}
+
+/* ⋯ 菜单同理：外层 VPnavBarExtra 已经白了，里面的 .button 还是 text-1 */
+body:has(.VPHome) .VPNavBar.top .VPNavBarExtra .button,
+body:has(.VPHome) .VPNavBar.top .VPNavBarExtra .button .text {
+  color: #fff;
+}
+
 body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink:hover {
   background: rgb(255 255 255 / 14%);
 }
@@ -545,10 +557,16 @@ body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton kbd {
   color: #595959;
 }
 
-/* ≤768 主题把顶栏放回文档流，壁纸不再从它背后穿过：
-   首页顶栏固定用亮色模式那一套（纸底墨字），不跟随暗色主题，
-   否则白字压在纸白上等于消失 */
-@media (max-width: 768px) {
+/* .keys 这层是主题自带的键位分组框（border: 1px solid --vp-c-divider），
+   默认会跟着主题变深，钉成亮色那只纸边 */
+body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
+  border-color: #e2e2df;
+}
+
+/* 主题在 @media (min-width: 960px) 才把顶栏改成 fixed，以下都是文档流：
+   壁纸不再从它背后穿过，首页顶栏固定用亮色模式那一套（纸底墨字），
+   不跟随暗色主题，否则白字压在纸白上等于消失 */
+@media (max-width: 959.98px) {
   body:has(.VPHome) .VPNavBar.top {
     background: #fafafa;
     border-bottom: 1px solid #e2e2df;
@@ -560,7 +578,9 @@ body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton kbd {
   body:has(.VPHome) .VPNavBar.top .copy,
   body:has(.VPHome) .VPNavBar.top .VPNavBarHamburger,
   body:has(.VPHome) .VPNavBar.top .VPSocialLink,
-  body:has(.VPHome) .VPNavBar.top .VPSwitchAppearance {
+  body:has(.VPHome) .VPNavBar.top .VPSwitchAppearance,
+  body:has(.VPHome) .VPNavBar.top .VPNavBarExtra .button,
+  body:has(.VPHome) .VPNavBar.top .VPNolebaseEnhancedReadabilitiesMenu .button {
     color: #262626;
     text-shadow: none;
   }
@@ -1161,7 +1181,10 @@ body:has(.VPHome) {
   position: relative;
   display: flex;
   align-items: center;
-  min-height: min(92vh, 900px);
+  /* 铺满首屏：滚动位置为 0 时视野里只有壁纸和顶栏，亮/暗两套主题看不出差别，
+     主题差异只在往下翻、露出壁纸以下的内容后才出现 */
+  min-height: 100vh;
+  min-height: 100svh;
   margin-top: 0 !important;
   padding: 96px 24px 72px;
   overflow: hidden;
@@ -1320,7 +1343,8 @@ body:has(.VPHome) {
   background: linear-gradient(180deg, rgb(255 255 255 / 38%), transparent);
 }
 
-@media (max-width: 960px) {
+/* 960 及以上是桌面两栏 Hero；959.98 起改成竖排，和顶栏回到文档流的断点对齐 */
+@media (max-width: 959.98px) {
   .VPHomeHero .container {
     flex-direction: column;
     align-items: flex-start;
@@ -1334,13 +1358,14 @@ body:has(.VPHome) {
     font-size: clamp(40px, 9vw, 64px);
   }
 
+  /* 这一档顶栏在文档流里占掉 54px，减掉它首屏才刚好铺满 */
   .VPHomeHero {
-    min-height: auto;
+    min-height: calc(100vh - var(--vp-nav-height));
+    min-height: calc(100svh - var(--vp-nav-height));
     padding: calc(var(--vp-nav-height) + 72px) 24px 64px;
   }
 }
 
-/* ≤768 顶栏已回到文档流，Hero 不再需要为它让出 54px */
 @media (max-width: 768px) {
   .VPHomeHero {
     padding: 64px 24px 64px;
