@@ -518,6 +518,13 @@ body:has(.VPHome) .VPNavBar.top .VPNavBarExtra .button .text {
   color: #fff;
 }
 
+/* 主题开关被摊平成一颗图标（见上方 .VPSwitchAppearance 规则），图标颜色来自主题的
+   .icon [class^='vpi-']。首页顶栏固定亮字，但亮色模式下这颗图标仍是 --vp-c-text-2
+   的深灰，压在顶部暗角上几乎看不见——只把这颗图标改成白色，按钮其它表现不动。 */
+body:has(.VPHome) .VPNavBar.top .VPSwitchAppearance .icon [class^='vpi-'] {
+  color: #fff;
+}
+
 body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink:hover {
   background: rgb(255 255 255 / 14%);
 }
@@ -525,6 +532,12 @@ body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink:hover {
 body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink.active {
   color: #fff;
   background: rgb(255 255 255 / 18%);
+}
+
+/* 搜索按钮里的快捷键提示（⌘K / Ctrl K）整块去掉：按钮上已经有「搜索文档」，
+   键位提示只在少数人手里有用，却每次都要占一截宽度。 */
+.VPNavBar .VPNavBarSearchButton .keys {
+  display: none;
 }
 
 body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton {
