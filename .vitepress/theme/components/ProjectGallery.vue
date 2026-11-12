@@ -244,8 +244,8 @@ function stopPreview(e: MouseEvent) {
 
 .pg-grid {
   display: grid;
-  /* 3 张卡片在 928px 正文宽下正好一行（3×280 + 2×16 gap = 872） */
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* 作坊是通栏页：宽屏 3 列，中屏 2 列，手机 1 列 */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
 
@@ -423,6 +423,12 @@ function stopPreview(e: MouseEvent) {
   color: var(--vp-c-text-2);
   font-size: 10.5px;
   line-height: 1.5;
+}
+
+@media (max-width: 1040px) {
+  .pg-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 640px) {

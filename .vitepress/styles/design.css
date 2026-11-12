@@ -76,8 +76,10 @@ body {
   padding: 0 !important;
 }
 
-.VPNavBar .container,
-.VPNavBar.has-sidebar .container {
+/* 只作用于顶栏最外层容器：汉堡按钮里也有一个 .container，
+   一起加 32px 会把按钮撑到 64px、在手机宽度上顶出 5px 横向滚动 */
+.VPNavBar > .wrapper > .container,
+.VPNavBar.has-sidebar > .wrapper > .container {
   max-width: none !important;
   padding: 0 32px !important;
   position: relative;
@@ -1692,7 +1694,7 @@ body:has(.VPHome) {
 
 .page-workshop-gallery .VPDoc .container > .content,
 .page-workshop-gallery .VPDoc .content-container {
-  max-width: none;
+  max-width: none !important;
   margin: 0;
 }
 
