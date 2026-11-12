@@ -510,12 +510,16 @@ export default defineConfig({
     const result = returned ?? working
 
     const extra: HeadConfig[] = []
-    // 壁纸只在首页需要：不再让所有文章页 preload 177KB 的图。
+    // 壁纸只在首页需要：不再让所有文章页 preload 这张图。
+    // 主用 AVIF（117KB）；带 type 的 preload，浏览器不支持 AVIF 时会直接跳过，
+    // 由 CSS 里的 image-set 退回原 WebP，不会两份都下。
     if (context.pageData.frontmatter?.layout === 'home') {
       extra.push(['link', {
         rel: 'preload',
         as: 'image',
-        href: `${SITE_BASE}wallpaper.webp`,
+        href: `${SITE_BASE}wallpaper.avif`,
+        type: 'image/avif',
+        fetchpriority: 'high',
       }])
     }
 
