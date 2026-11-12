@@ -628,13 +628,30 @@ body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
   transition: background-color var(--sn-dur) var(--sn-ease);
 }
 
-.VPSidebarItem.level-0 > .item {
-  margin-top: 16px;
+/* 领域分组标题：主题给每组留 10px 上内边距、组间还画一条分隔线，标题本身又是
+   24px 行高 + 上下 4px 内边距，两个领域之间能空出 80px。把组的内边距收掉、
+   标题压成 22px 一行，间距回到 ~35px，分隔线保留 */
+.VPSidebar .nav > .group {
+  padding: 0;
 }
 
-.VPSidebarItem.level-0 > .item .text {
+.VPSidebar .nav .VPSidebarItem.level-0 {
+  padding: 6px 0 0;
+}
+
+.VPSidebar .nav .VPSidebarItem.level-0 > .item {
+  margin: 0;
+  padding: 3px 10px;
+}
+
+.VPSidebar .nav .VPSidebarItem.level-0 > .item .text {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  padding: 0;
   font-size: 12px;
   font-weight: 600;
+  line-height: 22px;
   letter-spacing: 0.04em;
   color: var(--vp-c-text-3);
 }
@@ -669,8 +686,16 @@ body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
   background: var(--vp-c-brand-2);
 }
 
+/* 折叠箭头按 22px 行高居中，图标比标题略小，不再把整行撑到 32px */
 .VPSidebarItem .caret {
+  display: flex;
+  align-items: center;
+  height: 22px;
   color: var(--vp-c-text-3);
+}
+
+.VPSidebarItem .caret .caret-icon {
+  font-size: 14px;
 }
 
 .VPSidebarItem .items {
