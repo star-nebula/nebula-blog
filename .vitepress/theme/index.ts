@@ -70,6 +70,28 @@ const ExtendedTheme: Theme = {
      * 同一次点击只兜底一次，避免真的 404 链接被反复刷新。
      */
     if (typeof window !== 'undefined') {
+      /**
+       * 默认主题把汉堡菜单与「更多」按钮的 aria-label 写死成英文
+       * （mobile navigation / extra navigation），themeConfig 没有对应 key。
+       * 只改读屏读到的名字，按钮本身与视觉完全不动。
+       * 导航是异步渲染的，用 MutationObserver 等它出现在 DOM 里。
+       */
+      const NAV_LABELS: Record<string, string> = {
+        'mobile navigation': '导航菜单',
+        'extra navigation': '更多',
+      }
+      const localizeNavLabels = () => {
+        for (const [from, to] of Object.entries(NAV_LABELS)) {
+          document.querySelectorAll(`[aria-label="${from}"]`)
+            .forEach(el => el.setAttribute('aria-label', to))
+        }
+      }
+      localizeNavLabels()
+      new MutationObserver(localizeNavLabels).observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+      })
+
       const RETRY_KEY = 'sn-nav-retry'
 
       window.addEventListener('click', (event) => {

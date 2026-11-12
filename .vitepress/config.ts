@@ -47,7 +47,7 @@ const HAS_KNOWLEDGE = existsSync(KNOWLEDGE_DIR)
   && readdirSync(KNOWLEDGE_DIR, { recursive: true, withFileTypes: true })
     .some(entry => entry.isFile() && entry.name.endsWith('.md'))
 
-import { githubRepoLink, siteDescription, siteName } from '../metadata'
+import { githubRepoLink, siteDescription, siteName, targetDomain } from '../metadata'
 import head from './head'
 
 // unlazyImages 关闭：它依赖 thumbnail-hash 生成的 map.json 来给图片注入 blur-up 懒加载
@@ -351,6 +351,17 @@ export default defineConfig({
   },
   title: siteName,
   description: siteDescription,
+  // 站点地图由 VitePress 内置生成。hostname 只放 origin——SitemapStream 用
+  // new URL(item.url, hostname) 拼接，url 以 "/" 开头时会丢掉 hostname 里的路径，
+  // 所以 /nebula-blog 前缀必须在 transformItems 里补。
+  sitemap: {
+    hostname: new URL(targetDomain).origin,
+    transformItems: items => items.map(item => ({
+      ...item,
+      // item.url 不带前导斜杠（如 vault/主页/），SITE_BASE 自带结尾斜杠。
+      url: `${SITE_BASE}${item.url}`,
+    })),
+  },
   ignoreDeadLinks: true,
   head,
   themeConfig: {
@@ -633,5 +644,9 @@ export default defineConfig({
       }
     }
     walkDir(outDir)
+
+    // 5) 构建期生成 /feed.xml（RSS 2.0）。数据与首页「最新笔记」、最近页同源。
+    const { writeFeed } = await import('./feed')
+    await writeFeed(outDir)
   },
 })

@@ -18,6 +18,8 @@ export interface RecentUpdate {
   filePath: string
   /** frontmatter 的 created，仅用于排序兜底，不展示。 */
   created?: number
+  /** frontmatter 的摘要，RSS 的 description 用。 */
+  abstract?: string
 }
 
 // Windows 上 createRecentUpdatesLoader 生成的 URL 使用反斜杠，
@@ -61,6 +63,7 @@ export async function loadRecentUpdates(): Promise<RecentUpdate[]> {
       ...item,
       category: category === 'Un-categorized' ? '未分类' : category,
       created: info.created,
+      abstract: info.abstract,
       // 尚未提交的目录迁移没有新路径 Git 历史，沿旧路径读取原更新时间。
       lastUpdated: item.lastUpdated || previousUpdate(item.filePath),
       // 最近更新组件直接渲染 href，不会像 Markdown 链接那样自动补站点 base。
@@ -84,21 +87,24 @@ export async function loadRecentUpdates(): Promise<RecentUpdate[]> {
  * - created：ISO 日期，用于同一 git 时间下的排序。
  * 只做这两个字段的轻量解析，避免为一行 YAML 引入完整解析器。
  */
-async function frontmatterInfo(filePath: string): Promise<{ category: string, created: number }> {
+async function frontmatterInfo(filePath: string): Promise<{ category: string, created: number, abstract: string }> {
   let raw = ''
   try {
     raw = await readFile(filePath.replaceAll('\\', '/'), 'utf8')
   }
   catch {
-    return { category: '', created: 0 }
+    return { category: '', created: 0, abstract: '' }
   }
   const block = /^---\r?\n([\s\S]*?)\r?\n---/.exec(raw)?.[1] ?? ''
   const createdRaw = /^created:\s*(\d{4}-\d{2}-\d{2})/m.exec(block)?.[1] ?? ''
   const created = createdRaw ? Date.parse(`${createdRaw}T00:00:00`) : 0
+  const abstract = (/^abstract:\s*(.*)$/m.exec(block)?.[1] ?? '')
+    .trim()
+    .replace(/^['"]|['"]$/g, '')
 
   const value = /^category:\s*(.*)$/m.exec(block)?.[1]?.trim() ?? ''
   if (!value)
-    return { category: '', created }
+    return { category: '', created, abstract }
 
   let values: string[]
   if (value.startsWith('[')) {
@@ -113,7 +119,7 @@ async function frontmatterInfo(filePath: string): Promise<{ category: string, cr
   else {
     values = [value.replace(/^['"]|['"]$/g, '')]
   }
-  return { category: values.map(s => s.trim()).filter(Boolean).join(' / '), created }
+  return { category: values.map(s => s.trim()).filter(Boolean).join(' / '), created, abstract }
 }
 
 function previousUpdate(filePath: string): number {

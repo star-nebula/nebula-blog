@@ -19,20 +19,6 @@ hero:
     - theme: alt
       text: CSDN
       link: https://blog.csdn.net/qq_69608018?type=blog
-
-features:
-  - title: 记录生活与灵感
-    details: 从琐碎日常到深度思考，把值得记住的事留下来。
-    icon: 🌈
-  - title: 知识相互链接
-    details: 像星图一样把想法连接起来，让记忆在引用中重新发光。
-    icon: 🔗
-  - title: 回忆与畅想并存
-    details: 既是对过去的归档，也是对未来可能性的草稿本。
-    icon: ✨
-  - title: 纯文本，持久可读
-    details: 全部使用 Markdown 编写，不依赖特定工具，内容永远属于你。
-    icon: 📃
 ---
 
 <script setup>
@@ -42,3 +28,4 @@ import { data as recent } from './index.data'
 <SpotlightBackground />
 <HomePage />
 <LatestNotes :items="recent" />
+<SiteFeatures />

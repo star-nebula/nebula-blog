@@ -115,6 +115,13 @@ export default [
     rel: 'manifest',
     href: `${SITE_BASE}site.webmanifest`,
   }],
+  // RSS：订阅器与浏览器扩展靠这一行发现 feed.xml。
+  ['link', {
+    rel: 'alternate',
+    type: 'application/rss+xml',
+    title: siteName,
+    href: `${SITE_BASE}feed.xml`,
+  }],
   ['meta', {
     name: 'msapplication-TileColor',
     content: '#603cba',
