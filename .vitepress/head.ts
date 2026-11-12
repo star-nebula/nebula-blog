@@ -1,5 +1,5 @@
 import type { HeadConfig } from 'vitepress'
-import { creatorNames, creatorUsernames, siteDescription, siteName, targetDomain } from '../metadata'
+import { creatorNames, creatorUsernames, siteName, targetDomain } from '../metadata'
 import { SITE_BASE } from '../scripts/blog-paths.mjs'
 
 // 根路径 → 默认语言路径的兜底跳转。
@@ -72,25 +72,20 @@ export default [
     },
   ],
 
-  ['meta', {
-    property: 'og:title',
-    content: siteName,
-  }],
+  // og:title / og:description 不再写死：每页的标题和摘要由 config.ts 的 transformHead
+  // 按 pageData 生成（首页取站点名与 hero tagline，文章取标题与 frontmatter.abstract）。
+  // 这里只保留全站一致的图片与站点名。
   [
     'meta',
     {
       property: 'og:image',
-      content: `${targetDomain}/og.png`,
+      content: `${targetDomain}/og.jpg`,
     },
   ],
-  ['meta', {
-    property: 'og:description',
-    content: siteDescription,
-  }],
-  ['meta', {
-    property: 'og:site_name',
-    content: siteName,
-  }],
+  ['meta', { property: 'og:image:width', content: '1200' }],
+  ['meta', { property: 'og:image:height', content: '630' }],
+  ['meta', { property: 'og:site_name', content: siteName }],
+  ['meta', { property: 'og:locale', content: 'zh_CN' }],
 
   ['meta', {
     name: 'twitter:card',
@@ -104,7 +99,7 @@ export default [
     'meta',
     {
       name: 'twitter:image',
-      content: `${targetDomain}/og.png`,
+      content: `${targetDomain}/og.jpg`,
     },
   ],
 

@@ -367,6 +367,8 @@ export default defineConfig({
               modal: {
                 noResultsText: '无法找到相关结果',
                 resetButtonTitle: '清除查询条件',
+                displayDetails: '展开详细列表',
+                backButtonTitle: '关闭搜索',
                 footer: {
                   selectText: '选择',
                   navigateText: '切换',
@@ -452,6 +454,24 @@ export default defineConfig({
           { icon: 'github', link: githubRepoLink },
         ],
         darkModeSwitchLabel: '切换主题',
+        lightModeSwitchTitle: '切换到浅色模式',
+        darkModeSwitchTitle: '切换到深色模式',
+        sidebarMenuLabel: '菜单',
+        returnToTopLabel: '回到顶部',
+        skipToContentLabel: '跳到主要内容',
+        // 默认主题的英文文案（Previous page / Next page / Menu / Return to top / 404 页）
+        // 在这里统一换成中文；不依赖浏览器语言，也不进客户端 bundle 之外的地方。
+        docFooter: {
+          prev: '上一篇',
+          next: '下一篇',
+        },
+        notFound: {
+          title: '页面不存在',
+          quote: '这里什么都没有，像一颗还没形成的星。',
+          link: '/vault/主页/',
+          linkLabel: '回到首页',
+          linkText: '回到首页',
+        },
         outline: { label: '页面大纲', level: 'deep' },
         editLink: {
           pattern: `${githubRepoLink}/tree/main/:path`,
@@ -506,8 +526,35 @@ export default defineConfig({
     // <meta> 按第一个属性去重；若把完整 head 返回，所有 <link>（modulepreload、
     // 字体、图标、壁纸）都会在页面里重复输出一遍。这里只回传 meta 与按需追加的 link。
     const working = context.head.map(([tag, attrs]) => [tag, { ...attrs }] as unknown as HeadConfig)
-    const returned = await transformHeadMeta()(working, context)
+    // 摘要优先级：frontmatter.abstract（整理过的公开简介）→ 正文摘录。
+    // 正文摘录默认取前 200 字并带 "..."，对分享卡片偏长；统一压到 150 字以内。
+    const clip = (text: string) => (text.length > 150 ? `${text.slice(0, 150).trim()}…` : text)
+    const returned = await transformHeadMeta({
+      handleExcerpt: (excerpt, ctx) => {
+        const abstract = ctx.pageData.frontmatter?.abstract
+        if (typeof abstract === 'string' && abstract.trim())
+          return clip(abstract.trim())
+        // 404 页没有 vp-doc 正文容器，摘录会把整页 aria 文本和导航一起抓进来
+        // （"[][跳到主要内容][]…"）。这类页面退回站点描述。
+        if (/404\.md$/.test(ctx.pageData.relativePath) || excerpt.includes('[['))
+          return siteDescription
+        return clip(excerpt)
+      },
+    })(working, context)
     const result = returned ?? working
+
+    // 分享卡片标题：文章页用「页面标题 | 站点名」，首页直接用站点名。
+    // 旧实现把 og:title 写死成站点名，任何文章被转发时卡片标题都一样。
+    const pageTitle = context.pageData.title
+    const ogTitle = pageTitle && pageTitle !== siteName ? `${pageTitle} | ${siteName}` : siteName
+    for (const [key, value] of [['og:title', ogTitle], ['twitter:title', ogTitle]] as const) {
+      const attr = key.startsWith('og:') ? 'property' : 'name'
+      const existing = result.find(([tag, attrs]) => tag === 'meta' && (attrs as Record<string, string>)[attr] === key)
+      if (existing)
+        (existing[1] as Record<string, string>).content = value
+      else
+        result.push(['meta', { [attr]: key, content: value }])
+    }
 
     const extra: HeadConfig[] = []
     // 壁纸只在首页需要：不再让所有文章页 preload 这张图。
