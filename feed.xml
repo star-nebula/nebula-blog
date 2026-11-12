@@ -6,7 +6,15 @@
     <atom:link href="https://star-nebula.github.io/nebula-blog/feed.xml" rel="self" type="application/rss+xml" />
     <description>记录回忆，知识和畅想的地方</description>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 12 Nov 2026 10:37:59 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 11:21:11 GMT</lastBuildDate>
+    <item>
+      <title>分类图标参考</title>
+      <link>https://star-nebula.github.io/nebula-blog/vault/Knowledge/Methods/网站部署/00-分类图标参考.html</link>
+      <guid isPermaLink="true">https://star-nebula.github.io/nebula-blog/vault/Knowledge/Methods/网站部署/00-分类图标参考.html</guid>
+      <pubDate>Thu, 12 Nov 2026 11:20:14 GMT</pubDate>
+      <category>📚 个人知识管理 / 博客部署</category>
+      <description>常见分类图标参考，用于站点分类展示。</description>
+    </item>
     <item>
       <title>费曼学习法2.0：讲只是中间的一步</title>
       <link>https://star-nebula.github.io/nebula-blog/vault/Knowledge/Methods/费曼学习法2.0：讲只是中间的一步.html</link>
@@ -102,14 +110,6 @@
       <pubDate>Tue, 10 Nov 2026 14:16:06 GMT</pubDate>
       <category>📚 个人知识管理 / 博客部署</category>
       <description>部署过程中常见问题与排查方法。</description>
-    </item>
-    <item>
-      <title>分类图标参考</title>
-      <link>https://star-nebula.github.io/nebula-blog/vault/Knowledge/Methods/网站部署/00-分类图标参考.html</link>
-      <guid isPermaLink="true">https://star-nebula.github.io/nebula-blog/vault/Knowledge/Methods/网站部署/00-分类图标参考.html</guid>
-      <pubDate>Tue, 10 Nov 2026 14:16:06 GMT</pubDate>
-      <category>📚 个人知识管理 / 博客部署</category>
-      <description>常见分类图标参考，用于站点分类展示。</description>
     </item>
     <item>
       <title>GitHub Pages 自动部署</title>
