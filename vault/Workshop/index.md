@@ -16,17 +16,6 @@ tags:
 
 <ProjectGallery />
 
----
-
-<details class="ws-note">
-<summary>想看背后的做法？</summary>
-
-架构、技术选型和踩坑记录在各项目页里。方法论沉淀在知识区：
-
-- 部署与运维见「知识」栏目
-
-</details>
-
 <style scoped>
 .ws-lead {
   font-size: 1.05rem;
@@ -35,22 +24,4 @@ tags:
   margin: 0.5rem 0 0;
 }
 
-.ws-note {
-  margin-top: 2rem;
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 10px;
-  background: var(--vp-c-bg-soft);
-  font-size: 0.88rem;
-}
-
-.ws-note summary {
-  cursor: pointer;
-  color: var(--vp-c-text-2);
-  font-weight: 500;
-}
-
-.ws-note[open] summary {
-  margin-bottom: 0.6rem;
-}
 </style>
