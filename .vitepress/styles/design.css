@@ -628,30 +628,29 @@ body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
   transition: background-color var(--sn-dur) var(--sn-ease);
 }
 
-/* 领域分组标题：主题给每组留 10px 上内边距、组间还画一条分隔线，标题本身又是
-   24px 行高 + 上下 4px 内边距，两个领域之间能空出 80px。把组的内边距收掉、
-   标题压成 22px 一行，间距回到 ~35px，分隔线保留 */
+/* 领域分组标题：主题原本叠了组内边距 + 24px 行高 + 上下 4px + 16px 上边距，
+   两个领域之间能空出 80px。收成 50px 左右的节奏，字号保持 12px 不变 */
 .VPSidebar .nav > .group {
-  padding: 0;
+  padding: 10px 0 0;
 }
 
 .VPSidebar .nav .VPSidebarItem.level-0 {
-  padding: 6px 0 0;
+  padding: 0;
 }
 
 .VPSidebar .nav .VPSidebarItem.level-0 > .item {
   margin: 0;
-  padding: 3px 10px;
+  padding: 8px 10px;
 }
 
 .VPSidebar .nav .VPSidebarItem.level-0 > .item .text {
   display: flex;
   align-items: center;
-  height: 22px;
+  height: 24px;
   padding: 0;
   font-size: 12px;
   font-weight: 600;
-  line-height: 22px;
+  line-height: 24px;
   letter-spacing: 0.04em;
   color: var(--vp-c-text-3);
 }
@@ -686,16 +685,12 @@ body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
   background: var(--vp-c-brand-2);
 }
 
-/* 折叠箭头按 22px 行高居中，图标比标题略小，不再把整行撑到 32px */
+/* 折叠箭头按标题行高居中，图标保持原来的 18px */
 .VPSidebarItem .caret {
   display: flex;
   align-items: center;
-  height: 22px;
+  height: 24px;
   color: var(--vp-c-text-3);
-}
-
-.VPSidebarItem .caret .caret-icon {
-  font-size: 14px;
 }
 
 .VPSidebarItem .items {
