@@ -32,8 +32,9 @@ if (!PUBLISHED_DIRS.length)
 
 // 站点功能页只允许这些文件，包含未跟踪文件及更深层文件，防止本地构建误发布。
 const SITE_PAGE_FILES = {
-  'vault/Home': new Set(['index.md']),
-  'vault/Recent': new Set(['toc.md', 'toc.data.ts']),
+  // data loader 是站点骨架的一部分（构建期取「最近更新」），不是笔记。
+  'vault/Home': new Set(['index.md', 'index.data.ts']),
+  'vault/Recent': new Set(['toc.md', 'toc.data.ts', 'recent-data.ts']),
 }
 // Obsidian 工具配置：.gitignore 白名单有意放行（供 Obsidian 使用随仓库备份），
 // 非站点内容。校验时豁免，如需改为不跟踪，改 .gitignore 的白名单并 git rm --cached。

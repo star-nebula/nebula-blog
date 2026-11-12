@@ -12,7 +12,7 @@ hero:
   actions:
     - theme: brand
       text: 开始阅读
-      link: /vault/作坊/
+      link: /vault/Knowledge/_mocs/知识库总览-MOC
     - theme: alt
       text: GitHub 上浏览
       link: https://github.com/star-nebula/nebula-blog
@@ -35,5 +35,10 @@ features:
     icon: 📃
 ---
 
+<script setup>
+import { data as recent } from './index.data'
+</script>
+
 <SpotlightBackground />
 <HomePage />
+<LatestNotes :items="recent" />

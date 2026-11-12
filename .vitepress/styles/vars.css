@@ -24,7 +24,9 @@
   --sn-paper-3: #ffffff;
   --sn-ink: #262626;
   --sn-ink-2: #595959;
-  --sn-ink-3: #8c8c8c;
+  /* 次要文字（侧栏、大纲、页脚、PageMeta）。旧值 #8c8c8c 在 #fafafa 上只有
+     3.22:1，11–12.5px 达不到 WCAG AA 的 4.5:1；调深到 4.81:1。 */
+  --sn-ink-3: #6f6f6f;
   --sn-line: #e2e2df;
   --sn-line-strong: #d4d4d0;
   --sn-accent: #3c96ca;
@@ -202,7 +204,8 @@ html[lang]:where(:lang(zh, ja)) {
   --sn-paper-3: #202127;
   --sn-ink: #ededed;
   --sn-ink-2: #a6a6ae;
-  --sn-ink-3: #74747e;
+  /* 旧的 #74747e 在 #161618 上 3.91:1；提到 5.43:1。 */
+  --sn-ink-3: #8c8c96;
   --sn-line: #2c2c31;
   --sn-line-strong: #3a3a41;
   --sn-accent: #58b1e5;

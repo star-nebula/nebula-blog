@@ -179,6 +179,29 @@ body:has(.VPHome) .VPNavBar.top .divider-line {
   backdrop-filter: none;
 }
 
+/* 首页顶栏压在亮壁纸上：白字实测最低 1.0:1（站点名正好落在太阳上），
+   文字阴影兜不住大面积高光。在顶栏背后压一条 124px 的顶部渐变，
+   只影响壁纸最上沿，不动画面主体的色调与亮度。
+   ≤959.98px 顶栏回到文档流、改成纸底墨字，不需要这一层。 */
+@media (min-width: 960px) {
+  body:has(.VPHome) .VPNavBar.top::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 124px;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgb(10 10 12 / 52%) 0,
+      rgb(10 10 12 / 34%) 54px,
+      rgb(10 10 12 / 14%) 92px,
+      transparent 124px
+    );
+  }
+}
+
+
 /* 滚动后：一层很轻的玻璃，只有导航条本身，不覆盖全屏 */
 .VPNavBar:not(.top) {
   background: color-mix(in srgb, var(--vp-c-bg) 82%, transparent);
@@ -505,9 +528,14 @@ body:has(.VPHome) .VPNavBar.top .VPNavBarMenuLink.active {
 }
 
 body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton {
-  border-color: rgb(255 255 255 / 34%);
+  border-color: rgb(255 255 255 / 38%);
   color: #fff;
-  background: rgb(255 255 255 / 8%);
+  /* 原来的 8% 白底压在亮壁上会更亮，白字反而更难读；改用一层深底。 */
+  background: rgb(10 10 12 / 26%);
+}
+
+body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton:hover {
+  background: rgb(10 10 12 / 40%);
 }
 
 body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .text,
@@ -1472,7 +1500,7 @@ body:has(.VPHome) {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 var(--sn-gutter) 96px;
+  padding: 0 var(--sn-gutter) 44px;
   background: var(--sn-home-bg);
 }
 
@@ -1592,6 +1620,103 @@ body:has(.VPHome) {
 
   .sn-explore-note {
     text-align: left;
+  }
+}
+
+/* 首页「最新笔记」：入口卡之下的一条紧凑时间线，
+   只回答「这里现在有什么」，不抢 hero 和入口卡的层级。 */
+.sn-latest {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--sn-gutter) 96px;
+  background: var(--sn-home-bg);
+}
+
+.sn-latest .sn-explore-head {
+  padding-top: 0;
+}
+
+.sn-latest-more {
+  font-size: 13px;
+  color: var(--vp-c-text-2);
+  text-decoration: none !important;
+  white-space: nowrap;
+}
+
+.sn-latest-more:hover {
+  color: var(--vp-c-brand-1);
+}
+
+.sn-latest .sn-latest-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--vp-c-divider);
+}
+
+.sn-latest .sn-latest-list li {
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.sn-latest .sn-latest-list a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 15px 8px;
+  color: inherit;
+  text-decoration: none !important;
+  transition:
+    background var(--sn-dur) var(--sn-ease),
+    padding-left var(--sn-dur) var(--sn-ease);
+}
+
+.sn-latest .sn-latest-list a:hover {
+  padding-left: 14px;
+  background: var(--vp-c-bg-soft);
+}
+
+.sn-latest-title {
+  font-size: 15.5px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+.sn-latest .sn-latest-list a:hover .sn-latest-title {
+  color: var(--vp-c-brand-1);
+}
+
+.sn-latest-meta {
+  display: flex;
+  flex: none;
+  align-items: baseline;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--vp-c-text-3);
+}
+
+.sn-latest-category {
+  max-width: 32ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .sn-latest .sn-latest-list a {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .sn-latest-meta {
+    gap: 10px;
+  }
+
+  .sn-latest-category {
+    max-width: none;
   }
 }
 

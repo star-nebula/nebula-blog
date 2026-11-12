@@ -56,3 +56,14 @@ test('recent-update links include the GitHub Pages base path', () => {
   assert.doesNotMatch(html, /href="\/vault\//, 'Recent-update links must retain /nebula-blog/')
   assert.ok(html.includes('href="/nebula-blog/vault/作坊/feedlens-project.html"'))
 })
+
+test('home latest notes keep the base path and resolve to built pages', () => {
+  const html = readFileSync(join(dist, 'vault/主页/index.html'), 'utf8')
+  const section = html.split('sn-latest-list')[1]?.split('</ul>')[0] ?? ''
+  const hrefs = [...section.matchAll(/href="([^"]+)"/g)].map(m => decodeURI(m[1]))
+  assert.equal(hrefs.length, 5, `Home should list 5 latest notes, got ${hrefs.length}`)
+  for (const href of hrefs) {
+    assert.ok(href.startsWith('/nebula-blog/vault/'), `Latest note link lost the base path: ${href}`)
+    assert.ok(existsSync(join(dist, href.replace('/nebula-blog/', ''))), `Latest note link is dead: ${href}`)
+  }
+})
