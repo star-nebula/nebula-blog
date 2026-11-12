@@ -20,17 +20,14 @@ import '../styles/design.css'
 const nolebase = presetClient({
   gitChangelog: false,
   pageProperties: false,
-  enhancedReadabilities: {
-    options: {
-      layoutSwitch: {
-        defaultMode: 4,
-      },
-      spotlight: {
-        defaultToggle: true,
-        hoverBlockColor: 'rgb(240 197 52 / 7%)',
-      },
-    },
-  },
+  /**
+   * 阅读增强（布局切换 / 聚光灯）整块不装载：不注册组件、顶栏与手机菜单里也就没有入口。
+   *
+   * 布局固定为「全部展开」，宽度写死在 design.css：
+   * 首屏就是终态，不存在「挂载后才给 body 加布局 class」的二次排版（CLS 0）。
+   * 没有布局开关，聚光灯也就没有开关可挂，一并取消。
+   */
+  enhancedReadabilities: false,
 })
 
 const ExtendedTheme: Theme = {
@@ -51,10 +48,6 @@ const ExtendedTheme: Theme = {
       ],
       'nav-bar-content-after': () => [
         h(Share),
-        ...slots['nav-bar-content-after'].map(slot => slot()),
-      ],
-      'nav-screen-content-after': () => [
-        ...slots['nav-screen-content-after'].map(slot => slot()),
       ],
     })
   },

@@ -397,40 +397,9 @@ body:has(.VPHome) .VPNavBar.top .divider-line {
   display: none;
 }
 
-/* 阅读增强（布局 / 聚光灯）也收进同一套 34px 图标按钮 */
-.VPNavBar .content-body .VPNolebaseEnhancedReadabilitiesMenu {
-  order: 7;
-  width: 34px;
-}
-
-/* 插件在这枚按钮前面还画了一条 1px 竖线（左右各 8px 外边距），
-   在 34px 的容器里会把按钮挤成 19px，一并去掉 */
-.VPNavBar .content-body .VPNolebaseEnhancedReadabilitiesMenuFlyout::before {
-  content: none;
-}
-
-.VPNavBar .content-body .VPNolebaseEnhancedReadabilitiesMenu > .button {
-  width: 34px !important;
-  height: 34px !important;
-  padding: 0 !important;
-  border-radius: 999px;
-  display: grid;
-  place-items: center;
-  transition: background-color var(--sn-dur) var(--sn-ease);
-}
-
-.VPNavBar .content-body .VPNolebaseEnhancedReadabilitiesMenu > .button:hover {
-  background: color-mix(in srgb, var(--vp-c-text-1) 6%, transparent);
-}
-
-/* 收起下拉箭头，保持和其他图标按钮同宽 */
-.VPNavBar .content-body .VPNolebaseEnhancedReadabilitiesMenu > .button .vpi-chevron-down {
-  display: none;
-}
-
-/* VPFlyout 的面板从 top: calc(nav/2 + 20px) 落下。按钮被压成 34px 后，
+/* VPFlyout 的面板从 top: calc(nav/2 + 20px) 落下。按钮只有 34px 时，
    按钮底到面板顶之间空出 13px 不可 hover 的缝，鼠标一过就触发 mouseleave 把面板收起，
-   表现为「设置刚打开就消失，调不了」。把 flyout 根元素撑满整条顶栏，缝隙就落在 hover 区域内。 */
+   表现为「⋯ 菜单刚打开就消失」。把 flyout 根元素撑满整条顶栏，缝隙就落在 hover 区域内。 */
 .VPNavBar .content-body .VPFlyout {
   height: var(--vp-nav-height);
   display: flex;
@@ -520,13 +489,7 @@ body:has(.VPHome) .VPNavBar.top .VPSwitchAppearance {
   color: #fff;
 }
 
-/* 阅读增强那枚图标按钮是插件组件，颜色走 text-1，不在这条顶栏的白字名单里 */
-body:has(.VPHome) .VPNavBar.top .VPNolebaseEnhancedReadabilitiesMenu .button,
-body:has(.VPHome) .VPNavBar.top .VPNolebaseEnhancedReadabilitiesMenu .button .text {
-  color: #fff;
-}
-
-/* ⋯ 菜单同理：外层 VPnavBarExtra 已经白了，里面的 .button 还是 text-1 */
+/* ⋯ 菜单：外层 VPnavBarExtra 已经白了，里面的 .button 还是 text-1 */
 body:has(.VPHome) .VPNavBar.top .VPNavBarExtra .button,
 body:has(.VPHome) .VPNavBar.top .VPNavBarExtra .button .text {
   color: #fff;
@@ -581,8 +544,7 @@ body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
   body:has(.VPHome) .VPNavBar.top .VPNavBarHamburger,
   body:has(.VPHome) .VPNavBar.top .VPSocialLink,
   body:has(.VPHome) .VPNavBar.top .VPSwitchAppearance,
-  body:has(.VPHome) .VPNavBar.top .VPNavBarExtra .button,
-  body:has(.VPHome) .VPNavBar.top .VPNolebaseEnhancedReadabilitiesMenu .button {
+  body:has(.VPHome) .VPNavBar.top .VPNavBarExtra .button {
     color: #262626;
     text-shadow: none;
   }
@@ -731,17 +693,22 @@ body:has(.VPHome) .VPNavBar.top .VPNavBarSearchButton .keys {
   max-width: var(--sn-content-width) !important;
 }
 
-/* nolebae 布局开关默认把内容带锁在 80% 视口宽，1440 上正文只剩 576px。
-   这里把内容带对齐到站点容器（1360），让正文拿满 720 的阅读宽度。
-
-   关键：这条规则不依赖 body 上的布局开关 class，SSR 首屏就按最终宽度排版，
-   等组件挂载加 class 时不会再跳一次（实测 CLS 0.093 → 0）。 */
+/* 布局固定「全部展开」：开关已经整个去掉（见 theme/index.ts），这里把宽度写死。
+   宽屏下正文带收到 1360 居中，正文仍拿满 720 的阅读宽度；窄于 1440 时铺满，
+   规则不依赖任何 body class——SSR 首屏即终态，组件挂载后不会二次排版（CLS 0）。 */
 @media (min-width: 1440px) {
-  body:not(.VPNolebaseEnhancedReadabilitiesLayoutSwitchFullWidth):not(.VPNolebaseEnhancedReadabilitiesLayoutSwitchBothWidthAdjustable) .VPContent.has-sidebar {
-    --vp-nolebase-enhanced-readabilities-content-max-width: min(1360px, 96vw);
-
+  .VPContent.has-sidebar {
     padding-left: calc((100vw - min(1360px, 96vw)) / 2 + var(--vp-sidebar-width)) !important;
     padding-right: calc((100vw - min(1360px, 96vw)) / 2) !important;
+  }
+
+  /* 正文带收窄后，侧边栏不能再跟 VitePress 的 1440 居中带一起加宽（会盖住正文），
+     固定回 272 宽、32 内边距。VitePress 的这两条在 scoped 样式里带 [data-v]，
+     优先级比单类高，必须 !important 才盖得住。 */
+  .VPSidebar {
+    width: var(--vp-sidebar-width) !important;
+    padding-left: 32px !important;
+    padding-right: 32px !important;
   }
 }
 
