@@ -1208,11 +1208,11 @@ body:has(.VPHome) {
   inset: 0;
   z-index: 1;
   pointer-events: none;
+  /* 只给文字那一侧压一层很淡的暗角，壁纸其余部分保持原图的色调；
+     白色标题靠 text-shadow 撑对比，不再整幅压暗 */
   background:
-    /* 文字侧柔和暗角：radial 没有硬边，不会在壁纸上切出矩形 */
-    radial-gradient(58% 76% at 26% 52%, rgb(18 18 20 / 44%), rgb(18 18 20 / 14%) 64%, transparent 80%),
-    linear-gradient(180deg, rgb(18 18 20 / 12%), rgb(18 18 20 / 38%)),
-    linear-gradient(90deg, rgb(18 18 20 / 40%), rgb(18 18 20 / 16%) 46%, transparent 72%);
+    radial-gradient(46% 60% at 24% 52%, rgb(12 12 14 / 38%), rgb(12 12 14 / 12%) 62%, transparent 78%),
+    linear-gradient(180deg, rgb(12 12 14 / 8%), transparent 16%);
 }
 
 .VPHomeHero > .container {
@@ -1247,8 +1247,8 @@ body:has(.VPHome) {
   color: #fff;
   background: none;
   -webkit-text-fill-color: #fff;
-  opacity: 0.72;
-  text-shadow: 0 2px 24px rgb(0 0 0 / 30%);
+  opacity: 0.88;
+  text-shadow: 0 2px 24px rgb(0 0 0 / 45%);
 }
 
 .VPHomeHero .text,
@@ -1264,7 +1264,9 @@ body:has(.VPHome) {
   line-height: 1.06;
   letter-spacing: -0.035em;
   color: #fff;
-  text-shadow: 0 2px 24px rgb(0 0 0 / 28%);
+  text-shadow:
+    0 1px 3px rgb(0 0 0 / 45%),
+    0 4px 28px rgb(0 0 0 / 40%);
   background: none;
   -webkit-text-fill-color: currentColor;
 }
@@ -1279,7 +1281,8 @@ body:has(.VPHome) {
   padding-top: 22px;
   font-size: 16px;
   line-height: 1.75;
-  color: #d7d7de;
+  color: #f1f1f4;
+  text-shadow: 0 1px 8px rgb(0 0 0 / 55%);
 }
 
 .VPHomeHero .actions {
