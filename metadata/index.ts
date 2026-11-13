@@ -11,6 +11,8 @@ export const include = ['笔记', '生活']
 
 /** Repo */
 export const githubRepoLink = 'https://github.com/star-nebula/nebula-blog'
+/** GitHub 个人主页（顶栏图标指向这里；编辑链接仍用 repo 地址） */
+export const githubProfileLink = 'https://github.com/star-nebula'
 
 /** 无协议前缀域名 */
 export const plainTargetDomain = 'star-nebula.github.io/nebula-blog'

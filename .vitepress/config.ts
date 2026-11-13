@@ -47,7 +47,7 @@ const HAS_KNOWLEDGE = existsSync(KNOWLEDGE_DIR)
   && readdirSync(KNOWLEDGE_DIR, { recursive: true, withFileTypes: true })
     .some(entry => entry.isFile() && entry.name.endsWith('.md'))
 
-import { githubRepoLink, siteDescription, siteName, targetDomain } from '../metadata'
+import { githubProfileLink, githubRepoLink, siteDescription, siteName, targetDomain } from '../metadata'
 import head from './head'
 
 // unlazyImages 关闭：它依赖 thumbnail-hash 生成的 map.json 来给图片注入 blur-up 懒加载
@@ -462,7 +462,7 @@ export default defineConfig({
           text: '最后更新',
         },
         socialLinks: [
-          { icon: 'github', link: githubRepoLink },
+          { icon: 'github', link: githubProfileLink },
         ],
         darkModeSwitchLabel: '切换主题',
         lightModeSwitchTitle: '切换到浅色模式',
